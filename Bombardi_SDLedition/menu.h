@@ -224,6 +224,11 @@ int elect=0; bool esta_ocupado;
             }
         }
     }
+    cout<<"[ ";
+    for(int i=0;i<n_jugadores;i++){
+        cout<<colores_elegidos[i]<<" ";
+    } cout<<"]"<<endl<<" SV = "
+        <<(hay_salvavidas?"true":"false")<<endl<<endl;
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
