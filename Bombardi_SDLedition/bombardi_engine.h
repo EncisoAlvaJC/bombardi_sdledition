@@ -20,7 +20,7 @@ private:
     int felicita_al_ganador();
     void ciclo_turno();
 public:
-    bombardi_engine(){}
+    bombardi_engine(){salida_prematura=false;}
     void s_turno(){siguiente_turno();}
     bombardi_engine(SDL_Event,SDL_Surface**,
                     char*,char*,char*,char*,

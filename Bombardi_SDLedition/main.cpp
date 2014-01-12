@@ -6,7 +6,7 @@ int main ( int argc, char** argv ){
     srand(time(NULL));
 
     if ( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
-        cout<<"Error al iniciar SDL: "<<"SDL_GetError()"<<endl;
+        cout<<"Error al iniciar SDL: "<<SDL_GetError()<<endl;
         return 1;
     }
     atexit(SDL_Quit);
