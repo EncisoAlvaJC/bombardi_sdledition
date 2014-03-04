@@ -46,20 +46,12 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-fomit-frame-pointer" />
-			<Add option="-fexpensive-optimizations" />
-			<Add option="-Os" />
-			<Add option="-O3" />
-			<Add option="-O2" />
-			<Add option="-O1" />
-			<Add option="-O" />
 			<Add option="-Wall" />
 			<Add option="-g" />
 			<Add directory="SDL-1.2.15/include/SDL" />
 			<Add directory="SDL_image-1.2.12/include" />
 		</Compiler>
 		<Linker>
-			<Add option="-s" />
 			<Add library="mingw32" />
 			<Add library="SDLmain" />
 			<Add library="SDL.dll" />
