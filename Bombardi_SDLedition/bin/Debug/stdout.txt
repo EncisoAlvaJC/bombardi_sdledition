@@ -1,3 +1,27 @@
-[ 0 1 ]
+[ 0 ]
  SV = false
+
+
+AGAIN
+
+
+MENU
+
+[ 8 ]
+ SV = false
+
+
+MENU
+
+[ 1 ]
+ SV = false
+
+
+MENU
+
+[ 2 ]
+ SV = true
+
+
+AGAIN
 

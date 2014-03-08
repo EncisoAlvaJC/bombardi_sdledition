@@ -22,7 +22,7 @@ int main ( int argc, char** argv ){
 
     int x_vector[]={1,5,5,1,3};
     int y_vector[]={1,5,1,5,3};
-    SDL_Event e;
+    SDL_Event e ;
 
     menu M(pantalla,e,
            (char*)"./bild/",15,(char*)"012345678ngpqrt");
