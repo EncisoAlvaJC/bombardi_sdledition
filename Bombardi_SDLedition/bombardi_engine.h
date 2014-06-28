@@ -74,6 +74,7 @@ int abrev1=player[wo_ist_dran()].cuantos_turnos();
         poner_opciones(true,0);
         voltear_pantalla();
             OPT=-1,CAS=-2;
+        if(player[dran].es_humano()){
         while(salida_prematura==false && OPT==-1){
             while(SDL_PollEvent(e)){
                 switch(e->type){
@@ -102,50 +103,54 @@ int abrev1=player[wo_ist_dran()].cuantos_turnos();
         imprimir();
         poner_opciones(false,OPT+1);
         voltear_pantalla();
-        while(salida_prematura==false && CAS==-2){
-        ///CAS==-1 significa que presionaron volver
-            while(SDL_PollEvent(e)){
-                switch(e->type){
-                    case SDL_QUIT:
-                        salida_prematura=true;
-                        break;
-                    case SDL_MOUSEBUTTONDOWN:
-                        if(e->button.x<C.x){
-                            CAS=leer_casilla(e->button.x,
-                                             e->button.y,F);
-                            if(CAS==-1){CAS=-2;}
-                            else{
-                                if(Bbuttons.valor(CAS/7,CAS%7)==false){
-                                    CAS=-2;
+            while(salida_prematura==false && CAS==-2){
+            ///CAS==-1 significa que presionaron volver
+                while(SDL_PollEvent(e)){
+                    switch(e->type){
+                        case SDL_QUIT:
+                            salida_prematura=true;
+                            break;
+                        case SDL_MOUSEBUTTONDOWN:
+                            if(e->button.x<C.x){
+                                CAS=leer_casilla(e->button.x,
+                                                 e->button.y,F);
+                                    if(CAS==-1){CAS=-2;}
+                                    else{
+                                        if(Bbuttons.valor(CAS/7,CAS%7)==false){
+                                            CAS=-2;
+                                        }
+                                    else{
+                                        XX=CAS%7; YY=CAS/7;
+                                        Bbuttons.reinicia();
+                                        ejecuta_opciona(temp,this,YY,XX);
+                                        turnos_trascurridos++;
+                                        trofeo=dran;
+                                        cout<<"["<<(dran+1)<<"]"
+                                            <<temp
+                                            <<"("<<YY<<","
+                                            <<XX<<")"<<endl;
+                                    }
                                 }
-                                else{
-                                    XX=CAS%7; YY=CAS/7;
-                                    Bbuttons.reinicia();
-                                    ejecuta_opciona(temp,this,YY,XX);
-                                    turnos_trascurridos++;
-                                    trofeo=dran;
-                                    cout<<"["<<(dran+1)<<"]"
-                                        <<temp
-                                        <<"("<<YY<<","
-                                        <<XX<<")"<<endl;
-                                }
+                            ///mi error al coordinar valores-error
                             }
-                        ///mi error al coordinar valores-error
-                        }
-                        else{
-                            CAS=leer_movimiento(e->button.x,
-                                                e->button.y,C);
-                            if(CAS==0){CAS=-1;}
-                            else{CAS=-2;}
-                        }
-                        break;
-                    default:
-                        break;
+                            else{
+                                CAS=leer_movimiento(e->button.x,
+                                                    e->button.y,C);
+                                if(CAS==0){CAS=-1;}
+                                else{CAS=-2;}
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                imprimir();
+                poner_opciones(false,OPT+1);
+                voltear_pantalla();
             }
-            imprimir();
-            poner_opciones(false,OPT+1);
-            voltear_pantalla();
+        }
+        else{
+
         }
     }
 }

@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 int main ( int argc, char** argv ){
-
+cout<<"Bien"<<endl;
     srand(time(NULL));
 
     if ( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
@@ -25,7 +25,7 @@ int main ( int argc, char** argv ){
     SDL_Event e;
 
     menu M(pantalla,e,
-           (char*)"./bild/",15,(char*)"012345678ngpqrt");
+           (char*)"./bild/",8,(char*)"012345678");
     bombardi_engine UN;
 
     int control=0;

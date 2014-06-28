@@ -39,6 +39,8 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-lSDLmain" />
+					<Add option="-lSDL.dll" />
 					<Add library="SDL_image-1.2.12\lib\x86\SDL_image.lib" />
 					<Add library="SDL-1.2.15\lib\libSDL.dll.a" />
 					<Add library="SDL-1.2.15\lib\libSDLmain.a" />
@@ -53,8 +55,8 @@
 		</Compiler>
 		<Linker>
 			<Add library="mingw32" />
-			<Add library="SDLmain" />
-			<Add library="SDL.dll" />
+			<Add library="SDL-1.2.15\lib\libSDLmain.a" />
+			<Add library="SDL-1.2.15\lib\libSDL.dll.a" />
 			<Add library="user32" />
 			<Add library="gdi32" />
 			<Add library="winmm" />

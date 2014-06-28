@@ -49,6 +49,7 @@ return returner;
 //////////////////////////////////////////////////////////////////////
 class jugador{
 private:
+    bool humano;
     bool vivo;
     int n_turnos,n_opciones;
     int X,Y;
@@ -63,6 +64,9 @@ public:
     /// la clase jugador es muy importante en cuanto a privacidad:
     /// hay muchas funciones relativas al manejo de estos datos
     jugador(){}///constructor para arreglos
+    ///
+        bool es_humano(){return humano;}
+    ///
     bool vive();
     void muere();
     bool tiene_salvavidas();
@@ -92,6 +96,9 @@ public:
 jugador::jugador(profesiones elige,char R,
                  int y0,int x0,bool hay_salvavidas){
 papel rol=elige.da_el_rol(R);
+/// implementacion para 14.05.27
+    humano=true;
+/// fin de la actualizacion
     vivo=true; X=x0;Y=y0;
     n_turnos=rol.n_turnos;
     n_opciones=rol.n_jugadas;
