@@ -11,7 +11,7 @@ cout<<"Bien"<<endl;
     }
     atexit(SDL_Quit);
 
-    SDL_WM_SetCaption("Bombardi: SDL edition || 14.01.07 || Julio Enciso",
+    SDL_WM_SetCaption("Good Time Private Prototype || Only for IA testing || Julio Enciso (4.34)",
                       NULL);
     SDL_Surface* pantalla = SDL_SetVideoMode(800,512,16,
                                              SDL_HWSURFACE|SDL_DOUBLEBUF);
