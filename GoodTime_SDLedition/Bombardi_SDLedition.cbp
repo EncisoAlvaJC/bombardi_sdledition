@@ -11,6 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-fexpensive-optimizations" />
 					<Add option="-Os" />
@@ -71,6 +72,8 @@
 		<Unit filename="graficos.h" />
 		<Unit filename="jugadores.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="markovian_gradient_ia.h" />
+		<Unit filename="matriz.h" />
 		<Unit filename="menu.h" />
 		<Unit filename="opcion.h" />
 		<Unit filename="tablero.h" />

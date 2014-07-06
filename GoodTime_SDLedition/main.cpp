@@ -2,7 +2,15 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 int main ( int argc, char** argv ){
-cout<<"Bien"<<endl;
+
+matriz A(2,2);
+A.sustituir(1,1,4);
+A.sustituir(1,2,2);
+A.sustituir(2,1,1);
+A.sustituir(1,3,0);
+A.imprimir();
+(A*A).imprimir();
+
     srand(time(NULL));
 
     if ( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
