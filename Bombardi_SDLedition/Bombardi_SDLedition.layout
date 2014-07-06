@@ -1,19 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Release" />
-	<File name="eventos.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-<<<<<<< HEAD:GoodTime_SDLedition/Bombardi_SDLedition.layout
-			<Cursor1 position="12722" topLine="53" />
-		</Cursor>
-	</File>
-	<File name="graficos.h" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="403" topLine="1" />
-		</Cursor>
-	</File>
+	<ActiveTarget name="Debug" />
 	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
+<<<<<<< HEAD:GoodTime_SDLedition/Bombardi_SDLedition.layout
 			<Cursor1 position="334" topLine="0" />
 		</Cursor>
 	</File>
@@ -37,7 +27,7 @@
 			<Cursor1 position="790" topLine="42" />
 		</Cursor>
 	</File>
-	<File name="coleccion.h" open="1" top="1" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="coleccion.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="2668" topLine="36" />
 		</Cursor>
@@ -45,6 +35,16 @@
 	<File name="bombardi_engine.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="7281" topLine="160" />
+		</Cursor>
+	</File>
+	<File name="eventos.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="graficos.h" open="1" top="1" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="375" topLine="1" />
 =======
 			<Cursor1 position="17" topLine="0" />
 >>>>>>> parent of d7d1aa9... Cleaning:Bombardi_SDLedition/Bombardi_SDLedition.layout
