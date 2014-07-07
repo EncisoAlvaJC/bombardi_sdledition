@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Bombardi_SDLedition" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Bombardi_SDLedition" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-fexpensive-optimizations" />
+					<Add option="-Os" />
+					<Add option="-O3" />
+					<Add option="-O2" />
+					<Add option="-O1" />
+					<Add option="-O" />
+					<Add directory="SDL-1.2.15/include/SDL" />
+					<Add directory="SDL_image-1.2.12/include" />
+				</Compiler>
+				<Linker>
+					<Add library="SDL-1.2.15\lib\libSDL.dll.a" />
+					<Add library="SDL-1.2.15\lib\libSDLmain.a" />
+					<Add library="SDL_image-1.2.12\lib\x86\SDL_image.lib" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Bombardi_SDLedition" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="SDL-1.2.15/include/SDL" />
+					<Add directory="SDL_image-1.2.12/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-lSDLmain" />
+					<Add option="-lSDL.dll" />
+					<Add library="SDL_image-1.2.12\lib\x86\SDL_image.lib" />
+					<Add library="SDL-1.2.15\lib\libSDL.dll.a" />
+					<Add library="SDL-1.2.15\lib\libSDLmain.a" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-g" />
+			<Add directory="SDL-1.2.15/include/SDL" />
+			<Add directory="SDL_image-1.2.12/include" />
+		</Compiler>
+		<Linker>
+			<Add library="mingw32" />
+			<Add library="SDL-1.2.15\lib\libSDLmain.a" />
+			<Add library="SDL-1.2.15\lib\libSDL.dll.a" />
+			<Add library="user32" />
+			<Add library="gdi32" />
+			<Add library="winmm" />
+			<Add library="dxguid" />
+			<Add library="SDL_image-1.2.12\lib\x86\SDL_image.lib" />
+			<Add directory="C:/Documents and Settings/Julio Enciso/Mis documentos/GitHub/bombardi_sdledition/Bombardi_SDLedition/SDL-1.2.15/lib" />
+		</Linker>
+		<Unit filename="bombardi_engine.h" />
+		<Unit filename="coleccion.h" />
+		<Unit filename="control.h" />
+		<Unit filename="eventos.h" />
+		<Unit filename="graficos.h" />
+		<Unit filename="jugadores.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="menu.h" />
+		<Unit filename="opcion.h" />
+		<Unit filename="tablero.h" />
+		<Unit filename="uniendo.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
