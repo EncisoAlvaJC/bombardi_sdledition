@@ -24,7 +24,7 @@ int main ( int argc, char** argv ){
     SDL_Event e;
 
     //
-    bool humanos[]={true,false,true,true,true};
+    bool humanos[]={true,false,false,false,false};
     //
 
     menu M(pantalla,e,

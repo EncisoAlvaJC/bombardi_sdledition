@@ -104,7 +104,26 @@ public:
     void imprimir_boton(fondo_boton,SDL_Surface*);
     void imprimir_rojos(fondo_boton,SDL_Surface*);
     int cuenta();
+
+    void parche_impresion();
 };
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+void tablero_booleano::parche_impresion(){
+    cout<<endl<<endl;
+    for(int i=0;i<7;i++){
+        for(int j=0;j<7;j++){
+            cout<<" ";
+            if(casilla[i][j]){
+                cout<<"1";
+            }
+            else{
+                cout<<"_";
+            }
+        }
+        cout<<endl;
+    }
+}
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 tablero_booleano::tablero_booleano(){
