@@ -2,7 +2,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 int main ( int argc, char** argv ){
-cout<<"Bien"<<endl;
     srand(time(NULL));
 
     if ( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
@@ -23,6 +22,10 @@ cout<<"Bien"<<endl;
     int x_vector[]={1,5,5,1,3};
     int y_vector[]={1,5,1,5,3};
     SDL_Event e;
+
+    //
+    bool humanos[]={true,false,true,true,true};
+    //
 
     menu M(pantalla,e,
            (char*)"./bild/",8,(char*)"012345678");
@@ -52,7 +55,8 @@ cout<<"Bien"<<endl;
                //
                (char*)"_____",
                x_vector,y_vector,
-               M.dime_hay_salvavidas());
+               M.dime_hay_salvavidas(),
+               humanos);
 
         if(M.dime_salida_prematura()==false){
             control=UN.per_se();

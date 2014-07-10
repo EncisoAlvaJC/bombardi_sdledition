@@ -15,6 +15,8 @@ public:
 /// las funciones son simples: "acceder" a datos privados sin que dejen
 /// de ser privados: la idea es que haya una capa de seguridad
     tablero_objetos();
+    tablero_objetos(tablero_objetos&);
+
     void cambiar(int,int,char,int);
     void elimina(int,int); /// caso particular de la anterior a 0,0
     void haz_ceniza(int,int); /// como el anterior, pero solo de color
@@ -30,6 +32,16 @@ tablero_objetos::tablero_objetos(){
         for(int j=0;j<7;j++){
             casilla[i][j]=0;
             color[i][j]=0;
+        }
+    }
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+tablero_objetos::tablero_objetos(tablero_objetos& T){
+    for(int i=0;i<7;i++){
+        for(int j=0;j<7;j++){
+            casilla[i][j]=T.casilla[i][j];
+            color[i][j]=T.color[i][j];
         }
     }
 }
@@ -80,6 +92,8 @@ private:
     bool casilla[7][7];
 public:
     tablero_booleano();
+    tablero_booleano(tablero_booleano&);
+
     void reinicia();
         // todos sean false
     void haz0(int,int);
@@ -97,6 +111,15 @@ tablero_booleano::tablero_booleano(){
     for(int i=0;i<7;i++){
         for(int j=0;j<7;j++){
             casilla[i][j]=false;
+        }
+    }
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+tablero_booleano::tablero_booleano(tablero_booleano& T){
+    for(int i=0;i<7;i++){
+        for(int j=0;j<7;j++){
+            casilla[i][j]=T.casilla[i][j];
         }
     }
 }

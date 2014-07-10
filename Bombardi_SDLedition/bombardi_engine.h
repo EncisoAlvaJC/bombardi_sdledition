@@ -5,6 +5,402 @@
 #include "eventos.h"
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
+/// por alguna razon que no comprendo, no puedo incluir mas archivos
+/// por simplicidad, escribire todo dentro de los archivos que ya tenia
+class matriz{
+/// necesitare una clase matriz para el metodo de gradiente markoviano
+private:
+    int renglones, columnas;
+    float** entrada;
+public:
+    matriz(int,int);
+    matriz(){} /// para arreglos
+    /// la idea de inicializar con un uniendo es "medir" el estado
+    /// del tablero como una matriz estocastica
+    matriz(uniendo*,int);
+
+    float muestra(int,int);
+    void cambia(int,int,float);
+
+    matriz operator+(matriz);
+    matriz operator*(matriz);
+    void operator=(matriz);
+
+    /// el objetivo de estos dos es multilicar una matriz estocastica
+    /// por si misma muchas veces y construir un tipo especial de
+    /// matriz estocastica; temporalmente la llamo "matriz sin hueso"
+    /// o "matriz derivada de un proceso de markov cronometrado"
+    matriz tendencia_markov();
+    matriz derivado_markov();
+    matriz reextraer_de(int,int);
+};
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+void matriz::operator=(matriz M){
+    renglones=M.renglones;
+    columnas=M.columnas;
+    entrada =new float*[renglones];
+    for(int i=0;i<renglones;i++){
+        entrada[i]=new float[columnas];
+        for(int j=0;j<columnas;j++){
+            entrada[i][j]=M.entrada[i][j];
+        }
+    }
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+matriz::matriz(int ren,int col){
+    renglones=ren; columnas=col;
+    entrada =new float*[renglones];
+    for(int i=0;i<renglones;i++){
+        entrada[i]=new float[columnas];
+        for(int j=0;j<columnas;j++){
+            entrada[i][j]=0;
+        }
+    }
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+matriz::matriz(uniendo* U,int en_turno){
+    renglones=49; columnas=49;
+    entrada =new float*[renglones];
+    for(int i=0;i<renglones;i++){
+        entrada[i]=new float[columnas];
+        for(int j=0;j<columnas;j++){
+            entrada[i][j]=0;
+        }
+    }
+/// parte 1: contar las casillas a las cuales uno se puede mover
+    int contar[7][7];
+    for(int i=0;i<7;i++){
+        for(int j=0;j<7;j++){
+            contar[i][j]=0;
+        }
+    }
+
+    for(int x=0;x<7;x++){
+        for(int y=0;y<7;y++){
+            for(int i=0;i<7;i++){
+                if(abs(x-i)<2){
+                    for(int j=0;j<7;j++){
+                        if(abs(y-j)<2){
+                            if(abs(x-i)+abs(y-j)!=0){
+                                if(U->Bobjects.comparar(i,j,0)){
+                                    contar[x][y]+=1;
+                                }
+                                else{
+                                    if(U->Bobjects.comparar(i,j,'F') &&
+                                    U->Bobjects.el_color_de(i,j)==en_turno+1){
+                                        contar[x][y]+=1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+/// paso 3: calcular las probabilidades
+    float prob;
+    for(int i=0;i<49;i++){
+        entrada[i][i]=0.5;
+    }
+    for(int x=0;x<7;x++){
+        for(int y=0;y<7;y++){
+            if(contar[x][y]){
+                prob=0.5/contar[x][y];
+                for(int i=0;i<7;i++){
+                    if(abs(x-i)<2){
+                        for(int j=0;j<7;j++){
+                            if(abs(y-j)<2){
+                                if(abs(x-i)+abs(y-j)!=0){
+                                    if(U->Bobjects.comparar(i,j,0)){
+                                        entrada[7*x+y][7*i+j]=prob;
+                                    }
+                                    else{
+                                        if(U->Bobjects.comparar(i,j,'F') &&
+                                        U->Bobjects.el_color_de(i,j)==en_turno+1){
+                                            entrada[7*x+y][7*i+j]=prob;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else{
+                /// si no puede moverse, esta encerrado
+                entrada[7*x+y][7*x+y]=1;
+            }
+        }
+    }
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+float matriz::muestra(int m,int n){
+float R=0;
+    if(m<=renglones && n<=columnas){
+        R=entrada[m][n];
+    }
+return R;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+void matriz::cambia(int m,int n,float F){
+    if(m<=renglones && n<=columnas){
+        entrada[m][n]=F;
+    }
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+matriz matriz::operator+(matriz M){
+    matriz R(1,1);
+    if(renglones==M.renglones && columnas==M.columnas){
+        R=matriz(renglones,columnas);
+        for(int i=0;i<renglones;i++){
+            for(int j=0;j<columnas;j++){
+                R.entrada[i][j]+=(entrada[i][j]+M.entrada[i][j]);
+            }
+        }
+    }
+return R;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+matriz matriz::operator*(matriz M){
+    matriz R(1,1);
+    if(columnas==M.renglones){
+        R=matriz(columnas,M.renglones);
+        for(int i=0;i<R.columnas;i++){
+            for(int j=0;j<R.renglones;j++){
+                for(int k=0;k<renglones;k++){
+                    R.entrada[i][j]+=(entrada[i][k]*M.entrada[k][j]);
+                }
+            }
+        }
+    }
+return R;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+matriz matriz::tendencia_markov(){
+    /*matriz R(renglones,columnas);
+    for(int i=0;i<renglones;i++){
+        for(int j=0;j<columnas;j++){
+            R.entrada[i][j]=entrada[i][j];
+        }
+    }*/
+    matriz R(*this);
+    for(int i=0;i<10;i++){
+        R=R*R;
+    }
+return R;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+matriz matriz::derivado_markov(){
+    matriz R(98,98);
+    for(int i=0;i<49;i++){
+        R.entrada[i][i]=entrada[i][i];
+        R.entrada[49+i][49+i]=1;
+        /// ahorrando variable ya inicializadas
+        for(int j=0;j<49;j++){
+            if(i!=j)
+                R.entrada[i][49+j]=entrada[i][j];
+        }
+    }
+return R;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+matriz matriz::reextraer_de(int x,int y){
+    matriz R(7,7);
+    int D=7*x+y;
+    for(int i=0;i<7;i++){
+        for(int j=0;j<7;j++)
+            R.entrada[i][j]=entrada[D][49+7*i+j];
+    }
+return R;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+class grad_markoviano:public uniendo,public tablero_booleano{
+private:
+    int sho;
+    int n_jugadores;
+    float *p_vivir,*p_toque;
+    /// p_vivir me da la prob de no ser atacado
+    /// p_toque me da la prob de estar en una casilla colindante
+    char etiqueta[3];
+public:
+    grad_markoviano(uniendo*,int,tablero_booleano,
+                    tablero_booleano,char*);
+    grad_markoviano(grad_markoviano&);
+    void informa();
+    float aplasta(int);
+    int candidato_a_odiar();
+    char* parche_de_acceso(){char* R=(char*)etiqueta;return R;}
+};
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
+                                 tablero_booleano polvora_propia,
+                                 tablero_booleano polvora_ajena,
+                                 char* leer):
+uniendo(*U){
+    for(int i=0;i<3;i++){
+        etiqueta[i]=leer[i];
+    }
+    sho=en_turno;
+    n_jugadores=cuantos_jugadores();
+    p_vivir=new float[n_jugadores];
+    p_toque=new float[n_jugadores];
+    for(int i=0;i<n_jugadores;i++){
+        p_vivir[i]=0;
+        p_toque[i]=0;
+    }
+
+    /// lo importante es calcular las p_'s mediante cadenas de markov
+    /// transicion 1 : matriz de transicion clasica
+    ///  sin_hueso 1 : derivado de markov
+    ///  sin_hueso 2 : matriz limite de sin_hueso 1
+    /// transicion 2 : si fuera ingeniero, esta llevaria mi nombre
+    /// las posiciones las conservare para calcular cercanias
+    matriz *transicion,*sin_hueso;
+    int *x,*y;
+
+    x=new int[n_jugadores];
+    y=new int[n_jugadores];
+    transicion=new matriz[n_jugadores];
+    sin_hueso=new matriz[n_jugadores];
+    for(int i=0;i<n_jugadores;i++){
+        if(player[i].vive()){
+            x[i]=player[i].coordx();
+            y[i]=player[i].coordy();
+            transicion[i]=matriz(U,i);
+            sin_hueso[i]=transicion[i].derivado_markov();
+            sin_hueso[i]=sin_hueso[i].tendencia_markov();
+            transicion[i]=sin_hueso[i].reextraer_de(x[i],y[i]);
+        }
+        else{
+            transicion[i]=matriz(7,7);
+        }
+    }
+    /// ahora biene la parte buena: donde se calcula el "estado"
+    /// del tablero como un punto en [0,1]'n
+    for(int i=0;i<7;i++){
+        for(int j=0;j<n_jugadores;j++){
+            if(polvora_ajena.valor(i,j)==false){
+                p_vivir[sho]+=(transicion[sho].muestra(i,j));
+            }
+        }
+    }
+    for(int w=0;w<n_jugadores;w++){
+        if(w!=sho && U->player[w].vive()){
+            for(int i=0;i<7;i++){
+                for(int j=0;j<7;j++){
+                    if(polvora_propia.valor(i,j)==false){
+                        p_vivir[w]+=(transicion[w].muestra(i,j));
+                    }
+                }
+            }
+        }
+    }
+    /// calculando para el jugador w
+    for(int w=0;w<n_jugadores;w++){
+        if(U->player[w].vive()){ /// no calcular nada de jugadores eliminados
+            for(int z=0;z<n_jugadores;z++){
+                if(w!=z && U->player[z].vive()){
+                    for(int i=0;i<7;i++){
+                        if(abs(i-x[z])<2){
+                            for(int j=0;j<7;j++){
+                                if(abs(j-y[z])<2){
+                                    p_toque[w]+=transicion[w].muestra(i,j);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        p_toque[w]/=(U->cuantos_jugadores()-1); /// normalizando
+    }
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+grad_markoviano::grad_markoviano(grad_markoviano& G){
+    sho=G.sho;
+    n_jugadores=G.n_jugadores;
+    p_vivir=new float[n_jugadores];
+    p_toque=new float[n_jugadores];
+    for(int i=0;i<n_jugadores;i++){
+        p_vivir[i]=G.p_vivir[i];
+        p_toque[i]=G.p_toque[i];
+    }
+    for(int i=0;i<3;i++){
+        etiqueta[i]=G.etiqueta[i];
+    }
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+void grad_markoviano::informa(){
+    for(int i=0;i<n_jugadores;i++){
+        cout<<endl
+            <<"jugador "<<(i+1)<<endl
+            <<"p_vivir : "<<p_vivir[i]<<endl
+            <<"p_tocar : "<<p_toque[i]<<endl;
+    }
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+/// como no tengo suficiente informacion sobre la funcion como para
+/// optimizar sus resultados, voy a "aplastar" los vectores que
+/// representan el tablero a un solo numero
+float grad_markoviano::aplasta(int el_enemigo){
+    float R=1;
+    R*=(1+p_vivir[sho]);
+    for(int i=0;i<n_jugadores;i++){
+        if(i!=sho && i!=el_enemigo && player[i].vive()){
+            R*=(6-p_vivir[i]);
+            //R*=(4-p_toque[i]);
+        }
+    }
+    R*=(4-p_vivir[el_enemigo]);
+    //R*=(1.5-p_toque[el_enemigo]);
+    //R*=(100+p_toque[el_enemigo]);
+return R;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+int grad_markoviano::candidato_a_odiar(){
+    int R=0;
+    float vida_larga=-1;
+    for(int i=0;i<n_jugadores;i++){
+        if(i!=sho){
+            if(p_vivir[i]>vida_larga){
+                R=i;
+                vida_larga=p_vivir[i];
+            }
+        }
+    }
+return R;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 class bombardi_engine: public uniendo,public opcion{
 private:
     SDL_Event* e;
@@ -28,7 +424,7 @@ public:
                     int,char*,int,char*,
                     char*,char*,
                     int,
-                    char*,int*,int*,bool);
+                    char*,int*,int*,bool,bool*);
     int per_se(); ///repite el ciclo turno hasta decarar un ganador
     bool dime_salida_prematura(){bool b=salida_prematura; return b;}
 };
@@ -49,13 +445,14 @@ bombardi_engine::bombardi_engine(SDL_Event E,SDL_Surface** S,
                                  //
                                  char* rol_de,
                                  int* X0,int* Y0,
-                                 bool hay_salvavidas)
+                                 bool hay_salvavidas,
+                                 bool* es_humano)
 :uniendo(S,ruta,nom_logo,nom_credit,nom_arrow,
          ruta,num_opciones,nom_opciones,
          ruta,num_fichas,nom_fichas,
          num_colores,nom_colores,
          ruta,nom_fondo,nom_boton,
-         num_jugadores,rol_de,X0,Y0,hay_salvavidas)
+         num_jugadores,rol_de,X0,Y0,hay_salvavidas,es_humano)
 {trofeo=0; e=&E; salida_prematura=false;}
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -75,34 +472,34 @@ int abrev1=player[wo_ist_dran()].cuantos_turnos();
         voltear_pantalla();
             OPT=-1,CAS=-2;
         if(player[dran].es_humano()){
-        while(salida_prematura==false && OPT==-1){
-            while(SDL_PollEvent(e)){
-                switch(e->type){
-                    case SDL_QUIT:
-                        salida_prematura=true;
-                        break;
-                    case SDL_MOUSEBUTTONDOWN:
-                        OPT=leer_movimiento(e->button.x,
-                                            e->button.y,C);
-                        if(OPT<0 || OPT>=player[dran].cuantas_jugadas()){
-                            OPT=-1;
-                        }
-                        else{
-                            temp=player[dran].da_la_opcion(OPT);
-                        }
-                        break;
-                    default:
-                        break;
+            while(salida_prematura==false && OPT==-1){
+                while(SDL_PollEvent(e)){
+                    switch(e->type){
+                        case SDL_QUIT:
+                            salida_prematura=true;
+                            break;
+                        case SDL_MOUSEBUTTONDOWN:
+                            OPT=leer_movimiento(e->button.x,
+                                                e->button.y,C);
+                            if(OPT<0 || OPT>=player[dran].cuantas_jugadas()){
+                                OPT=-1;
+                            }
+                            else{
+                                temp=player[dran].da_la_opcion(OPT);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                imprimir();
+                poner_opciones(true,0);
+                voltear_pantalla();
             }
+            ejecuta_botones(temp,this);
             imprimir();
-            poner_opciones(true,0);
+            poner_opciones(false,OPT+1);
             voltear_pantalla();
-        }
-        ejecuta_botones(temp,this);
-        imprimir();
-        poner_opciones(false,OPT+1);
-        voltear_pantalla();
             while(salida_prematura==false && CAS==-2){
             ///CAS==-1 significa que presionaron volver
                 while(SDL_PollEvent(e)){
@@ -150,7 +547,81 @@ int abrev1=player[wo_ist_dran()].cuantos_turnos();
             }
         }
         else{
+            /// fase 1 : calcular las polvoras
+            tablero_booleano polvora_propia,polvora_ajena;
+            genera_polvoras(&polvora_propia,&polvora_ajena);
+            /// fase 2 : calcular el contenido del "gradiente markoviano"
+            grad_markoviano original(regalo_final(),wo_ist_dran(),
+                                     polvora_propia,polvora_ajena,
+                                     (char*)"ini");
+            /// fase 3 : calcular el "valor aplastado" del tablero actual
+            int amenaza=original.candidato_a_odiar();
 
+            float aplastado_original=original.aplasta(amenaza);
+            cout<<"  amenaza actual : jugador "<<(amenaza+1)<<endl;
+            cout<<" valor aplastado : "<<aplastado_original<<endl;
+
+            /// fase 4 : ejecutar todas las jugadas posibles en tableros temporales
+            ///
+            /// como las polvoras no se van a utilizar mas, reciclare las variables
+            /// pero si que hay que generar los tableros temporles
+            uniendo T1(*regalo_final()),T2(T1);
+            grad_markoviano mejor_grad(original),grad_temporal(original);
+            float mejor_puntuacion=-1,puntuacion_temporal=0;
+            char etiquetador[3];
+
+            int lim1; char aux; /// este evitara confusiones
+            lim1=player[dran].cuantas_jugadas();
+            for(int n=0;n<lim1;n++){
+                aux=player[dran].da_la_opcion(n);
+                ejecuta_botones(aux,&T1);
+                T2=uniendo(T1);
+                etiquetador[0]=aux;
+                for(int i=0;i<7;i++){
+                    for(int j=0;j<7;j++){
+                        if(T2.Bbuttons.valor(i,j)){
+                            etiquetador[1]='a'+i;
+                            etiquetador[2]='1'+j;
+
+                            polvora_propia.reinicia();
+                            polvora_ajena.reinicia();
+
+                            ejecuta_simula(aux,&T2,i,j);
+                            T2.genera_polvoras(&polvora_propia,&polvora_ajena);
+                            grad_temporal=grad_markoviano(&T2,dran,
+                                                          polvora_propia,
+                                                          polvora_ajena,
+                                                          etiquetador);
+
+                            puntuacion_temporal=grad_temporal.aplasta(amenaza);
+                            cout<<"             "
+                                <<etiquetador[0]
+                                <<etiquetador[1]
+                                <<etiquetador[2]
+                                <<" : "<<puntuacion_temporal<<endl;
+
+                            grad_temporal.informa();
+
+                            if(puntuacion_temporal>mejor_puntuacion){
+                                mejor_grad=grad_markoviano(grad_temporal);
+                                mejor_puntuacion=puntuacion_temporal;
+                            }
+
+                            T2=uniendo(T1);
+                        }
+                    }
+                }
+                T1.Bbuttons.reinicia();
+            }
+            ejecuta_opciona(mejor_grad.parche_de_acceso()[0],this,
+                            mejor_grad.parche_de_acceso()[1]-'a',
+                            mejor_grad.parche_de_acceso()[2]-'1');
+            turnos_trascurridos++;
+            trofeo=dran;
+            cout<<"["<<(dran+1)<<"]"
+                <<mejor_grad.parche_de_acceso()[0]
+                <<"("<<mejor_grad.parche_de_acceso()[1]<<","
+                <<mejor_grad.parche_de_acceso()[2]<<")"<<endl;
         }
     }
 }

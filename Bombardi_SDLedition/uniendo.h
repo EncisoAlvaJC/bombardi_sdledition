@@ -20,6 +20,13 @@ protected:
     int dran;
     SDL_Rect A,B,C,D,E,F;
 public:
+    //
+    /// estas funciones forman parte de un parche
+        uniendo(uniendo&);
+        void reasimila_elementos(uniendo&);
+        void set_dran(int D){dran=D;}
+        void genera_polvoras(tablero_booleano*,tablero_booleano*);
+    //
     uniendo(){}
     coleccion_movimientos Coptions;
     coleccion_objetos Cobjects;
@@ -35,7 +42,7 @@ public:
             char*,int,char*,int,char*,///coleccion_objetos
             char*,char*,char*,///fondo_boton
             int,///numero de jugadores
-            char*,int*,int*,bool);
+            char*,int*,int*,bool,bool*);
                 /// un arreglo de argumentos inicializadores
     /// el bool define el estado esperando-opcion/opcion-int-elegida
     void imprimir();
@@ -72,7 +79,8 @@ uniendo::uniendo(SDL_Surface** S,
                  //
                  char* rol_de,
                  int* X0,int* Y0,
-                 bool hay_salvavidas)
+                 bool hay_salvavidas,
+                 bool* es_humano)
 :profesiones(){
 char archivo[50]; int aux;
     archivo[0]='\0'; strcat(archivo,ruta_detalles);
@@ -107,13 +115,53 @@ char archivo[50]; int aux;
     for(int i=0;i<num_players;i++){
         player[i]=jugador(*this,rol_de[i],
                           Y0[i],X0[i],
-                          hay_salvavidas);
+                          hay_salvavidas,
+                          es_humano[i]);
         Bobjects.cambiar(Y0[i],X0[i],'F',i+1);
     }
     A.x=512;A.y=16; B.x=160;B.y=490;
     C.x=512;C.y=380;
     D.x=0;D.y=0;E.x=0;E.y=0;
     F.x=32; F.y=32;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+uniendo::uniendo(uniendo& V){
+    pantalla=V.pantalla;
+    logo=V.logo;
+    credit=V.credit;
+    arrow=V.arrow;
+    Button=V.Button;
+
+    num_players=V.num_players;
+    dran=V.dran;
+
+    A=V.A; B=V.B; C=V.C; D=V.D; E=V.E; F=V.F;
+
+    Coptions=V.Coptions;
+    Cobjects=V.Cobjects;
+
+    Bobjects=tablero_objetos(V.Bobjects);
+    Bbackground=tablero_booleano(V.Bbackground);
+    Bbuttons=tablero_booleano(V.Bbuttons);
+    Beffects=tablero_booleano(V.Beffects);
+
+    player=new jugador[num_players];
+    for(int i=0;i<num_players;i++){
+        player[i]=jugador(V.player[i]);
+    }
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+void uniendo::reasimila_elementos(uniendo& V){
+    dran=V.dran;
+    Bobjects=tablero_objetos(V.Bobjects);
+    Bbackground=tablero_booleano(V.Bbackground);
+    Bbuttons=tablero_booleano(V.Bbuttons);
+    Beffects=tablero_booleano(V.Beffects);
+    for(int i=0;i<num_players;i++){
+        player[i]=jugador(V.player[i]);
+    }
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////

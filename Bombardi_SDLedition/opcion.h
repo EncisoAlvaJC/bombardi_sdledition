@@ -15,6 +15,7 @@ typedef struct{
     char nombre;
     void (*botones)(uniendo*);
     void (*accion)(uniendo*,int,int);
+    void (*simula)(uniendo*,int,int);
 } jugada;
 typedef struct{
     char nombre;
@@ -47,6 +48,7 @@ public:
     int busca_opcion(char);
     void ejecuta_botones(char,uniendo*);
     void ejecuta_opciona(char,uniendo*,int,int);
+    void ejecuta_simula(char,uniendo*,int,int);
 
     papel da_el_rol(char);
 
@@ -80,6 +82,15 @@ void opcion::ejecuta_opciona(char K,uniendo* U,int y,int x){
 int temp=busca_opcion(K);
     if(temp!=-1){
         opciona[temp].accion(U,y,x);
+    }
+    else{
+        nula.botones(U);
+    }
+}
+void opcion::ejecuta_simula(char K,uniendo* U,int y,int x){
+int temp=busca_opcion(K);
+    if(temp!=-1){
+        opciona[temp].simula(U,y,x);
     }
     else{
         nula.botones(U);

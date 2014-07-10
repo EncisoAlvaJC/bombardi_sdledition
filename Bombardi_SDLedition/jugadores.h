@@ -60,10 +60,12 @@ private:
 public:
     jugador(profesiones,char, ///numero de turnos, de opcios, las opciones
             int,int, /// posicion inicial
-            bool); /// hay salvavidas (3)
+            bool, /// hay salvavidas (3)
+            bool); /// es humano?
     /// la clase jugador es muy importante en cuanto a privacidad:
     /// hay muchas funciones relativas al manejo de estos datos
     jugador(){}///constructor para arreglos
+    jugador(jugador&);
     ///
         bool es_humano(){return humano;}
     ///
@@ -94,10 +96,11 @@ public:
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 jugador::jugador(profesiones elige,char R,
-                 int y0,int x0,bool hay_salvavidas){
+                 int y0,int x0,bool hay_salvavidas,
+                 bool es_humano){
 papel rol=elige.da_el_rol(R);
 /// implementacion para 14.05.27
-    humano=true;
+    humano=es_humano;
 /// fin de la actualizacion
     vivo=true; X=x0;Y=y0;
     n_turnos=rol.n_turnos;
@@ -119,6 +122,22 @@ papel rol=elige.da_el_rol(R);
         n_svidas=0;
     }
     n_sbombas=0;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+jugador::jugador(jugador& J){
+    humano=J.humano;
+    vivo=J.vivo;
+    n_turnos=J.n_turnos;
+    n_opciones=J.n_opciones;
+    X=J.X;
+    Y=J.Y;
+    n_svidas=J.n_svidas;
+    n_sbombas=J.n_sbombas;
+    opcionn=new char[n_opciones+3];
+    for(int i=0;i<n_opciones+3;i++){
+        opcionn[i]=J.opcionn[i];
+    }
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////

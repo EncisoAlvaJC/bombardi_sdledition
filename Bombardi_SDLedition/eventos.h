@@ -38,6 +38,17 @@ SDL_Rect temp;
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
+void mover_s(uniendo* U,int y,int x){
+int X,Y,en_turno;
+    en_turno=U->wo_ist_dran();
+    X=U->player[en_turno].coordx();
+    Y=U->player[en_turno].coordy();
+    U->Bobjects.elimina(Y,X);
+    U->player[en_turno].mover_a(y,x);
+    U->Bobjects.cambiar(y,x,'F',en_turno+1);
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 void bomba(uniendo* U,int y, int x){
     U->Bobjects.cambiar(y,x,'B',U->wo_ist_dran()+1);
 }
@@ -459,6 +470,168 @@ void nada2(uniendo* U,int x,int y){}
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
+void detona1_s(uniendo* U,int y,int x,
+               tablero_booleano* pendientes,
+               int excepcion,bool* inmunes){
+int color=U->Bobjects.el_color_de(y,x);
+    U->Bbackground.haz1(y,x);
+    if(U->Bobjects.comparar(y,x,0) || color==0){
+    }
+    else if(U->Bobjects.comparar(y,x,'F')){
+        if(color!=(excepcion+1) && inmunes[color]==false){
+            if(U->player[color-1].tiene_salvavidas()){
+                U->player[color-1].carga();
+                inmunes[color-1]=true;
+            }
+            else{
+                U->player[color-1].muere();
+                U->Bobjects.haz_ceniza(y,x);
+            }
+        }
+    }
+    else if(U->Bobjects.comparar(y,x,'B') ||
+            U->Bobjects.comparar(y,x,'T')){
+                pendientes->haz1(y,x);
+    }
+    else{
+        U->Bobjects.haz_ceniza(y,x);
+    }
+}
+void detona2_s(uniendo* U,int y,int x,tablero_booleano* pendientes,
+                    bool* inmunes){
+int excepto=-1,tempx=x,tempy=y;//,wich_option;
+    //wich_option=U->indice_de_la_opcion('D');
+        U->Beffects.haz1(tempy,tempx);
+        //U->imprimir();
+        //U->poner_opciones(true,wich_option);
+        //U->voltear_pantalla();
+        //SDL_Delay(400);
+    if(U->Bobjects.comparar(y,x,'T')){
+        excepto=U->Bobjects.el_color_de(y,x)-1;
+    }
+    if(U->Bobjects.comparar(y,x,'F')==false){
+        U->Bobjects.haz_ceniza(y,x);
+    }
+    {
+        if(x>0){
+            tempx-=1;
+            detona1_s(U,tempy,tempx,pendientes,excepto,inmunes);
+            U->Beffects.haz1(tempy,tempx);
+            tempx=x;
+        }
+        if(x<6){
+            tempx+=1;
+            detona1_s(U,tempy,tempx,pendientes,excepto,inmunes);
+            U->Beffects.haz1(tempy,tempx);
+            tempx=x;
+        }
+        if(y>0){
+            tempy-=1;
+            detona1_s(U,tempy,tempx,pendientes,excepto,inmunes);
+            U->Beffects.haz1(tempy,tempx);
+            tempy=y;
+        }
+        if(y<6){
+            tempy+=1;
+            detona1_s(U,tempy,tempx,pendientes,excepto,inmunes);
+            U->Beffects.haz1(tempy,tempx);
+            tempy=y;
+        }
+    }
+    //U->imprimir();
+    //U->poner_opciones(true,wich_option);
+    //U->voltear_pantalla();
+    //SDL_Delay(400);
+    {
+        if(x>1 && U->Bobjects.comparar(tempy,tempx-1,0)){
+            tempx-=2;
+            detona1_s(U,tempy,tempx,pendientes,excepto,inmunes);
+            U->Beffects.haz1(tempy,tempx);
+            tempx=x;
+        }
+        if(x<5 && U->Bobjects.comparar(tempy,tempx+1,0)){
+            tempx+=2;
+            detona1_s(U,tempy,tempx,pendientes,excepto,inmunes);
+            U->Beffects.haz1(tempy,tempx);
+            tempx=x;
+        }
+        if(y>1 && U->Bobjects.comparar(tempy-1,tempx,0)){
+            tempy-=2;
+            detona1_s(U,tempy,tempx,pendientes,excepto,inmunes);
+            U->Beffects.haz1(tempy,tempx);
+            tempy=y;
+        }
+        if(y<5 && U->Bobjects.comparar(tempy+1,tempx,0)){
+            tempy+=2;
+            detona1_s(U,tempy,tempx,pendientes,excepto,inmunes);
+            U->Beffects.haz1(tempy,tempx);
+            tempy=y;
+        }
+    }
+    //U->imprimir();
+    //U->poner_opciones(true,wich_option);
+    //U->voltear_pantalla();
+    //SDL_Delay(400);
+    //U->Beffects.reinicia();
+}
+void detona3_s(uniendo* U,int y,int x){
+tablero_booleano pendientes;
+bool* inmunidad;
+int respaldo[7][7];///parche
+    for(int i=0;i<7;i++){
+        for(int j=0;j<7;j++){
+            respaldo[i][j]=U->Bobjects.el_color_de(i,j);
+        }
+    }
+    inmunidad=new bool[U->cuantos_jugadores()+1];
+    for(int i=1;i<=U->cuantos_jugadores();i++){
+        inmunidad[i]=false;
+    } inmunidad[0]=true;
+    ///inicializaciones de rutina
+    U->Bbackground.haz1(y,x);
+    U->Beffects.haz1(y,x);
+    detona2_s(U,y,x,&pendientes,inmunidad);
+    if(U->Bobjects.comparar(y,x,'F')){
+        U->player[U->wo_ist_dran()].usa_salvabomba();
+    }
+    else{
+        U->Bobjects.haz_ceniza(y,x);
+    }
+    ///la detonacion es ANTES de borrar el color contemplando la
+    ///posibilidad de que se este detonando un salvabomba
+    while(pendientes.cuenta()>0){
+        for(int i=0;i<7;i++){
+            for(int j=0;j<7;j++){
+                if(pendientes.valor(i,j)){
+                    detona2_s(U,i,j,&pendientes,inmunidad);
+                    U->Bobjects.haz_ceniza(i,j);
+                    pendientes.haz0(i,j);
+                }
+            }
+        }
+    }
+    ///mientras haya pendientes: buscalos y detonalos
+    for(int i=0;i<7;i++){
+        for(int j=0;j<7;j++){
+            if(U->Bobjects.comparar(i,j,0)==false){
+                if(U->Bobjects.el_color_de(i,j)==0){
+                    if(U->Bobjects.comparar(i,j,'S')){
+                        U->Bobjects.cambiar(i,j,'T',respaldo[i][j]);
+                    }
+                    else{
+                        U->Bobjects.elimina(i,j);
+                    }
+                }
+            }
+        }
+    }
+    U->Bbackground.reinicia();
+    ///limpia las cenizas y el fondo rojo
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 opcion::opcion(){
 /// nota a principios de 2014: no he encontrado una manera mas
 /// efectiva de hacer esto
@@ -468,20 +641,231 @@ opcion::opcion(){
     test=new paso[n_tests];
     //////////////////////////////////////////////////////////////////
     nula=(jugada){'_',&nada1,&nada2};
-    opciona[0]=(jugada){'M',&casilla_colindante_vacia,&mover};
-    opciona[1]=(jugada){'B',&casilla_colindante_vacia,&bomba};
-    opciona[2]=(jugada){'P',&casilla_colindante_vacia,&pared};
-    opciona[3]=(jugada){'D',&bomba_tuya_o_salvabomba,&detona3};
+    opciona[0]=(jugada){'M',&casilla_colindante_vacia,&mover,&mover_s};
+    opciona[1]=(jugada){'B',&casilla_colindante_vacia,&bomba,&bomba};
+    opciona[2]=(jugada){'P',&casilla_colindante_vacia,&pared,&pared};
+    opciona[3]=(jugada){'D',&bomba_tuya_o_salvabomba,&detona3,&detona3_s};
     opciona[4]=(jugada){'S',&casilla_colindante_vacia_salvavidas,
-                        &salvavidas};
+                        &salvavidas,&salvavidas};
     opciona[5]=(jugada){'T',&casilla_colindante_vacia_salvabombas,
-                        &salvabombas};
-    opciona[6]=(jugada){'K',&tiene_salvavidas,&cargar};
-    opciona[7]=(jugada){'N',&ninja_saltable,&mover};
-    opciona[8]=(jugada){'*',&jugador_cercano,&toque_critico};
-    opciona[9]=(jugada){'b',&casilla_colindante_vacia,&mover_y_bomba};
+                        &salvabombas,&salvabombas};
+    opciona[6]=(jugada){'K',&tiene_salvavidas,&cargar,&cargar};
+    opciona[7]=(jugada){'N',&ninja_saltable,&mover,&mover};
+    opciona[8]=(jugada){'*',&jugador_cercano,&toque_critico,&toque_critico};
+    opciona[9]=(jugada){'b',&casilla_colindante_vacia,&mover_y_bomba,&mover_y_bomba};
     //////////////////////////////////////////////////////////////////
     nulb=(paso){'A',&nada1};
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+/// las funciones de detonacion simulada sirven para calcular los
+/// danos causados por una detonacioon, y con ello las casilas que
+/// cada jugador esta amenazando con sus bombas
+///
+/// como parte del parche, la detonacion simulada es posible para
+/// todos los jugadores, pero ninguno tiene la opcion de realizarla
+///
+/// por el momento aun no esta optimizada: es un vil parche
+void simula_detona1(uniendo* U,int y,int x,
+                    tablero_booleano* pendientes,
+                    int excepcion,bool* inmunes,
+                    tablero_booleano* polvora){
+int color=U->Bobjects.el_color_de(y,x);
+    U->Bbackground.haz1(y,x);
+    polvora->haz1(y,x);
+    if(U->Bobjects.comparar(y,x,0) || color==0){
+    }
+    else if(U->Bobjects.comparar(y,x,'F')){
+        if(color!=(excepcion+1) && inmunes[color]==false){
+            if(U->player[color-1].tiene_salvavidas()){
+                U->player[color-1].carga();
+                inmunes[color-1]=true;
+            }
+            else{
+                U->player[color-1].muere();
+                U->Bobjects.haz_ceniza(y,x);
+            }
+        }
+    }
+    else if(U->Bobjects.comparar(y,x,'B') ||
+            U->Bobjects.comparar(y,x,'T')){
+                pendientes->haz1(y,x);
+    }
+    else{
+        U->Bobjects.haz_ceniza(y,x);
+    }
+}
+void simula_detona2(uniendo* U,int y,int x,tablero_booleano* pendientes,
+                    bool* inmunes,
+                    tablero_booleano* polvora){
+int excepto=-1,tempx=x,tempy=y;//,wich_option;
+    //wich_option=U->indice_de_la_opcion('D');
+        U->Beffects.haz1(tempy,tempx);
+        polvora->haz1(tempy,tempx);
+        //U->imprimir();
+        //U->poner_opciones(true,wich_option);
+        //U->voltear_pantalla();
+        //SDL_Delay(400);
+    if(U->Bobjects.comparar(y,x,'T')){
+        excepto=U->Bobjects.el_color_de(y,x)-1;
+    }
+    if(U->Bobjects.comparar(y,x,'F')==false){
+        U->Bobjects.haz_ceniza(y,x);
+    }
+    {
+        if(x>0){
+            tempx-=1;
+            simula_detona1(U,tempy,tempx,pendientes,excepto,inmunes,polvora);
+            U->Beffects.haz1(tempy,tempx);
+            tempx=x;
+        }
+        if(x<6){
+            tempx+=1;
+            simula_detona1(U,tempy,tempx,pendientes,excepto,inmunes,polvora);
+            U->Beffects.haz1(tempy,tempx);
+            tempx=x;
+        }
+        if(y>0){
+            tempy-=1;
+            simula_detona1(U,tempy,tempx,pendientes,excepto,inmunes,polvora);
+            U->Beffects.haz1(tempy,tempx);
+            tempy=y;
+        }
+        if(y<6){
+            tempy+=1;
+            simula_detona1(U,tempy,tempx,pendientes,excepto,inmunes,polvora);
+            U->Beffects.haz1(tempy,tempx);
+            tempy=y;
+        }
+    }
+    //U->imprimir();
+    //U->poner_opciones(true,wich_option);
+    //U->voltear_pantalla();
+    //SDL_Delay(400);
+    {
+        if(x>1 && U->Bobjects.comparar(tempy,tempx-1,0)){
+            tempx-=2;
+            simula_detona1(U,tempy,tempx,pendientes,excepto,inmunes,polvora);
+            U->Beffects.haz1(tempy,tempx);
+            tempx=x;
+        }
+        if(x<5 && U->Bobjects.comparar(tempy,tempx+1,0)){
+            tempx+=2;
+            simula_detona1(U,tempy,tempx,pendientes,excepto,inmunes,polvora);
+            U->Beffects.haz1(tempy,tempx);
+            tempx=x;
+        }
+        if(y>1 && U->Bobjects.comparar(tempy-1,tempx,0)){
+            tempy-=2;
+            simula_detona1(U,tempy,tempx,pendientes,excepto,inmunes,polvora);
+            U->Beffects.haz1(tempy,tempx);
+            tempy=y;
+        }
+        if(y<5 && U->Bobjects.comparar(tempy+1,tempx,0)){
+            tempy+=2;
+            simula_detona1(U,tempy,tempx,pendientes,excepto,inmunes,polvora);
+            U->Beffects.haz1(tempy,tempx);
+            tempy=y;
+        }
+    }
+    //U->imprimir();
+    //U->poner_opciones(true,wich_option);
+    //U->voltear_pantalla();
+    //SDL_Delay(400);
+    //U->Beffects.reinicia();
+}
+void simula_detona3(uniendo* U,int y,int x,
+                    tablero_booleano* polvora){
+tablero_booleano pendientes;
+bool* inmunidad;
+int respaldo[7][7];///parche
+    for(int i=0;i<7;i++){
+        for(int j=0;j<7;j++){
+            respaldo[i][j]=U->Bobjects.el_color_de(i,j);
+        }
+    }
+    inmunidad=new bool[U->cuantos_jugadores()+1];
+    for(int i=1;i<=U->cuantos_jugadores();i++){
+        inmunidad[i]=false;
+    } inmunidad[0]=true;
+    ///inicializaciones de rutina
+    U->Bbackground.haz1(y,x);
+    U->Beffects.haz1(y,x);
+    polvora->haz1(y,x);
+    simula_detona2(U,y,x,&pendientes,inmunidad,polvora);
+    if(U->Bobjects.comparar(y,x,'F')){
+        U->player[U->wo_ist_dran()].usa_salvabomba();
+    }
+    else{
+        U->Bobjects.haz_ceniza(y,x);
+    }
+    ///la detonacion es ANTES de borrar el color contemplando la
+    ///posibilidad de que se este detonando un salvabomba
+    while(pendientes.cuenta()>0){
+        for(int i=0;i<7;i++){
+            for(int j=0;j<7;j++){
+                if(pendientes.valor(i,j)){
+                    simula_detona2(U,i,j,&pendientes,inmunidad,polvora);
+                    U->Bobjects.haz_ceniza(i,j);
+                    pendientes.haz0(i,j);
+                }
+            }
+        }
+    }
+    ///mientras haya pendientes: buscalos y detonalos
+    for(int i=0;i<7;i++){
+        for(int j=0;j<7;j++){
+            if(U->Bobjects.comparar(i,j,0)==false){
+                if(U->Bobjects.el_color_de(i,j)==0){
+                    if(U->Bobjects.comparar(i,j,'S')){
+                        U->Bobjects.cambiar(i,j,'T',respaldo[i][j]);
+                    }
+                    else{
+                        U->Bobjects.elimina(i,j);
+                    }
+                }
+            }
+        }
+    }
+    U->Bbackground.reinicia();
+    ///limpia las cenizas y el fondo rojo
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+void uniendo::genera_polvoras(tablero_booleano* propio,tablero_booleano* ajeno){
+    uniendo V(*regalo_final());
+    /// fase 1-1 : bombas y salvavidas tuyos
+    bomba_tuya_o_salvabomba(&V);
+    for(int i=0;i<7;i++){
+        for(int j=0;j<7;j++){
+            if(V.Bbuttons.valor(i,j)){
+                simula_detona3(&V,i,j,propio);
+
+                V.reasimila_elementos(*regalo_final());
+                bomba_tuya_o_salvabomba(&V);
+            }
+        }
+    }
+    /// fase 1-2 : bombas y salvavidas ajenos
+    for(int w=0;w<cuantos_jugadores();w++){
+        if(w!=dran && player[w].vive()){
+            V.reasimila_elementos(*regalo_final());
+            V.set_dran(w);
+            bomba_tuya_o_salvabomba(&V);
+            for(int i=0;i<7;i++){
+                for(int j=0;j<7;j++){
+                    if(V.Bbuttons.valor(i,j)){
+                        simula_detona3(&V,i,j,ajeno);
+                        V.reasimila_elementos(*regalo_final());
+                        V.set_dran(w);
+                        bomba_tuya_o_salvabomba(&V);
+                    }
+                }
+            }
+        }
+    }
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
