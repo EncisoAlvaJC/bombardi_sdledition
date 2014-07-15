@@ -236,19 +236,27 @@ class grad_markoviano{
 private:
     int sho;
     int n_jugadores;
-    float *p_vivir,*p_toque,*poder_contra;
+    float p_vivir,*p_morir,p_toque;
     bool* vive_el;
-    /// p_vivir me da la prob de no ser atacado
-    /// p_toque me da la prob de estar en una casilla colindante
+    /// p_vivir : prob de no ser atacado por sho
+    /// p_toque : prob de estar estar cerca de todos
     char etiqueta[3];
+
+    float norma;
 public:
     grad_markoviano(uniendo*,int,tablero_booleano,
                     tablero_booleano,char*);
     grad_markoviano(grad_markoviano&);
+
+    grad_markoviano(uniendo*,int); /// con todo al maximo
+
     void informa();
     float aplasta(int);
     int candidato_a_odiar();
     char* parche_de_acceso(){char* R=(char*)etiqueta;return R;}
+
+    void operator -(grad_markoviano);
+    float coseno_del_angulo_con(grad_markoviano);
 };
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -261,14 +269,11 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
     }
     sho=en_turno;
     n_jugadores=U->cuantos_jugadores();
-    p_vivir=new float[n_jugadores];
-    p_toque=new float[n_jugadores];
-    poder_contra=new float[n_jugadores];
+    p_morir=new float[n_jugadores];
     vive_el=new bool[n_jugadores];
+    p_toque=0; p_vivir=0;
     for(int i=0;i<n_jugadores;i++){
-        p_vivir[i]=0;
-        p_toque[i]=0;
-        poder_contra[i]=0;
+        p_morir[i]=0;
         vive_el[i]=U->player[i].vive();
     }
 
@@ -286,7 +291,7 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
     transicion=new matriz[n_jugadores];
     sin_hueso=new matriz[n_jugadores];
     for(int i=0;i<n_jugadores;i++){
-        if(U->player[i].vive()){
+        if(vive_el[i]){
             x[i]=U->player[i].coordx();
             y[i]=U->player[i].coordy();
             transicion[i]=matriz(U,i);
@@ -300,70 +305,73 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
     }
     /// ahora biene la parte buena: donde se calcula el "estado"
     /// del tablero como un punto en [0,1]'n
-    for(int i=0;i<7;i++){
-        for(int j=0;j<n_jugadores;j++){
-            if(polvora_ajena.valor(i,j)==false){
-                p_vivir[sho]+=(transicion[sho].muestra(i,j));
+    if(vive_el[sho]){
+        for(int i=0;i<7;i++){
+            for(int j=0;j<7;j++){
+                if(polvora_ajena.valor(i,j)==false){
+                    p_vivir+=(transicion[sho].muestra(i,j));
+                }
             }
         }
     }
+    else{
+        p_vivir=0;
+    }
+    //p_vivir*=2;
+    /// p_morir significa "probabilidad de ser atacado por una bomba de sho"
     for(int w=0;w<n_jugadores;w++){
-        if(w!=sho && U->player[w].vive()){
+        if(w!=sho && vive_el[w]){
             for(int i=0;i<7;i++){
                 for(int j=0;j<7;j++){
-                    if(polvora_propia.valor(i,j)==false){
-                        p_vivir[w]+=(transicion[w].muestra(i,j));
+                    if(polvora_propia.valor(i,j)==true){
+                        p_morir[w]+=(transicion[w].muestra(i,j));
                     }
                 }
+            }
+            p_morir[w]*=0.7;
+        }
+        else{
+            if(!vive_el[w]){
+                p_morir[w]=1;
             }
         }
     }
     /// calculando para el jugador w
-    for(int w=0;w<n_jugadores;w++){
-        if(vive_el[w]){ /// no calcular nada de jugadores eliminados
-            for(int z=0;z<n_jugadores;z++){
-                if(w!=z && vive_el[z]){
-                    for(int i=0;i<7;i++){
-                        if(abs(i-x[z])<2){
-                            for(int j=0;j<7;j++){
-                                if(abs(j-y[z])<2){
-                                    p_toque[w]+=transicion[w].muestra(i,j);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        p_toque[w]/=(U->cuantos_jugadores()-1); /// normalizando
-    }
-
-    for(int w=0;w<n_jugadores;w++){
-        if(w!=sho && vive_el[w]){
+    for(int z=0;z<n_jugadores;z++){
+        if(z!=sho && vive_el[z]){ /// no calcular nada de jugadores eliminados
             for(int i=0;i<7;i++){
-                if(abs(i-x[w])<2){
+                if(abs(i-x[z])<2){
                     for(int j=0;j<7;j++){
-                        if(abs(j-y[w])<2){
-                            if(polvora_propia.valor(i,j)){
-                                poder_contra[w]+=transicion[w].muestra(i,j);
-                            }
+                        if(abs(j-y[z])<2){
+                            p_toque+=transicion[sho].muestra(i,j);
                         }
                     }
                 }
             }
         }
     }
+    int j=0;
+    for(int i=0;i<n_jugadores;i++){
+        if(vive_el[i]){
+            j++;
+        }
+    }
+    p_toque/=(j-1); /// normalizando
+
+    norma=0;
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 grad_markoviano::grad_markoviano(grad_markoviano& G){
     sho=G.sho;
     n_jugadores=G.n_jugadores;
-    p_vivir=new float[n_jugadores];
-    p_toque=new float[n_jugadores];
+    p_morir=new float[n_jugadores];
+    vive_el=new bool[n_jugadores];
+    p_toque=G.p_toque;
+    p_vivir=G.p_vivir;
     for(int i=0;i<n_jugadores;i++){
-        p_vivir[i]=G.p_vivir[i];
-        p_toque[i]=G.p_toque[i];
+        p_morir[i]=G.p_morir[i];
+        vive_el[i]=G.vive_el[i];
     }
     for(int i=0;i<3;i++){
         etiqueta[i]=G.etiqueta[i];
@@ -371,33 +379,66 @@ grad_markoviano::grad_markoviano(grad_markoviano& G){
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
+grad_markoviano::grad_markoviano(uniendo* U,int en_turno){
+    sho=en_turno;
+    n_jugadores=U->cuantos_jugadores();
+    p_morir=new float[n_jugadores];
+    vive_el=new bool[n_jugadores];
+    p_toque=0.2;
+    p_vivir=1;
+    for(int i=0;i<n_jugadores;i++){
+        p_morir[i]=1;
+        vive_el[i]=U->player[i].vive();
+    }
+    p_morir[sho]=0;
+    norma=0;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 void grad_markoviano::informa(){
     for(int i=0;i<n_jugadores;i++){
         cout<<endl
             <<"jugador "<<(i+1)<<endl
-            <<"p_vivir : "<<p_vivir[i]<<endl
-            <<"p_tocar : "<<p_toque[i]<<endl;
+            <<"p_vivir : "<<(1-p_morir[i])<<endl;
     }
+    cout<<"p_tocar : "<<p_toque<<endl;
+    cout<<"p_vivir : "<<p_vivir<<endl;
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
-/// como no tengo suficiente informacion sobre la funcion como para
-/// optimizar sus resultados, voy a "aplastar" los vectores que
-/// representan el tablero a un solo numero
+float grad_markoviano::coseno_del_angulo_con(grad_markoviano G){
+    float R=0;
+    for(int i=0;i<n_jugadores;i++){
+        if(i!=sho){
+            R+=(p_morir[i]*G.p_morir[i]);
+        }
+    }
+    R+=(p_vivir*G.p_vivir);
+    R+=p_toque*G.p_toque;
+    if(norma!=0 && G.norma!=0){
+        //R=(R/(norma*G.norma));
+        R=(R/(G.norma));
+    }
+    else{
+        //R=0;
+    }
+return R;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 float grad_markoviano::aplasta(int el_enemigo){
     float R=10;
+    /*
     R*=(0.1+p_vivir[sho]);
     for(int i=0;i<n_jugadores;i++){
-        //if(i!=sho && i!=el_enemigo && vive_el[i]){
         {
             R*=(2.5-p_vivir[i]);
-            //R*=(1+p_toque[i]);
         }
     }
     R*=(2-p_vivir[el_enemigo]);
 
-    //R*=(1+p_toque[el_enemigo]);
-    R*=(1+p_toque[sho]);
+    R*=(1+p_toque);
+    */
 return R;
 }
 //////////////////////////////////////////////////////////////////////
@@ -407,24 +448,32 @@ int grad_markoviano::candidato_a_odiar(){
     float vida_larga=0;
     for(int i=0;i<n_jugadores;i++){
         if(i!=sho){
-            if(p_vivir[i]>vida_larga){
+            if((1-p_morir[i])>vida_larga){
                 R=i;
-                vida_larga=p_vivir[i];
+                vida_larga=(1-p_morir[i]);
             }
         }
     }
-    /*
-    float menos_amenazado=1;
+return R;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+void grad_markoviano::operator-(grad_markoviano G){
+    p_toque-=G.p_toque;
+    p_vivir-=G.p_vivir;
+    for(int i=0;i<n_jugadores;i++){
+        p_morir[i]-=G.p_morir[i];
+    }
+    /// la norma solo se calcula aqui porqe solo se ocupa despues de esto
+    norma=0;
     for(int i=0;i<n_jugadores;i++){
         if(i!=sho){
-            if(poder_contra[i]<menos_amenazado){
-                R=i;
-                menos_amenazado=poder_contra[i];
-            }
+            norma+=(p_morir[i]*p_morir[i]);
         }
     }
-    */
-return R;
+    norma+=(p_vivir*p_vivir);
+    norma+=(p_toque*p_toque);
+    norma=sqrtf(norma);
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -584,27 +633,22 @@ int abrev1=player[wo_ist_dran()].cuantos_turnos();
             tablero_booleano polvora_propia,polvora_ajena;
             genera_polvoras(&polvora_propia,&polvora_ajena);
             /// fase 2 : calcular el contenido del "gradiente markoviano"
+            grad_markoviano ideal(regalo_final(),wo_ist_dran());
             grad_markoviano original(regalo_final(),wo_ist_dran(),
                                      polvora_propia,polvora_ajena,
-                                     (char*)"ini");
-            /// fase 3 : calcular el "valor aplastado" del tablero actual
-            int amenaza=original.candidato_a_odiar();
-
-            float aplastado_original=original.aplasta(amenaza);
-            /*
-            cout<<"  amenaza actual : jugador "<<(amenaza+1)<<endl;
-            cout<<" valor aplastado : "<<aplastado_original<<endl;
-            */
+                                     (char*)"G_0");
+            ideal-original;
             /// fase 4 : ejecutar todas las jugadas posibles en tableros temporales
             ///
             /// como las polvoras no se van a utilizar mas, reciclare las variables
             /// pero si que hay que generar los tableros temporles
             uniendo T1(*regalo_final()),T2(T1);
-            grad_markoviano mejor_grad(original),grad_temporal(original);
-            float mejor_puntuacion=-1,puntuacion_temporal=0;
+            grad_markoviano mejor_grad(regalo_final(),wo_ist_dran()),
+                            grad_temporal(regalo_final(),wo_ist_dran());
+            float mejor_coseno=-10,coseno_temporal=0;
             char etiquetador[3];
 
-            int lim1; char aux; /// este evitara confusiones
+            int lim1; char aux;
             lim1=player[dran].cuantas_jugadas();
             for(int n=0;n<lim1;n++){
                 aux=player[dran].da_la_opcion(n);
@@ -617,38 +661,50 @@ int abrev1=player[wo_ist_dran()].cuantos_turnos();
                             etiquetador[1]='a'+i;
                             etiquetador[2]='1'+j;
 
-                            polvora_propia.reinicia();
-                            polvora_ajena.reinicia();
-
                             ejecuta_simula(aux,&T2,i,j);
                             T2.genera_polvoras(&polvora_propia,&polvora_ajena);
+
+                            //polvora_propia.parche_impresion();
+                            //polvora_ajena.parche_impresion();
+
                             grad_temporal=grad_markoviano(&T2,dran,
                                                           polvora_propia,
                                                           polvora_ajena,
                                                           etiquetador);
+                            grad_temporal-original;
+                            coseno_temporal=grad_temporal.coseno_del_angulo_con(ideal);
 
-                            puntuacion_temporal=grad_temporal.aplasta(amenaza);
-                            /*cout<<"             "
+                            cout//<<"             "
                                 <<etiquetador[0]
                                 <<etiquetador[1]
                                 <<etiquetador[2]
-                                <<" : "<<puntuacion_temporal<<endl;*/
+                                <<" : "<<coseno_temporal<<endl;
 
-                            //grad_temporal.informa();
-                            //polvora_propia.parche_impresion();
-                            //polvora_ajena.parche_impresion();
+                            polvora_propia.parche_impresion();
+                            polvora_ajena.parche_impresion();
 
-                            if(puntuacion_temporal>=mejor_puntuacion){
+                            if(coseno_temporal>mejor_coseno){
                                 mejor_grad=grad_markoviano(grad_temporal);
-                                mejor_puntuacion=puntuacion_temporal;
+                                mejor_coseno=coseno_temporal;
                             }
-
                             T2=uniendo(T1);
                         }
                     }
                 }
                 T1.Bbuttons.reinicia();
             }
+            SDL_Delay(50);
+
+                while(SDL_PollEvent(e)){
+                    switch(e->type){
+                        case SDL_QUIT:
+                            salida_prematura=true;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
             ejecuta_opciona(mejor_grad.parche_de_acceso()[0],this,
                             mejor_grad.parche_de_acceso()[1]-'a',
                             mejor_grad.parche_de_acceso()[2]-'1');

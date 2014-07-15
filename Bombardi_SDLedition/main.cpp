@@ -10,7 +10,7 @@ int main ( int argc, char** argv ){
     }
     atexit(SDL_Quit);
 
-    SDL_WM_SetCaption("Good Time || Private Prototype Only for IA Testing || Julio Enciso (34.4)",
+    SDL_WM_SetCaption("Good Time || Private Prototype Only for AI Testing || Julio Enciso (34.4)",
                       NULL);
     SDL_Surface* pantalla = SDL_SetVideoMode(800,512,16,
                                              SDL_HWSURFACE|SDL_DOUBLEBUF);

@@ -1,11 +1,11 @@
 # depslib dependency file v1.0
-1405029028 source:c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\main.cpp
+1405464657 source:c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\main.cpp
 	"menu.h"
 
 1404688670 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\menu.h
 	"bombardi_engine.h"
 
-1405033725 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\bombardi_engine.h
+1405466406 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\bombardi_engine.h
 	"eventos.h"
 
 1405026980 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\eventos.h
@@ -29,7 +29,7 @@
 1404688670 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\coleccion.h
 	"graficos.h"
 
-1404688670 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\graficos.h
+1405365587 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\graficos.h
 	<cstdlib>
 	<stdlib.h>
 	<SDL/SDL.h>
@@ -37,6 +37,7 @@
 	<SDL_image.h>
 	<stdlib.h>
 	<time.h>
+	<math.h>
 	<iostream>
 
 1325742240 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\sdl-1.2.15\include\sdl\sdl.h
