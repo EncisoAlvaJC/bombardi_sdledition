@@ -313,6 +313,9 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
                 }
             }
         }
+        if(polvora_ajena.valor(x[sho],y[sho]==true)){
+            p_vivir*=0.5;
+        }
     }
     else{
         p_vivir=0;
@@ -320,18 +323,18 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
     //p_vivir*=2;
     /// p_morir significa "probabilidad de ser atacado por una bomba de sho"
     for(int w=0;w<n_jugadores;w++){
-        if(w!=sho && vive_el[w]){
-            for(int i=0;i<7;i++){
-                for(int j=0;j<7;j++){
-                    if(polvora_propia.valor(i,j)==true){
-                        p_morir[w]+=(transicion[w].muestra(i,j));
+        if(w!=sho){
+            if(vive_el[w]){
+                for(int i=0;i<7;i++){
+                    for(int j=0;j<7;j++){
+                        if(polvora_propia.valor(i,j)==true){
+                            p_morir[w]+=(transicion[w].muestra(i,j));
+                        }
                     }
                 }
+                p_morir[w]*=0.5;
             }
-            p_morir[w]*=0.7;
-        }
-        else{
-            if(!vive_el[w]){
+            else{
                 p_morir[w]=1;
             }
         }
