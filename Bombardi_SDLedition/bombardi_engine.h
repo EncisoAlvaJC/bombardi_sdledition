@@ -5,6 +5,11 @@
 #include "eventos.h"
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
+#define PROB_ESTANCIA 0.5
+#define PROB_TOQUE 1
+#define UMBRAL 0.01
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 /// por alguna razon que no comprendo, no puedo incluir mas archivos
 /// por simplicidad, escribire todo dentro de los archivos que ya tenia
 class matriz{
@@ -104,12 +109,12 @@ matriz::matriz(uniendo* U,int en_turno){
 /// paso 3: calcular las probabilidades
     float prob;
     for(int i=0;i<49;i++){
-        entrada[i][i]=0.5;
+        entrada[i][i]=PROB_ESTANCIA;
     }
     for(int x=0;x<7;x++){
         for(int y=0;y<7;y++){
-            if(contar[x][y]){
-                prob=0.5/contar[x][y];
+            if(contar[x][y]>0){
+                prob=(1-PROB_ESTANCIA)/contar[x][y];
                 for(int i=0;i<7;i++){
                     if(abs(x-i)<2){
                         for(int j=0;j<7;j++){
@@ -203,12 +208,12 @@ return R;
 matriz matriz::derivado_markov(){
     matriz R(98,98);
     for(int i=0;i<49;i++){
-        R.entrada[i][i]=entrada[i][i];
+        R.entrada[i][49+i]=entrada[i][i];
         R.entrada[49+i][49+i]=1;
         /// ahorrando variable ya inicializadas
         for(int j=0;j<49;j++){
             if(i!=j)
-                R.entrada[i][49+j]=entrada[i][j];
+                R.entrada[i][j]=entrada[i][j];
         }
     }
 return R;
@@ -223,6 +228,133 @@ matriz matriz::reextraer_de(int y,int x){
             R.entrada[i][j]=entrada[D][49+7*i+j];
     }
 return R;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+class ordinal{
+private:
+    int orden;
+    float* valor;
+public:
+    ordinal(); //vacio
+    ordinal(float); //estandar
+    ordinal(const ordinal&); //copia
+    ordinal(int,float*); //extendido
+
+    float cantidad_no(int n){return (n<=orden)?valor[n]:0;}
+
+    bool operator==(ordinal);
+    bool operator<(ordinal);
+    bool operator>(ordinal);
+
+    void imprime();
+};
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+ordinal::ordinal(){
+    orden=-1; valor=0;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+ordinal::ordinal(float V){
+    orden=0;
+    valor= new float[1];
+    valor[0]=V;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+ordinal::ordinal(int O, float* val){
+    orden=O;
+    valor=new float[O+1];
+    for(int i=0;i<=O;i++){
+        valor[i]=val[i];
+    }
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+ordinal::ordinal(const ordinal& U){
+    orden=U.orden;
+    valor=new float[orden+1];
+    for(int i=0;i<=orden;i++){
+        valor[i]=U.valor[i];
+    }
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+bool ordinal::operator==(ordinal T){
+    if(orden!=T.orden){
+        return false;
+    }
+    else{
+        for(int i=orden;i>=0;i--){
+            if((valor[i]-T.valor[i])*(valor[i]-T.valor[i])<UMBRAL*UMBRAL){
+                /// la diferencia es "insignificante"
+            }
+            else{ ///la diferencia es significativa
+                return false;
+            }
+        }
+    }
+    return true;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+bool ordinal::operator<(ordinal T){
+    if(orden>T.orden){
+        return false;
+    }
+    else{
+        for(int i=orden;i>=0;i--){
+            if((valor[i]-T.valor[i])*(valor[i]-T.valor[i])<UMBRAL*UMBRAL){
+                /// la diferencia es "insignificante"
+            }
+            else{ ///la diferencia es significativa
+                if(valor[i]>T.valor[i]){
+                    return false;
+                }
+                if(valor[i]<T.valor[i]){
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+bool ordinal::operator>(ordinal T){
+    if(orden<T.orden){
+        return false;
+    }
+    else{
+        for(int i=orden;i>=0;i--){
+            if((valor[i]-T.valor[i])*(valor[i]-T.valor[i])<UMBRAL*UMBRAL){
+                /// la diferencia es "insignificante"
+            }
+            else{ ///la diferencia es significativa
+                if(valor[i]<T.valor[i]){
+                    return false;
+                }
+                if(valor[i]>T.valor[i]){
+                    return true;
+                }
+            }
+        }
+    }
+    return true;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+void ordinal::imprime(){
+    for(int i=0;i<=orden;i++){
+        cout<<"("<<valor[i]<<")";
+    }
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -257,6 +389,10 @@ public:
 
     void operator -(grad_markoviano);
     float coseno_del_angulo_con(grad_markoviano);
+
+    float distancia_a(grad_markoviano);
+
+    ordinal evalua();
 };
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -314,7 +450,7 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
             }
         }
         if(polvora_ajena.valor(x[sho],y[sho]==true)){
-            p_vivir*=0.5;
+            p_vivir*=(1-PROB_ESTANCIA);
         }
     }
     else{
@@ -332,7 +468,9 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
                         }
                     }
                 }
-                p_morir[w]*=0.5;
+                //if(polvora_propia.valor(x[w],y[w]==true)){
+                //    p_morir[w]=(1-(1-p_morir[w])*PROB_ESTANCIA);
+                //}
             }
             else{
                 p_morir[w]=1;
@@ -355,11 +493,16 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
     }
     int j=0;
     for(int i=0;i<n_jugadores;i++){
-        if(vive_el[i]){
+        if(vive_el[i] && i!=sho){
             j++;
         }
     }
-    p_toque/=(j-1); /// normalizando
+    if(j){
+        p_toque/=j; /// normalizando
+    }
+    else{
+        p_toque=PROB_TOQUE;
+    }
 
     norma=0;
 }
@@ -387,13 +530,13 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno){
     n_jugadores=U->cuantos_jugadores();
     p_morir=new float[n_jugadores];
     vive_el=new bool[n_jugadores];
-    p_toque=0.2;
+    p_toque=PROB_TOQUE;
     p_vivir=1;
     for(int i=0;i<n_jugadores;i++){
         p_morir[i]=1;
-        vive_el[i]=U->player[i].vive();
+        //vive_el[i]=U->player[i].vive();
     }
-    p_morir[sho]=0;
+    //p_morir[sho]=0;
     norma=0;
 }
 //////////////////////////////////////////////////////////////////////
@@ -417,13 +560,13 @@ float grad_markoviano::coseno_del_angulo_con(grad_markoviano G){
         }
     }
     R+=(p_vivir*G.p_vivir);
-    R+=p_toque*G.p_toque;
+    //R+=p_toque*G.p_toque;
     if(norma!=0 && G.norma!=0){
-        //R=(R/(norma*G.norma));
-        R=(R/(G.norma));
+        R=(R/(norma*G.norma));
+        //R=(R/(G.norma));
     }
     else{
-        //R=0;
+        R=0;
     }
 return R;
 }
@@ -477,6 +620,51 @@ void grad_markoviano::operator-(grad_markoviano G){
     norma+=(p_vivir*p_vivir);
     norma+=(p_toque*p_toque);
     norma=sqrtf(norma);
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+float grad_markoviano::distancia_a(grad_markoviano G){
+    float R=0;
+    for(int i=0;i<n_jugadores;i++){
+        if(i!=sho){
+            R+=(p_morir[i]-G.p_morir[i])*(p_morir[i]-G.p_morir[i]);
+        }
+    }
+    R+=(p_vivir-G.p_vivir)*(p_vivir-G.p_vivir);
+    R+=(p_toque-G.p_toque)*(p_toque-G.p_toque);
+return sqrt(R);
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+ordinal grad_markoviano::evalua(){
+    float R=0;
+    for(int i=0;i<n_jugadores;i++){
+        if(i!=sho){
+            R+=p_morir[i];
+        }
+    }
+    R+=p_vivir;
+    R+=p_toque;
+    R = sqrt(R);
+
+    float S=0;
+    for(int i=0;i<n_jugadores;i++){
+        if(i!=sho){
+            if(p_morir[i]==1){
+                S+=1;
+            }
+        }
+    }
+    if(p_vivir==0){
+        S=0;
+    }
+
+    float* conjunto=new float[3];
+    conjunto[2]=S;
+    conjunto[1]=(p_vivir>PROB_ESTANCIA?1:0);///alarma que va a morir
+    conjunto[0]=R;
+    ordinal ord(2,conjunto);
+return ord;
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -640,7 +828,7 @@ int abrev1=player[wo_ist_dran()].cuantos_turnos();
             grad_markoviano original(regalo_final(),wo_ist_dran(),
                                      polvora_propia,polvora_ajena,
                                      (char*)"G_0");
-            ideal-original;
+            //ideal-original;
             /// fase 4 : ejecutar todas las jugadas posibles en tableros temporales
             ///
             /// como las polvoras no se van a utilizar mas, reciclare las variables
@@ -648,7 +836,12 @@ int abrev1=player[wo_ist_dran()].cuantos_turnos();
             uniendo T1(*regalo_final()),T2(T1);
             grad_markoviano mejor_grad(regalo_final(),wo_ist_dran()),
                             grad_temporal(regalo_final(),wo_ist_dran());
-            float mejor_coseno=-10,coseno_temporal=0;
+            /*
+            float mejor_distancia=100,distancia_temporal=0;
+            */
+            //ordinal mejor_ordinal(mejor_grad.evalua());
+            ordinal mejor_ordinal(-100);
+            ordinal ordinal_temporal(-100);
             char etiquetador[3];
 
             int lim1; char aux;
@@ -674,21 +867,27 @@ int abrev1=player[wo_ist_dran()].cuantos_turnos();
                                                           polvora_propia,
                                                           polvora_ajena,
                                                           etiquetador);
-                            grad_temporal-original;
-                            coseno_temporal=grad_temporal.coseno_del_angulo_con(ideal);
+                            //grad_temporal-original;
+                            //distancia_temporal=grad_temporal.distancia_a(ideal);
+                            ordinal_temporal=grad_temporal.evalua();
 
                             cout//<<"             "
                                 <<etiquetador[0]
                                 <<etiquetador[1]
                                 <<etiquetador[2]
-                                <<" : "<<coseno_temporal<<endl;
+                                <<" : ";
+                                //<<distancia_temporal
+                                //<<endl;
+                            ordinal_temporal.imprime();
+                            cout<<endl;
 
-                            polvora_propia.parche_impresion();
-                            polvora_ajena.parche_impresion();
 
-                            if(coseno_temporal>mejor_coseno){
+                            //polvora_propia.parche_impresion();
+                            //polvora_ajena.parche_impresion();
+
+                            if(mejor_ordinal<ordinal_temporal){
                                 mejor_grad=grad_markoviano(grad_temporal);
-                                mejor_coseno=coseno_temporal;
+                                mejor_ordinal=ordinal_temporal;
                             }
                             T2=uniendo(T1);
                         }
@@ -696,7 +895,7 @@ int abrev1=player[wo_ist_dran()].cuantos_turnos();
                 }
                 T1.Bbuttons.reinicia();
             }
-            SDL_Delay(50);
+            //SDL_Delay(50);
 
                 while(SDL_PollEvent(e)){
                     switch(e->type){

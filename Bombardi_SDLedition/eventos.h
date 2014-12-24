@@ -848,10 +848,10 @@ void uniendo::genera_polvoras(tablero_booleano* propio,tablero_booleano* ajeno){
                (V.player[dran].tiene_salvabombas()
                 && V.Bobjects.comparar(i,j,'F')
                 && V.Bobjects.el_color_de(i,j)==dran+1)){
-                simula_detona3(&V,i,j,propio);
 
                 V.reasimila_elementos(*regalo_final());
                 bomba_tuya_o_salvabomba(&V);
+                simula_detona3(&V,i,j,propio);
             }
         }
     }
@@ -864,15 +864,16 @@ void uniendo::genera_polvoras(tablero_booleano* propio,tablero_booleano* ajeno){
             for(int i=0;i<7;i++){
                 for(int j=0;j<7;j++){
                     if((V.Bobjects.comparar(i,j,'B')
-                        && V.Bobjects.el_color_de(i,j)==w+1) ||
+                        && V.Bobjects.el_color_de(i,j)==w+1
+                        && V.player[w].vive()) ||
                         (V.player[w].tiene_salvabombas()
                         && V.Bobjects.comparar(i,j,'F')
                         && V.Bobjects.el_color_de(i,j)==w+1)){
 
-                        simula_detona3(&V,i,j,ajeno);
                         V.reasimila_elementos(*regalo_final());
                         V.set_dran(w);
-                        bomba_tuya_o_salvabomba(&V);
+                        simula_detona3(&V,i,j,ajeno);
+                        //bomba_tuya_o_salvabomba(&V);
                     }
                 }
             }
