@@ -6,8 +6,9 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 #define PROB_ESTANCIA 0.5
-#define PROB_TOQUE 1
+#define PROB_TOQUE 1.5 ///esto es irreal
 #define UMBRAL 0.01
+#define UMBRAL_SUICIDA 0.3
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 /// por alguna razon que no comprendo, no puedo incluir mas archivos
@@ -191,12 +192,6 @@ return R;
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 matriz matriz::tendencia_markov(){
-    /*matriz R(renglones,columnas);
-    for(int i=0;i<renglones;i++){
-        for(int j=0;j<columnas;j++){
-            R.entrada[i][j]=entrada[i][j];
-        }
-    }*/
     matriz R(*this);
     for(int i=0;i<5;i++){
         R=R*R;
@@ -238,10 +233,16 @@ return R;
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 class ordinal{
+/// La idea es tratar con reales positivos no-estandar infinitos
+/// con distintos "ordenes"
+/// Asi, es posible decir que sacar de juego a una persona es
+/// "infinitamente mejor" que amenazar con sacarlo, mientras que aun
+/// asi es mejor si se sacaran a dos personas del juego
 private:
-    int orden;
+    int orden; /// numero variable de ordenes
     float* valor;
 public:
+    /// inicializadores
     ordinal(); //vacio
     ordinal(float); //estandar
     ordinal(const ordinal&); //copia
@@ -249,6 +250,8 @@ public:
 
     float cantidad_no(int n){return (n<=orden)?valor[n]:0;}
 
+    /// lo realmente jugoso es que los ordinales estan bien ordenados
+    /// sin embargo, lo hice un poco difuso por diversion
     bool operator==(ordinal);
     bool operator<(ordinal);
     bool operator>(ordinal);
@@ -370,6 +373,7 @@ private:
     int n_jugadores;
     float p_vivir,*p_morir,p_toque;
     bool* vive_el;
+    int* cuantos_salva;
     /// p_vivir : prob de no ser atacado por sho
     /// p_toque : prob de estar estar cerca de todos
     char etiqueta[3];
@@ -406,11 +410,13 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
     sho=en_turno;
     n_jugadores=U->cuantos_jugadores();
     p_morir=new float[n_jugadores];
+    cuantos_salva=new int[n_jugadores];
     vive_el=new bool[n_jugadores];
     p_toque=0; p_vivir=0;
     for(int i=0;i<n_jugadores;i++){
         p_morir[i]=0;
         vive_el[i]=U->player[i].vive();
+        cuantos_salva[i]=(2*U->player[i].cuantos_salvavidas()+U->player[i].cuantos_salvabombas());
     }
 
     /// lo importante es calcular las p_'s mediante cadenas de markov
@@ -513,11 +519,13 @@ grad_markoviano::grad_markoviano(grad_markoviano& G){
     n_jugadores=G.n_jugadores;
     p_morir=new float[n_jugadores];
     vive_el=new bool[n_jugadores];
+    cuantos_salva=new int[n_jugadores];
     p_toque=G.p_toque;
     p_vivir=G.p_vivir;
     for(int i=0;i<n_jugadores;i++){
         p_morir[i]=G.p_morir[i];
         vive_el[i]=G.vive_el[i];
+        cuantos_salva[i]=G.cuantos_salva[i];
     }
     for(int i=0;i<3;i++){
         etiqueta[i]=G.etiqueta[i];
@@ -530,12 +538,15 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno){
     n_jugadores=U->cuantos_jugadores();
     p_morir=new float[n_jugadores];
     vive_el=new bool[n_jugadores];
+    cuantos_salva=new int[n_jugadores];
     p_toque=PROB_TOQUE;
     p_vivir=1;
     for(int i=0;i<n_jugadores;i++){
         p_morir[i]=1;
+        cuantos_salva[i]=0;
         //vive_el[i]=U->player[i].vive();
     }
+    cuantos_salva[en_turno]=6;
     //p_morir[sho]=0;
     norma=0;
 }
@@ -659,11 +670,19 @@ ordinal grad_markoviano::evalua(){
         S=0;
     }
 
-    float* conjunto=new float[3];
+    int SALV=2*(n_jugadores-1);
+    for(int i=0;i<n_jugadores;i++){
+        if(i!=sho){
+            SALV-=cuantos_salva[i];
+        }
+    }
+
+    float* conjunto=new float[4];
+    conjunto[3]=SALV;
     conjunto[2]=S;
-    conjunto[1]=(p_vivir>PROB_ESTANCIA?1:0);///alarma que va a morir
+    conjunto[1]=(p_vivir>UMBRAL_SUICIDA?1:0);///alarma que va a morir
     conjunto[0]=R;
-    ordinal ord(2,conjunto);
+    ordinal ord(3,conjunto);
 return ord;
 }
 //////////////////////////////////////////////////////////////////////

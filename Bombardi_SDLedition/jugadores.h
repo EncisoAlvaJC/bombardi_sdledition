@@ -73,6 +73,8 @@ public:
     void muere();
     bool tiene_salvavidas();
     bool tiene_salvabombas();
+    int cuantos_salvavidas(){int N=n_svidas; return N;}
+    int cuantos_salvabombas(){int N=n_sbombas; return N;}
     void usa_salvavidas();
     void usa_salvabomba();
     void carga();
