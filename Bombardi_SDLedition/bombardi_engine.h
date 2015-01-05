@@ -5,9 +5,9 @@
 #include "eventos.h"
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
-#define PROB_ESTANCIA 0.5
-#define PROB_TOQUE 1.5 ///esto es irreal
-#define UMBRAL 0.01
+#define PROB_ESTANCIA 0.7
+#define PROB_TOQUE 1.1 ///esto es irreal
+#define UMBRAL 0.0001
 #define UMBRAL_SUICIDA 0.3
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -373,7 +373,8 @@ private:
     int n_jugadores;
     float p_vivir,*p_morir,p_toque;
     bool* vive_el;
-    int* cuantos_salva;
+    int* cuantos_salvavid;
+    int* cuantos_salvabom;
     /// p_vivir : prob de no ser atacado por sho
     /// p_toque : prob de estar estar cerca de todos
     char etiqueta[3];
@@ -410,13 +411,15 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
     sho=en_turno;
     n_jugadores=U->cuantos_jugadores();
     p_morir=new float[n_jugadores];
-    cuantos_salva=new int[n_jugadores];
+    cuantos_salvavid=new int[n_jugadores];
+    cuantos_salvabom=new int[n_jugadores];
     vive_el=new bool[n_jugadores];
     p_toque=0; p_vivir=0;
     for(int i=0;i<n_jugadores;i++){
         p_morir[i]=0;
         vive_el[i]=U->player[i].vive();
-        cuantos_salva[i]=(2*U->player[i].cuantos_salvavidas()+U->player[i].cuantos_salvabombas());
+        cuantos_salvavid[i]=U->player[i].cuantos_salvavidas();
+        cuantos_salvabom[i]=U->player[i].cuantos_salvabombas();
     }
 
     /// lo importante es calcular las p_'s mediante cadenas de markov
@@ -496,6 +499,9 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
                 }
             }
         }
+        if(z!=sho && !vive_el[z]){
+            p_toque+=PROB_TOQUE;
+        }
     }
     int j=0;
     for(int i=0;i<n_jugadores;i++){
@@ -519,13 +525,15 @@ grad_markoviano::grad_markoviano(grad_markoviano& G){
     n_jugadores=G.n_jugadores;
     p_morir=new float[n_jugadores];
     vive_el=new bool[n_jugadores];
-    cuantos_salva=new int[n_jugadores];
+    cuantos_salvavid=new int[n_jugadores];
+    cuantos_salvabom=new int[n_jugadores];
     p_toque=G.p_toque;
     p_vivir=G.p_vivir;
     for(int i=0;i<n_jugadores;i++){
         p_morir[i]=G.p_morir[i];
         vive_el[i]=G.vive_el[i];
-        cuantos_salva[i]=G.cuantos_salva[i];
+        cuantos_salvavid[i]=G.cuantos_salvavid[i];
+        cuantos_salvabom[i]=G.cuantos_salvabom[i];
     }
     for(int i=0;i<3;i++){
         etiqueta[i]=G.etiqueta[i];
@@ -538,15 +546,18 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno){
     n_jugadores=U->cuantos_jugadores();
     p_morir=new float[n_jugadores];
     vive_el=new bool[n_jugadores];
-    cuantos_salva=new int[n_jugadores];
+    cuantos_salvavid=new int[n_jugadores];
+    cuantos_salvabom=new int[n_jugadores];
     p_toque=PROB_TOQUE;
     p_vivir=1;
     for(int i=0;i<n_jugadores;i++){
         p_morir[i]=1;
-        cuantos_salva[i]=0;
+        cuantos_salvavid[i]=0;
+        cuantos_salvabom[i]=0;
         //vive_el[i]=U->player[i].vive();
     }
-    cuantos_salva[en_turno]=6;
+    cuantos_salvavid[en_turno]=3;
+    cuantos_salvabom[en_turno]=3;
     //p_morir[sho]=0;
     norma=0;
 }
@@ -654,14 +665,14 @@ ordinal grad_markoviano::evalua(){
             R+=p_morir[i];
         }
     }
-    R+=p_vivir;
-    R+=p_toque;
+    //R+=p_vivir;
+    //R+=p_toque;
     R = sqrt(R);
 
     float S=0;
     for(int i=0;i<n_jugadores;i++){
         if(i!=sho){
-            if(p_morir[i]==1){
+            if(p_morir[i]<=(1-UMBRAL_SUICIDA)){
                 S+=1;
             }
         }
@@ -670,19 +681,28 @@ ordinal grad_markoviano::evalua(){
         S=0;
     }
 
-    int SALV=2*(n_jugadores-1);
+    int SALV=3*(n_jugadores-1)+cuantos_salvavid[sho];
     for(int i=0;i<n_jugadores;i++){
         if(i!=sho){
-            SALV-=cuantos_salva[i];
+            SALV-=cuantos_salvavid[i];
         }
     }
 
-    float* conjunto=new float[4];
-    conjunto[3]=SALV;
-    conjunto[2]=S;
-    conjunto[1]=(p_vivir>UMBRAL_SUICIDA?1:0);///alarma que va a morir
-    conjunto[0]=R;
-    ordinal ord(3,conjunto);
+    int DIN=cuantos_salvabom[sho];
+
+    float* conjunto=new float[6];
+    conjunto[5]=S;
+        /// # de no-supervivientes
+    conjunto[4]=SALV*UMBRAL;
+        /// # de salvavidas ajenos
+    conjunto[2]=((p_vivir>UMBRAL_SUICIDA && cuantos_salvabom[sho])?p_vivir:0);
+        /// alarma de que VA a morir sho
+    conjunto[3]=R;
+        /// amenazas a otros jugadores
+    conjunto[1]=p_toque;
+        /// cercania con el baricentro de los demas jugadores
+    conjunto[0]=DIN*UMBRAL;
+    ordinal ord(5,conjunto);
 return ord;
 }
 //////////////////////////////////////////////////////////////////////
