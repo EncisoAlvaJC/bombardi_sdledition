@@ -24,11 +24,11 @@ int main ( int argc, char** argv ){
     SDL_Event e;
 
     //
-    bool humanos[]={false,false,false,false,false};
+    bool humanos[]={true,false,false,false,false};
     //
 
     menu M(pantalla,e,
-           (char*)"./bild/",8,(char*)"012345678");
+           (char*)"./bild/",10,(char*)"0123456789");
     bombardi_engine UN;
 
     int control=0;
@@ -37,7 +37,7 @@ int main ( int argc, char** argv ){
        UN.dime_salida_prematura()==false){
     switch(control){
     case 0:
-        M=menu(pantalla,e,(char*)"./bild/",9,(char*)"012345678ngpqrt");
+        M=menu(pantalla,e,(char*)"./bild/",10,(char*)"0123456789ngpqrt");
         M.elegir();
     case 1:
         UN=bombardi_engine(e,&pantalla,
