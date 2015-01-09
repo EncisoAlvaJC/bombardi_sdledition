@@ -5,12 +5,24 @@
 #include "coleccion.h"
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
+/// parche: topologia alterada del tablero, por vacio
+/// para trabajar con ello debo tener coordenadas
+typedef struct{
+    int yy;
+    int xx;
+} coordenada;
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 class tablero_objetos{
 private:
 /// el tablero objetos unicamente tiene un arreglo de caracteres con la
 /// letra que identifica a cada objeto, y el color del objeto
     char casilla[7][7];
     char color[7][7];
+/// Raum significa "espacio" en aleman; son las casillas en el espacio
+/// inter-portal
+/// para referirse al raum #n es (-1,n)
+    char raum[5][2];
 public:
 /// las funciones son simples: "acceder" a datos privados sin que dejen
 /// de ser privados: la idea es que haya una capa de seguridad
@@ -23,6 +35,11 @@ public:
     bool comparar(int,int,char);
     int el_color_de(int,int);
     void imprimir(coleccion_objetos,SDL_Surface*);
+
+    void parche_impresion();
+
+    /// dada la topologia alteada del tablero, se vuelve complicado
+    coordenada colindante_a(int,int,char,char);
 };
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -34,6 +51,10 @@ tablero_objetos::tablero_objetos(){
             color[i][j]=0;
         }
     }
+    for(int i=0;i<5;i++){
+        raum[i][0]=0;
+        raum[i][1]=0;
+    }
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -44,29 +65,58 @@ tablero_objetos::tablero_objetos(tablero_objetos& T){
             color[i][j]=T.color[i][j];
         }
     }
+    for(int i=0;i<5;i++){
+        raum[i][0]=T.raum[i][0];
+        raum[i][1]=T.raum[i][1];
+    }
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void tablero_objetos::cambiar(int y,int x,char k,int n){
-    casilla[y][x]=k; color[y][x]=n;
+    if(y>-1){
+        casilla[y][x]=k; color[y][x]=n;
+    }
+    else{
+        raum[x][0]=k; raum[x][1]=n;
+    }
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void tablero_objetos::elimina(int y,int x){
-    casilla[y][x]=0; color[y][x]=0;
+    if(y>-1){
+        casilla[y][x]=0; color[y][x]=0;
+    }
+    else{
+        raum[x][0]=0; raum[x][1]=0;
+    }
 }
 void tablero_objetos::haz_ceniza(int y,int x){
-    color[y][x]=0;
+    if(y>-1){
+        color[y][x]=0;
+    }
+    else{
+        raum[x][1]=0;
+    }
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 bool tablero_objetos::comparar(int y,int x,char k){
-    return (casilla[y][x]==k);
+    if(y>-1){
+        return (casilla[y][x]==k);
+    }
+    else{
+        return (raum[x][0]==k);
+    }
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 int tablero_objetos::el_color_de(int y,int x){
-    int ans=color[y][x]; return ans;
+    if(y>-1){
+        int ans=color[y][x]; return ans;
+    }
+    else{
+        int ans=raum[x][1]; return ans;
+    }
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -80,6 +130,51 @@ SDL_Rect lugar,auxiliar; lugar.x=32;lugar.y=32;
             C.imprimir_ficha(casilla[i][j],color[i][j],auxiliar,S);
         }
     }
+    auxiliar.x=(32+64);lugar.y=(32+7*64);
+    for(int j=0;j<5;j++,auxiliar.x+=64){
+        C.imprimir_ficha(raum[j][0],raum[j][1],auxiliar,S);
+    }
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+void tablero_objetos::parche_impresion(){
+    cout<<endl<<endl;
+    for(int i=0;i<7;i++){
+        for(int j=0;j<7;j++){
+            cout<<" "<<casilla[i][j];
+        }
+        cout<<"    ";
+        for(int j=0;j<7;j++){
+            cout<<" "<<color[i][j];
+        }
+        cout<<endl;
+    }
+    for(int i=0;i<5;i++){
+        cout<<raum[i][0];
+    }
+    cout<<"    ";
+    for(int i=0;i<5;i++){
+        cout<<raum[i][1];
+    }
+    cout<<endl;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+coordenada tablero_objetos::colindante_a(int x, int y,char d1,char d2){
+/// el protocolo es "desde x,y en direccion...", donde las
+/// direcciones posibles son:
+/// AA : arriba
+/// << : izquierda
+/// VV : abajo
+/// >> : derecha
+/// >A , A> : arriba-derecha
+/// <A , A< : arriba-izquierda
+/// <V , V< : abajo-izquierda
+/// >V , V> : abajo-derecha
+coordenada ans; ans.xx=-1; ans.yy=-1;
+int X=x, Y=y;
+
+return ans;
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -88,8 +183,10 @@ SDL_Rect lugar,auxiliar; lugar.x=32;lugar.y=32;
 class tablero_booleano{
 /// para acelerar las cosas, los tableros con el fondo y los botones
 /// manejan bool en vez de char
+/// notese que el raum se maneja como un segundo tablero
 private:
     bool casilla[7][7];
+    bool raum[5];
 public:
     tablero_booleano();
     tablero_booleano(tablero_booleano&);
@@ -123,6 +220,16 @@ void tablero_booleano::parche_impresion(){
         }
         cout<<endl;
     }
+    for(int i=0;i<5;i++){
+        cout<<" ";
+        if(raum[i]){
+            cout<<"1";
+        }
+        else{
+            cout<<"_";
+        }
+        cout<<endl;
+    }
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -131,6 +238,9 @@ tablero_booleano::tablero_booleano(){
         for(int j=0;j<7;j++){
             casilla[i][j]=false;
         }
+    }
+    for(int i=0;i<5;i++){
+        raum[i]=false;
     }
 }
 //////////////////////////////////////////////////////////////////////
@@ -141,6 +251,9 @@ tablero_booleano::tablero_booleano(tablero_booleano& T){
             casilla[i][j]=T.casilla[i][j];
         }
     }
+    for(int i=0;i<5;i++){
+        raum[i]=T.raum[i];
+    }
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -150,13 +263,36 @@ void tablero_booleano::reinicia(){
             casilla[i][j]=false;
         }
     }
+    for(int i=0;i<5;i++){
+        raum[i]=false;
+    }
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
-void tablero_booleano::haz0(int y,int x){casilla[y][x]=false;}
-void tablero_booleano::haz1(int y,int x){casilla[y][x]=true;}
+void tablero_booleano::haz0(int y,int x){
+    if(y>-1){
+        casilla[y][x]=false;
+    }
+    else{
+        raum[x]=false;
+    }
+}
+void tablero_booleano::haz1(int y,int x){
+    if(y>-1){
+        casilla[y][x]=true;
+    }
+    else{
+        raum[x]=true;
+    }
+}
 bool tablero_booleano::valor(int y,int x){
-    return (casilla[y][x]==true);}
+    if(y>-1){
+        return (casilla[y][x]==true);
+    }
+    else{
+        return (raum[x]==true);
+    }
+}
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void tablero_booleano::imprimir_boton(fondo_boton B,
@@ -168,15 +304,23 @@ SDL_Rect lugar,auxiliar; lugar.x=32;lugar.y=32;
             B.imprimir_boton(casilla[i][j],auxiliar,S);
         }
     }
+    auxiliar.x=(32+64);auxiliar.y=(32+7*64);
+    for(int j=0;j<5;j++,auxiliar.x+=64){
+        B.imprimir_boton(raum[j],auxiliar,S);
+    }
 }
-void tablero_booleano::imprimir_rojos(fondo_boton B,
+void tablero_booleano::imprimir_rojos(fondo_boton R,
                                       SDL_Surface* S){
 SDL_Rect lugar,auxiliar; lugar.x=32;lugar.y=32;
     for(int i=0;i<7;i++,lugar.y+=64){
         auxiliar=lugar;
         for(int j=0;j<7;j++,auxiliar.x+=64){
-            B.imprimir_rojos(casilla[i][j],auxiliar,S);
+            R.imprimir_rojos(casilla[i][j],auxiliar,S);
         }
+    }
+    auxiliar.x=(32+64);auxiliar.y=(32+7*64);
+    for(int j=0;j<5;j++,auxiliar.x+=64){
+        R.imprimir_rojos(raum[j],auxiliar,S);
     }
 }
 void tablero_booleano::imprimir_fondo(fondo_boton F,
@@ -188,6 +332,10 @@ SDL_Rect lugar,auxiliar; lugar.x=32;lugar.y=32;
             F.imprimir_fondo(casilla[i][j],auxiliar,S);
         }
     }
+    auxiliar.x=(32+64);auxiliar.y=(32+7*64);
+    for(int j=0;j<5;j++,auxiliar.x+=64){
+        F.imprimir_raum(raum[j],auxiliar,S);
+    }
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -198,6 +346,11 @@ int ans=0;
             if(casilla[i][j]==true){
                 ans+=1;
             }
+        }
+    }
+    for(int i=0;i<5;i++){
+        if(raum[i]==true){
+            ans+=1;
         }
     }
 return ans;

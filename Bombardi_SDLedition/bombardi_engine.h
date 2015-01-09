@@ -28,8 +28,7 @@ public:
     float muestra(int,int);
     void cambia(int,int,float);
 
-    //matriz operator+(matriz);
-    //DEPRECATED
+    matriz operator+(matriz);
     matriz operator*(matriz);
     void operator=(matriz);
 
@@ -162,7 +161,7 @@ void matriz::cambia(int m,int n,float F){
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
-/*matriz matriz::operator+(matriz M){
+matriz matriz::operator+(matriz M){
     matriz R(1,1);
     if(renglones==M.renglones && columnas==M.columnas){
         R=matriz(renglones,columnas);
@@ -173,7 +172,7 @@ void matriz::cambia(int m,int n,float F){
         }
     }
 return R;
-}*/
+}
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 matriz matriz::operator*(matriz M){
@@ -195,7 +194,7 @@ return R;
 matriz matriz::tendencia_markov(){
     matriz R(*this);
     for(int i=0;i<5;i++){
-        R=(R*R);
+        R=R*R;
     }
 return R;
 }
@@ -251,8 +250,6 @@ public:
 
     float cantidad_no(int n){return (n<=orden)?valor[n]:0;}
 
-    void operator=(ordinal);
-
     /// lo realmente jugoso es que los ordinales estan bien ordenados
     /// sin embargo, lo hice un poco difuso por diversion
     bool operator==(ordinal);
@@ -285,15 +282,6 @@ ordinal::ordinal(int O, float* val){
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 ordinal::ordinal(const ordinal& U){
-    orden=U.orden;
-    valor=new float[orden+1];
-    for(int i=0;i<=orden;i++){
-        valor[i]=U.valor[i];
-    }
-}
-//////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////
-void ordinal::operator=(ordinal U){
     orden=U.orden;
     valor=new float[orden+1];
     for(int i=0;i<=orden;i++){
@@ -391,8 +379,7 @@ private:
     /// p_toque : prob de estar estar cerca de todos
     char etiqueta[3];
 
-    //DEPRECATED
-    //float norma;
+    float norma;
 public:
     grad_markoviano(uniendo*,int,tablero_booleano,
                     tablero_booleano,char*);
@@ -400,17 +387,15 @@ public:
 
     grad_markoviano(uniendo*,int); /// con todo al maximo
 
-    //DEPRECATED
-    //void informa();
-    //float aplasta(int);
-    //int candidato_a_odiar();
+    void informa();
+    float aplasta(int);
+    int candidato_a_odiar();
     char* parche_de_acceso(){char* R=(char*)etiqueta;return R;}
 
-    //DEPRECATED
-    //void operator -(grad_markoviano);
-    //float coseno_del_angulo_con(grad_markoviano);
+    void operator -(grad_markoviano);
+    float coseno_del_angulo_con(grad_markoviano);
 
-    //float distancia_a(grad_markoviano);
+    float distancia_a(grad_markoviano);
 
     ordinal evalua();
 };
@@ -492,9 +477,9 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
                         }
                     }
                 }
-                if(polvora_propia.valor(x[w],y[w]==true)){
-                    p_morir[w]=(1-(1-p_morir[w])*PROB_ESTANCIA);
-                }
+                //if(polvora_propia.valor(x[w],y[w]==true)){
+                //    p_morir[w]=(1-(1-p_morir[w])*PROB_ESTANCIA);
+                //}
             }
             else{
                 p_morir[w]=1;
@@ -531,7 +516,7 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
         p_toque=PROB_TOQUE;
     }
 
-    //norma=0;
+    norma=0;
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -574,11 +559,11 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno){
     cuantos_salvavid[en_turno]=3;
     cuantos_salvabom[en_turno]=3;
     //p_morir[sho]=0;
-    //norma=0;
+    norma=0;
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
-/*void grad_markoviano::informa(){
+void grad_markoviano::informa(){
     for(int i=0;i<n_jugadores;i++){
         cout<<endl
             <<"jugador "<<(i+1)<<endl
@@ -586,10 +571,10 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno){
     }
     cout<<"p_tocar : "<<p_toque<<endl;
     cout<<"p_vivir : "<<p_vivir<<endl;
-}*/
+}
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
-/*float grad_markoviano::coseno_del_angulo_con(grad_markoviano G){
+float grad_markoviano::coseno_del_angulo_con(grad_markoviano G){
     float R=0;
     for(int i=0;i<n_jugadores;i++){
         if(i!=sho){
@@ -606,10 +591,10 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno){
         R=0;
     }
 return R;
-}*/
+}
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
-/*float grad_markoviano::aplasta(int el_enemigo){
+float grad_markoviano::aplasta(int el_enemigo){
     float R=10;
     /*
     R*=(0.1+p_vivir[sho]);
@@ -621,12 +606,12 @@ return R;
     R*=(2-p_vivir[el_enemigo]);
 
     R*=(1+p_toque);
-    *//*
+    */
 return R;
-}*/
+}
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
-/*int grad_markoviano::candidato_a_odiar(){
+int grad_markoviano::candidato_a_odiar(){
     int R=0;
     float vida_larga=0;
     for(int i=0;i<n_jugadores;i++){
@@ -638,10 +623,10 @@ return R;
         }
     }
 return R;
-}*/
+}
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
-/*void grad_markoviano::operator-(grad_markoviano G){
+void grad_markoviano::operator-(grad_markoviano G){
     p_toque-=G.p_toque;
     p_vivir-=G.p_vivir;
     for(int i=0;i<n_jugadores;i++){
@@ -657,10 +642,10 @@ return R;
     norma+=(p_vivir*p_vivir);
     norma+=(p_toque*p_toque);
     norma=sqrtf(norma);
-}*/
+}
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
-/*float grad_markoviano::distancia_a(grad_markoviano G){
+float grad_markoviano::distancia_a(grad_markoviano G){
     float R=0;
     for(int i=0;i<n_jugadores;i++){
         if(i!=sho){
@@ -670,7 +655,7 @@ return R;
     R+=(p_vivir-G.p_vivir)*(p_vivir-G.p_vivir);
     R+=(p_toque-G.p_toque)*(p_toque-G.p_toque);
 return sqrt(R);
-}*/
+}
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 ordinal grad_markoviano::evalua(){

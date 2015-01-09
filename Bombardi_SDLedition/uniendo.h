@@ -45,6 +45,15 @@ public:
             char*,int*,int*,bool,bool*);
                 /// un arreglo de argumentos inicializadores
     /// el bool define el estado esperando-opcion/opcion-int-elegida
+    uniendo(SDL_Surface**, /// la pantalla a la cual apuntar
+            char*,char*,char*,char*,/// ruta y nombres de logo...
+            char*,int,char*,/// de coleccion_movimientos
+            char*,int,char*,int,char*,///coleccion_objetos
+            char*,char*,char*,///fondo_boton
+            int,///numero de jugadores
+            char*,int*,int*,bool*);
+                /// un arreglo de argumentos inicializadores
+    /// el bool define el estado esperando-opcion/opcion-int-elegida
     void imprimir();
     void poner_opciones(bool,/// 0=no elegido; 1=opcion elegida
                         int);/// que opcion se ha elegido
@@ -116,6 +125,69 @@ char archivo[50]; int aux;
         player[i]=jugador(*this,rol_de[i],
                           Y0[i],X0[i],
                           hay_salvavidas,
+                          es_humano[i]);
+        Bobjects.cambiar(Y0[i],X0[i],'F',i+1);
+    }
+    A.x=512;A.y=16; B.x=160;B.y=490;
+    C.x=512;C.y=380;
+    D.x=0;D.y=0;E.x=0;E.y=0;
+    F.x=32; F.y=32;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+uniendo::uniendo(SDL_Surface** S,
+                 char* ruta_detalles,
+                 char* nom_logo,char* nom_credit,char* nom_arrow,
+                 //
+                 char* ruta_opciones,
+                 int num_opciones,char* nom_opciones,
+                 //
+                 char* ruta_objetos,
+                 int num_fichas,char* nom_fichas,
+                 int num_colores,char* nom_colores,
+                 //
+                 char* ruta_fondoboton,
+                 char* nom_fondo,char* nom_boton,
+                 //
+                 int num_jugadores,
+                 //
+                 char* rol_de,
+                 int* X0,int* Y0,
+                 bool* es_humano)
+:profesiones(){
+char archivo[50]; int aux;
+    archivo[0]='\0'; strcat(archivo,ruta_detalles);
+    aux=strlen(archivo);
+        strcat(archivo,nom_logo); strcat(archivo,(char*)".png");
+        logo=IMG_Load(archivo);
+        if(!logo){
+            cout<<"Error al cargar "<<archivo<<endl;
+        }
+    archivo[aux]='\0';
+        strcat(archivo,nom_credit); strcat(archivo,(char*)".png");
+        credit=IMG_Load(archivo);
+        if(!credit){
+            cout<<"Error al cargar "<<archivo<<endl;
+        }
+    archivo[aux]='\0';
+        strcat(archivo,nom_arrow); strcat(archivo,(char*)".png");
+        arrow=IMG_Load(archivo);
+        if(!arrow){
+            cout<<"Error al cargar "<<archivo<<endl;
+        }
+    pantalla=S; dran=0;
+    Coptions=coleccion_movimientos(ruta_opciones,
+                                   num_opciones,nom_opciones);
+    Cobjects=coleccion_objetos(ruta_objetos,
+                               num_fichas,nom_fichas,
+                               num_colores,nom_colores);
+    Button=fondo_boton(ruta_fondoboton,
+                       nom_fondo,nom_boton);
+    num_players=num_jugadores;
+        player=new jugador[num_players];
+    for(int i=0;i<num_players;i++){
+        player[i]=jugador(*this,rol_de[i],
+                          Y0[i],X0[i],
                           es_humano[i]);
         Bobjects.cambiar(Y0[i],X0[i],'F',i+1);
     }

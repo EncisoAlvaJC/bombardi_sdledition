@@ -14,6 +14,7 @@ private:
     int n_colores;
     SDL_Surface*** ficha;
     SDL_Surface* fallo; /// ficha extra para errores
+    SDL_Surface* vacio; /// internamente, el vacio es un objeto
 /// ademas, para uso humano, cada ficha es referida por una letra
 /// que en principio es estandar; la idea es que el tablero se
 /// conforme de un arreglo de caracteres
@@ -74,17 +75,26 @@ strcat(archivo,ruta); strcat(archivo,"  .png");
     if(!fallo){
         cout<<"Error al cargar imagen-fallo."<<endl;
     }
+    archivo[0]='\0'; strcat(archivo,ruta); strcat(archivo,"V.png");
+    vacio=IMG_Load(archivo);
+    if(!vacio){
+        cout<<"Error al cargar "<<archivo<<endl;
+    }
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 int coleccion_objetos::busca_ficha(char K){
 /// recorre el arreglo con los identificadores de las fichas hasta
 /// alcanzar la buscada... o regresa -1
+/// un estandar mio es llamar al vacio "_"
 int ans=-1;
     for(int i=0;i<n_fichas;i++){
        if(nombre_ficha[i]==K){
             ans=i;
        }
+    }
+    if(K=='_'){
+        ans=-2;
     }
 return ans;
 }
@@ -96,15 +106,22 @@ void coleccion_objetos::imprimir_ficha(char K,int N,
 /// dentro de sus casillas, asi que declaro un SDL_Rect auxiliar
 int i=busca_ficha(K); SDL_Rect aux=R;
     if(K!=0){
-        if(i==-1){
+        if(i==-1){///si hubo algun error
             aux.x+=(( 64 - fallo->w )/2);
             aux.y+=(( 64 - fallo->h )/2);
             SDL_BlitSurface(fallo,0,S,&aux);
         }
         else{
-            aux.x+=(( 64 - ficha[i][N]->w )/2);
-            aux.y+=(( 64 - ficha[i][N]->h )/2);
-            SDL_BlitSurface(ficha[i][N],0,S,&aux);
+            if(i==-2){///imprimiendo el vacio
+                aux.x+=(( 64 - vacio->w )/2);
+                aux.y+=(( 64 - vacio->h )/2);
+                SDL_BlitSurface(vacio,0,S,&aux);
+            }
+            else{
+                aux.x+=(( 64 - ficha[i][N]->w )/2);
+                aux.y+=(( 64 - ficha[i][N]->h )/2);
+                SDL_BlitSurface(ficha[i][N],0,S,&aux);
+            }
         }
     }
 }
@@ -114,7 +131,7 @@ class fondo_boton{
 /// una coleccion de imagenes esteticas: los cuadros del tablero,
 /// el boton verde, el pico que pone que jugador tiene el turno
 private:
-    SDL_Surface* fondo[3];
+    SDL_Surface* fondo[4];
     SDL_Surface* boton;
 public:
     fondo_boton(char*,        ///ruta
@@ -123,6 +140,7 @@ public:
     void imprimir_boton(bool,SDL_Rect,SDL_Surface*);
     void imprimir_fondo(bool,SDL_Rect,SDL_Surface*);
     void imprimir_rojos(bool,SDL_Rect,SDL_Surface*);
+    void imprimir_raum(bool,SDL_Rect,SDL_Surface*);///tambien portal
 };
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -133,24 +151,29 @@ char archivo[50]; int aux;
     strcat(archivo,ruta); strcat(archivo,nom_fondo);
     /// estandar mio. buscare dos copias de la imagen-cuadro con el
     /// mismo nombre: uno con 0 y otro con 1
-    aux=strlen(archivo); archivo[aux]='0'; archivo[aux+1]='\0';
-    strcat(archivo,(char*)".png");
+    aux=strlen(archivo); archivo[aux]='N'; archivo[aux+1]='\0';
+    strcat(archivo,(char*)".png");///N de normal
         fondo[0]=IMG_Load(archivo);
         if(!fondo[0]){
             cout<<"Error al cargar "<<archivo<<endl;
         }
-    archivo[aux]='1';
+    archivo[aux]='C';///de ceniza
         fondo[1]=IMG_Load(archivo);
         if(!fondo[1]){
             cout<<"Error al cargar "<<archivo<<endl;
         }
-    archivo[aux]='2';
+    archivo[aux]='A';///de ataque
         fondo[2]=IMG_Load(archivo);
         if(!fondo[2]){
             cout<<"Error al cargar "<<archivo<<endl;
         }
+    archivo[aux]='P';///porque es el espacio inter-portal
+        fondo[3]=IMG_Load(archivo);
+        if(!fondo[3]){
+            cout<<"Error al cargar "<<archivo<<endl;
+        }
     archivo[0]='\0';
-    strcat(archivo,ruta); strcat(archivo,nom_boton);
+    strcat(archivo,ruta); strcat(archivo,nom_boton);///boton
     strcat(archivo,(char*)".png");
         boton=IMG_Load(archivo);
         if(!boton){
@@ -170,17 +193,27 @@ SDL_Rect aux=R;
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void fondo_boton::imprimir_rojos(bool B,SDL_Rect R,SDL_Surface* S){
-    if(B==true){
+    if(B==true){///actualmente es atacado
         SDL_BlitSurface(fondo[2],0,S,&R);
     }
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void fondo_boton::imprimir_fondo(bool B,SDL_Rect R,SDL_Surface* S){
-    if(B==false){
+    if(B==false){///casilla desocupada
         SDL_BlitSurface(fondo[0],0,S,&R);
     }
-    else{
+    else{///casilla previamente atacada
+        SDL_BlitSurface(fondo[1],0,S,&R);
+    }
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+void fondo_boton::imprimir_raum(bool B,SDL_Rect R,SDL_Surface* S){
+    if(B==false){///ES vacio
+        SDL_BlitSurface(fondo[3],0,S,&R);
+    }
+    else{///el raum fue previamente atacado
         SDL_BlitSurface(fondo[1],0,S,&R);
     }
 }

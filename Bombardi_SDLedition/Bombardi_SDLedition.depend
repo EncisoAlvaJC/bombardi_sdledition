@@ -1,32 +1,32 @@
 # depslib dependency file v1.0
-1420350980 source:c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\main.cpp
+1420771857 source:c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\main.cpp
 	"menu.h"
 
 1404685070 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\menu.h
 	"bombardi_engine.h"
 
-1420600700 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\bombardi_engine.h
+1420751163 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\bombardi_engine.h
 	"eventos.h"
 
-1419295572 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\eventos.h
+1420781532 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\eventos.h
 	"opcion.h"
 
 1404952087 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\opcion.h
 	"uniendo.h"
 
-1404917603 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\uniendo.h
+1420775972 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\uniendo.h
 	"control.h"
 
 1404685070 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\control.h
 	"jugadores.h"
 
-1419560628 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\jugadores.h
+1420773639 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\jugadores.h
 	"tablero.h"
 
-1405022824 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\tablero.h
+1420782179 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\tablero.h
 	"coleccion.h"
 
-1404685070 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\coleccion.h
+1420771379 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\coleccion.h
 	"graficos.h"
 
 1405361987 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\graficos.h

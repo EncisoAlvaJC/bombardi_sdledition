@@ -10,6 +10,8 @@ typedef struct{
     int n_turnos;
     int n_jugadas;
     char* jugada;
+    int n_salvavid;
+    int n_salvabom;
 } papel;
 class profesiones{
 private:
@@ -23,14 +25,22 @@ public:
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 profesiones::profesiones(){
-    n_roles=4;
+    n_roles=6;
     rol=new papel[n_roles];
 
-    nulo=(papel){'_',1,4,(char*)"MBPD"};
+    nulo=(papel){'_',1,4,(char*)"MBPD",0,0};
     rol[0]=(papel){'_',1,4,(char*)"MBPD"};
-    rol[1]=(papel){'N',2,4,(char*)"NBPD"};
-    rol[2]=(papel){'S',1,5,(char*)"MBPD*"};
-    rol[3]=(papel){'f',1,3,(char*)"bPD"};
+        /// normal
+    rol[1]=(papel){'S',1,7,(char*)"MBPDSTK",3,0};
+        /// salvavidas & salvabombas
+    rol[2]=(papel){'p',1,5,(char*)"MBPDR",0,0};
+        /// portal
+    rol[3]=(papel){'h',1,5,(char*)"MBPDH",0,0};
+        /// agujero negro
+    rol[4]=(papel){'P',1,6,(char*)"MBPDRH",0,0};
+        /// portal + agujero negro
+    rol[5]=(papel){'H',1,8,(char*)"MBPDSTRH",2,2};
+        /// salvavidas & salvabombas + portal + agujero negro - cargar
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -61,6 +71,9 @@ public:
     jugador(profesiones,char, ///numero de turnos, de opcios, las opciones
             int,int, /// posicion inicial
             bool, /// hay salvavidas (3)
+            bool); /// es humano?
+    jugador(profesiones,char, /// se condensa la informacion del jugador
+            int,int, /// posicion inicial
             bool); /// es humano?
     /// la clase jugador es muy importante en cuanto a privacidad:
     /// hay muchas funciones relativas al manejo de estos datos
@@ -124,6 +137,26 @@ papel rol=elige.da_el_rol(R);
         n_svidas=0;
     }
     n_sbombas=0;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+jugador::jugador(profesiones elige,char R,
+                 int y0,int x0,
+                 bool es_humano){
+papel rol=elige.da_el_rol(R);
+    humano=es_humano;
+
+    vivo=true; X=x0;Y=y0;
+    n_turnos=rol.n_turnos;
+    n_opciones=rol.n_jugadas;
+/// hay num_opciones para NO tener coherencia con la clase
+/// colecccion_opciones: estoy ignorando la opcion 0 (retorno)
+    opcionn=new char[n_opciones];
+    for(int i=0;i<n_opciones;i++){
+        opcionn[i]=rol.jugada[i];
+    }
+    n_svidas=rol.n_salvavid;
+    n_sbombas=rol.n_salvabom;
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////

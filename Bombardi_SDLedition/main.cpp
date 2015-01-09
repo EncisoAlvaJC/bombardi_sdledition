@@ -10,7 +10,7 @@ int main ( int argc, char** argv ){
     }
     atexit(SDL_Quit);
 
-    SDL_WM_SetCaption("Good Time || Private Prototype Only for AI Testing || Julio Enciso (34.4)",
+    SDL_WM_SetCaption("Kalium || Prototype for AI Testing || Julio Enciso (4.34)",
                       NULL);
     SDL_Surface* pantalla = SDL_SetVideoMode(800,512,16,
                                              SDL_HWSURFACE|SDL_DOUBLEBUF);
@@ -46,7 +46,7 @@ int main ( int argc, char** argv ){
                //
                7,(char*)"MBPDSTKN",
                //
-               5,(char*)"FBPST",
+               7,(char*)"FBPSTRH",
                M.dime_n_jugadores(),M.dime_colores_elegidos(),
                //
                (char*)"cuadro",(char*)"U",

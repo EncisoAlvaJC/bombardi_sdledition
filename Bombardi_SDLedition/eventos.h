@@ -3,10 +3,26 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 #include "opcion.h"
-/// basicamenta, aqui estan definidas TODAS las jugadas permitidas
-/// en Bombardi, al menos hasta el 31/diciembre/2013
-/// planeo que, en el futuro, este sea el unico archivo que tenga
-/// que actualizarse publicamente
+/// basicamenta, aqui estan definidas
+//TODAS las jugadas permitidas
+//// en Bombardi, al menos hasta el 31/diciembre/2013
+/// algunas de los movimientos de Kalium al 31/diciembre/2014
+//// planeo que, en el futuro, este sea el unico archivo que tenga
+//// que actualizarse publicamente
+/// este prototipo solo existe para probar IA's y exhibirlas
+///
+/// Si alguien lee esta nota en el futuro, pues las cosas estan chidas
+/// en el 2015, esperando el regreso de Marty McFly
+/// Termine el diciembre pasado lo que llamo el "Algoritmo Bombardi"
+/// con un tipo especial de cadenas de Markov que no se como se
+/// llaman, y tengo una gran fe en ellas
+/// El mejor anime que he visto es Madoka Magica: Rebellion, y el
+/// mejor libro fue 100 anhos de soledad, superando a La mecanica del
+/// corazon
+/// Como proyecto alterno a Kalium tengo uno sobre un duelo de magos
+/// con fichas elementales y cartas. No se olviden Rover Run, Las
+/// leyendas de Savant-Hill
+/// Con TMH lo nuevo es una historia sobre drogas y el plano astral
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void mover(uniendo* U,int y,int x){
@@ -22,6 +38,10 @@ void mover(uniendo* U,int y,int x){
 int X,Y,dir_x,dir_y,en_turno;
 SDL_Rect temp;
     en_turno=U->wo_ist_dran();
+    /*if(U->player[en_turno].coordy()==-1){
+        int r=U->player[en_turno].coordx();
+        //for(int i=0;i)
+    }*/
     X=U->player[en_turno].coordx();
     Y=U->player[en_turno].coordy();
     dir_x=x-X; dir_y=y-Y;
