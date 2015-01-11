@@ -1,14 +1,14 @@
 # depslib dependency file v1.0
-1420771857 source:c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\main.cpp
+1421016681 source:c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\main.cpp
 	"menu.h"
 
-1404685070 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\menu.h
+1421016725 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\menu.h
 	"bombardi_engine.h"
 
-1420751163 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\bombardi_engine.h
+1421016459 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\bombardi_engine.h
 	"eventos.h"
 
-1420960519 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\eventos.h
+1421014529 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\eventos.h
 	"opcion.h"
 
 1404952087 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\opcion.h
@@ -23,7 +23,7 @@
 1420773639 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\jugadores.h
 	"tablero.h"
 
-1420938036 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\tablero.h
+1421016124 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\tablero.h
 	"coleccion.h"
 
 1420771379 c:\users\julio-cesar\documents\github\bombardi_sdledition\bombardi_sdledition\coleccion.h

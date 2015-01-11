@@ -57,7 +57,8 @@ public:
     menu(SDL_Surface*,SDL_Event,char*,int,char*);
     void elegir();
 
-    bool dime_hay_salvavidas(){bool b=hay_salvavidas; return b;}
+    //bool dime_hay_salvavidas(){bool b=hay_salvavidas; return b;}
+    char* los_roles();
     int dime_n_jugadores(){int n=n_jugadores; return n;}
     char* dime_colores_elegidos(){char* n=colores_elegidos; return n;}
     bool dime_salida_prematura(){bool b=salida_prematura; return b;}
@@ -415,6 +416,16 @@ bool start=false;
         SDL_Flip(*pantalla);
     }
 elige_aleatorios();
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+char* menu::los_roles(){
+    if(hay_salvavidas==false){
+        return (char*)"_____";
+    }
+    else{
+        return (char*)"SSSSS";
+    }
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////

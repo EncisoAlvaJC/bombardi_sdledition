@@ -53,9 +53,8 @@ int main ( int argc, char** argv ){
                //
                M.dime_n_jugadores(),
                //
-               (char*)"_____",
+               (char*)"pS___",//M.los_roles(),
                x_vector,y_vector,
-               M.dime_hay_salvavidas(),
                humanos);
 
         if(M.dime_salida_prematura()==false){

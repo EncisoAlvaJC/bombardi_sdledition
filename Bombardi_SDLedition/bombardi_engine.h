@@ -736,7 +736,7 @@ public:
                     int,char*,int,char*,
                     char*,char*,
                     int,
-                    char*,int*,int*,bool,bool*);
+                    char*,int*,int*,bool*);
     int per_se(); ///repite el ciclo turno hasta decarar un ganador
     bool dime_salida_prematura(){bool b=salida_prematura; return b;}
 };
@@ -757,14 +757,13 @@ bombardi_engine::bombardi_engine(SDL_Event E,SDL_Surface** S,
                                  //
                                  char* rol_de,
                                  int* X0,int* Y0,
-                                 bool hay_salvavidas,
                                  bool* es_humano)
 :uniendo(S,ruta,nom_logo,nom_credit,nom_arrow,
          ruta,num_opciones,nom_opciones,
          ruta,num_fichas,nom_fichas,
          num_colores,nom_colores,
          ruta,nom_fondo,nom_boton,
-         num_jugadores,rol_de,X0,Y0,hay_salvavidas,es_humano)
+         num_jugadores,rol_de,X0,Y0,es_humano)
 {trofeo=0; e=&E; salida_prematura=false;}
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
