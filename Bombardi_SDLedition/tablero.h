@@ -160,7 +160,7 @@ void tablero_objetos::parche_impresion(){
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
-coordenada tablero_objetos::colindante_a(int x, int y,char d1,char d2){
+coordenada tablero_objetos::colindante_a(int y, int x,char d1,char d2){
 /// el protocolo es "desde x,y en direccion...", donde las
 /// direcciones posibles son:
 /// AA : arriba
@@ -173,8 +173,113 @@ coordenada tablero_objetos::colindante_a(int x, int y,char d1,char d2){
 /// >V , V> : abajo-derecha
 coordenada ans; ans.xx=-1; ans.yy=-1;
 int X=x, Y=y;
+    ///si es coordenada "invalida", optimizacion
+    if(X==-1 || Y==-1){return ans;}
+    ///en direccion norsur
+    if(d1=='A' && d2=='V'){return ans;}
+    if(d1=='V' && d2=='A'){return ans;}
+    if(d1=='<' && d2=='>'){return ans;}
+    if(d1=='>' && d2=='<'){return ans;}
 
-return ans;
+    if(d1=='A' || d2=='A'){
+    /// AA , A> , >A , <A , A<
+        if(d1=='<' || d2=='<'){
+        /// A< , <A
+            X--; Y--;
+            while(Y>-1 && X>-1){
+                ans.yy=Y; ans.xx=X;
+                if(casilla[Y][X]!='V'){///si no es vacio, ya se acabo
+                    return ans;
+                }
+                X--; Y--; ///si es vacio, sera la siguiente
+            }
+            return ans;
+        }
+        if(d1=='>' || d2=='>'){
+        /// >A , A>
+            X++; Y--;
+            while(Y>-1 && X<7){
+                ans.yy=Y; ans.xx=X;
+                if(casilla[Y][X]!='V'){///si no es vacio, ya se acabo
+                    return ans;
+                }
+                X++; Y--; ///si es vacio, sera la siguiente
+            }
+            return ans;
+        }
+        /// AA, el resto
+        Y--;
+        while(Y>-1){
+            ans.yy=Y;
+            if(casilla[Y][X]!='V'){///si la casilla no es vacio, ya se acabo
+                return ans;
+            }
+            Y--;
+        }
+        return ans;
+    }
+    if(d1=='V' || d2=='V'){
+    /// VV , V> , >V , <V , V<
+        if(d1=='<' || d2=='<'){
+        /// V< , <V
+            X--; Y++;
+            while(Y<7 && X>-1){
+                ans.yy=Y; ans.xx=X;
+                if(casilla[Y][X]!='V'){///si no es vacio, ya se acabo
+                    return ans;
+                }
+                X--; Y++; ///si es vacio, sera la siguiente
+            }
+            return ans;
+        }
+        if(d1=='>' || d2=='>'){
+        /// >V , V>
+            X++; Y++;
+            while(Y<7 && X<7){
+                ans.yy=Y; ans.xx=X;
+                if(casilla[Y][X]!='V'){///si no es vacio, ya se acabo
+                    return ans;
+                }
+                X++; Y++; ///si es vacio, sera la siguiente
+            }
+            return ans;
+        }
+        /// VV, el resto
+        Y++;
+        while(Y<7){
+            ans.yy=Y;
+            if(casilla[Y][X]!='V'){///si la casilla no es vacio, ya se acabo
+                return ans;
+            }
+            Y++;
+        }
+        return ans;
+    }
+    if(d1=='<' && d2=='<'){
+        /// <<
+        X--;
+        while(X>-1){
+            ans.xx=X;
+            if(casilla[Y][X]!='V'){///si la casilla no es vacio, ya se acabo
+                return ans;
+            }
+            X--;
+        }
+        return ans;
+    }
+    if(d1=='>' && d2=='>'){
+        /// >
+        X++;
+        while(X<7){
+            ans.xx=X;
+            if(casilla[Y][X]!='V'){///si la casilla no es vacio, ya se acabo
+                return ans;
+            }
+            X++;
+        }
+        return ans;
+    }
+return ans;///ERROR
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
