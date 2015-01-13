@@ -131,7 +131,7 @@ SDL_Rect lugar,auxiliar; lugar.x=32;lugar.y=32;
             C.imprimir_ficha(casilla[i][j],color[i][j],auxiliar,S);
         }
     }
-    auxiliar.x=(32+64);lugar.y=(32+7*64);
+    auxiliar.x=(32+64);auxiliar.y=(32+7*64);
     for(int j=0;j<5;j++,auxiliar.x+=64){
         C.imprimir_ficha(raum[j][0],raum[j][1],auxiliar,S);
     }
@@ -440,7 +440,7 @@ SDL_Rect lugar,auxiliar; lugar.x=32;lugar.y=32;
     }
     auxiliar.x=(32+64);auxiliar.y=(32+7*64);
     for(int j=0;j<5;j++,auxiliar.x+=64){
-        F.imprimir_raum(raum[j],auxiliar,S);
+        F.imprimir_raum(raum[j],auxiliar,S,j);
     }
 }
 //////////////////////////////////////////////////////////////////////

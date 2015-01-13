@@ -93,7 +93,7 @@ int ans=-1;
             ans=i;
        }
     }
-    if(K=='_'){
+    if(K=='V'){
         ans=-2;
     }
 return ans;
@@ -131,21 +131,24 @@ class fondo_boton{
 /// una coleccion de imagenes esteticas: los cuadros del tablero,
 /// el boton verde, el pico que pone que jugador tiene el turno
 private:
-    SDL_Surface* fondo[4];
+    SDL_Surface* fondo[3];
     SDL_Surface* boton;
+    SDL_Surface* ram[5];
 public:
     fondo_boton(char*,        ///ruta
-                char*,char*); ///nombres en archivo
+                char*,char*, ///nombres en archivo
+                char*,int);      ///espacio interportal de colores
     fondo_boton(){}///constructor para arreglos
     void imprimir_boton(bool,SDL_Rect,SDL_Surface*);
     void imprimir_fondo(bool,SDL_Rect,SDL_Surface*);
     void imprimir_rojos(bool,SDL_Rect,SDL_Surface*);
-    void imprimir_raum(bool,SDL_Rect,SDL_Surface*);///tambien portal
+    void imprimir_raum(bool,SDL_Rect,SDL_Surface*,int);///tambien portal
 };
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 fondo_boton::fondo_boton(char* ruta,
-                         char* nom_fondo,char* nom_boton){
+                         char* nom_fondo,char* nom_boton,
+                         char* nom_ram,int num_ram){
 char archivo[50]; int aux;
     archivo[0]='\0';
     strcat(archivo,ruta); strcat(archivo,nom_fondo);
@@ -167,11 +170,23 @@ char archivo[50]; int aux;
         if(!fondo[2]){
             cout<<"Error al cargar "<<archivo<<endl;
         }
-    archivo[aux]='P';///porque es el espacio inter-portal
-        fondo[3]=IMG_Load(archivo);
-        if(!fondo[3]){
+
+    aux=strlen(ruta);
+    archivo[0]='\0';
+    strcat(archivo,ruta); strcat(archivo,"raum_.png");
+    for(int i=0;i<5;i++){
+        if(i<num_ram){
+            archivo[aux+4]=nom_ram[i];
+        }
+        else{
+            archivo[aux+4]='_';
+        }
+        ram[i]=IMG_Load(archivo);
+        if(!ram[i]){
             cout<<"Error al cargar "<<archivo<<endl;
         }
+    }
+
     archivo[0]='\0';
     strcat(archivo,ruta); strcat(archivo,nom_boton);///boton
     strcat(archivo,(char*)".png");
@@ -209,9 +224,10 @@ void fondo_boton::imprimir_fondo(bool B,SDL_Rect R,SDL_Surface* S){
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
-void fondo_boton::imprimir_raum(bool B,SDL_Rect R,SDL_Surface* S){
+void fondo_boton::imprimir_raum(bool B,SDL_Rect R,SDL_Surface* S,
+                                int cual){
     if(B==false){///ES vacio
-        SDL_BlitSurface(fondo[3],0,S,&R);
+        SDL_BlitSurface(ram[cual],0,S,&R);
     }
     else{///el raum fue previamente atacado
         SDL_BlitSurface(fondo[1],0,S,&R);

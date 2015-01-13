@@ -24,6 +24,21 @@
        inkscape:vp_z="354.33069 : 265.74802 : 1"
        inkscape:persp3d-origin="177.16534 : 177.16534 : 1"
        id="perspective3849" />
+    <filter
+       id="filter3761"
+       inkscape:collect="always">
+      <feGaussianBlur
+         id="feGaussianBlur3763"
+         stdDeviation="0.46477995"
+         inkscape:collect="always" />
+    </filter>
+    <inkscape:perspective
+       id="perspective2986"
+       inkscape:persp3d-origin="15.343698 : 51.69854 : 1"
+       inkscape:vp_z="35.75293 : 54.659067 : 1"
+       inkscape:vp_y="0 : 439.37143 : 0"
+       inkscape:vp_x="0.78424514 : 56.385169 : 1"
+       sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -32,18 +47,18 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.008162"
-     inkscape:cx="272.28031"
-     inkscape:cy="54.995119"
+     inkscape:zoom="1.2520405"
+     inkscape:cx="333.87927"
+     inkscape:cy="197.67537"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
      borderlayer="true"
      inkscape:window-width="1280"
-     inkscape:window-height="750"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-height="962"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
@@ -2138,7 +2153,7 @@
        inkscape:export-xdpi="88.986732"
        inkscape:export-ydpi="88.986732">
       <path
-         style="fill:#323232;fill-opacity:1;stroke:#000000;stroke-width:11.43002415;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:11.43002414999999900;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          d="m 3295.2756,172.24906 141.7323,0 100.5842,100.58414 0,141.73231 -100.5842,100.5842 -141.7323,0 -100.5842,-100.5842 0,-141.73231 z"
          id="path3451"
          inkscape:connector-curvature="0"
@@ -2278,7 +2293,7 @@
        inkscape:export-xdpi="88.986732"
        inkscape:export-ydpi="88.986732">
       <path
-         style="fill:#3c3c3c;fill-opacity:1;stroke:none;display:inline"
+         style="fill:#999999;fill-opacity:1;stroke:none;display:inline"
          d="m 3366.1326,14.15625 c -90.0986,0 -162.9687,72.90137 -162.9687,163 l 0,340.15623 325.9687,0 0,-333.06248 0,-7.09375 c 0,-90.09863 -72.9013,-163 -163,-163 z"
          id="path3501"
          inkscape:connector-curvature="0"
@@ -2291,23 +2306,23 @@
            inkscape:connector-curvature="0"
            id="path3505"
            d="M 177.15625,520.875 C 79.394508,520.875 0,600.26952 0,698.03125 l 0,347.24995 0,7.0938 7.09375,0 340.15625,0 7.09375,0 0,-7.0938 0,-347.24995 0,-7.09375 -0.375,0 C 350.20833,596.48484 272.52237,520.875 177.15625,520.875 z m 0,14.15625 c 90.09865,0 163,72.90137 163,163 l 0,7.09375 0,333.0625 -325.96875,0 0,-340.15625 c 0,-90.09863 72.8701,-163 162.96875,-163 z"
-           style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#282828;fill-opacity:1;stroke:none;stroke-width:14.1793499;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans" />
+           style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:14.17934990000000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans" />
         <path
            transform="translate(0,520.86482)"
            id="path3507"
            d="m 111.59375,120.625 c -23.390936,0 -42.5,19.07173 -42.5,42.4375 l 0,102.6875 0,2 c 2.09e-4,1.52303 0.44398,2.96989 3.34375,4.03125 a 7.09375,7.09375 0 0 0 3.96875,1.0625 7.09375,7.09375 0 0 0 0.46875,-0.0313 c 2.762877,0.39418 6.457498,0.64866 11.5,0.6875 17.76464,0.13685 19.64877,-7.01746 19.5625,-10.03125 l -0.3125,-76.6562 c -0.0738,-18.41759 -8.681124,-33.4375 -19.28125,-33.4375 -1.228543,0 -2.427798,0.20802 -3.59375,0.59375 3.767173,-11.18776 14.294693,-19.1875 26.84375,-19.1875 15.74784,0 28.375,12.59102 28.375,28.28125 l 0,102.6875 a 7.0868864,7.0868864 0 1 0 14.15625,0 l 0,-102.6875 c 0,-23.36577 -19.14031,-42.4375 -42.53125,-42.4375 z"
-           style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#282828;fill-opacity:1;stroke:none;stroke-width:14.17235565;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+           style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:14.17235565000000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
            inkscape:connector-curvature="0" />
         <path
            id="path3509"
            transform="translate(0,520.86482)"
            d="m 242.71875,120.625 c -23.39094,0 -42.53125,19.07173 -42.53125,42.4375 l 0,23.75 0,78.9375 0,2 c 2.1e-4,1.52151 0.45184,2.97017 3.34375,4.03125 a 7.09375,7.09375 0 0 0 4.4375,1.03125 c 2.76452,0.39558 6.47859,0.64858 11.53125,0.6875 17.76465,0.13685 19.61752,-7.01746 19.53125,-10.03125 l -0.3125,-76.65625 c -0.0738,-18.41759 -8.64986,-33.4375 -19.25,-33.4375 -1.22564,0 -2.43038,0.2098 -3.59375,0.59375 3.76717,-11.18776 14.29469,-19.1875 26.84375,-19.1875 15.74783,0 28.34375,12.59102 28.34375,28.28125 l 0,102.6875 a 7.09375,7.09375 0 0 0 14.1875,0 l 0,-102.6875 c 0,-23.36577 -19.14032,-42.4375 -42.53125,-42.4375 z"
-           style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#282828;fill-opacity:1;stroke:none;stroke-width:14.17235565;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+           style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:14.17235565000000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
            inkscape:connector-curvature="0" />
       </g>
     </g>
     <path
-       style="fill:#323232;fill-opacity:1;stroke:#000000;stroke-width:1.03810215;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1.03810215000000010;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        d="m 297.59576,939.62418 12.79969,0 9.08365,9.18723 0,12.94566 -9.08365,9.18724 -12.79969,0 -9.08366,-9.18724 0,-12.94566 z"
        id="path3511"
        inkscape:connector-curvature="0"
@@ -2317,7 +2332,7 @@
        inkscape:export-ydpi="88" />
     <path
        inkscape:connector-curvature="0"
-       style="fill:#323232;fill-opacity:1;stroke:none;display:inline"
+       style="fill:#999999;fill-opacity:1;stroke:none;display:inline"
        d="m 297.5973,907.25886 -9.08453,9.18811 8.00082,3.34243 4.39127,-4.43849 -3.30756,-8.09205 z m 12.79846,0 -3.30474,8.09205 4.38844,4.43849 0,0.003 8.00081,-3.34528 -9.08451,-9.18811 z m -13.88217,18.78724 -8.00082,3.34529 9.08453,9.18811 3.30474,-8.09205 -4.38845,-4.44135 z m 14.96587,0.003 -4.38844,4.43849 -0.003,0 3.30756,8.09204 9.08452,-9.18811 -8.00081,-3.34243 z"
        id="path4307" />
     <path
@@ -2336,11 +2351,11 @@
     <path
        id="path4315"
        d="m 297.59729,874.89473 -9.08452,9.18811 8.00081,3.34242 4.39127,-4.43849 -3.30756,-8.09204 z m 12.79847,0 -3.30475,8.09204 4.38845,4.43849 0,0.003 8.0008,-3.34529 -9.0845,-9.18811 z m -13.88218,18.78724 -8.00081,3.34528 9.08452,9.18811 3.30475,-8.09204 -4.38846,-4.44135 z m 14.96588,0.003 -4.38845,4.43849 -0.003,0 3.30756,8.09205 9.08452,-9.18812 -8.0008,-3.34242 z"
-       style="fill:#323232;fill-opacity:1;stroke:none;display:inline"
+       style="fill:#999999;fill-opacity:1;stroke:none;display:inline"
        inkscape:connector-curvature="0" />
     <path
        inkscape:connector-curvature="0"
-       style="fill:#323232;fill-opacity:1;stroke:none;display:inline"
+       style="fill:#999999;fill-opacity:1;stroke:none;display:inline"
        d="m 288.52291,884.05807 0,12.99395 7.99424,-3.35849 0.002,-6.27899 -7.99624,-3.35647 z m 9.04989,-9.15309 3.32062,8.0854 6.2062,0 0.002,0.002 3.31863,-8.08741 -12.84743,0 z m 3.31862,23.21272 -3.31862,8.08741 12.84744,0 -3.32062,-8.0854 -6.2082,-0.002 z m 10.58448,-10.70114 0,6.27697 -0.002,0.002 7.99622,3.35646 0,-12.99395 -7.99422,3.35849 z"
        id="path4317" />
     <path
@@ -3132,55 +3147,55 @@
     <g
        transform="matrix(0.99995863,0,0,0.98898976,287.98495,-166.02994)"
        id="g5410"
-       style="fill:#323232;fill-opacity:1"
-       inkscape:export-filename="/home/laptop_casa/Documentos/PreviouslyBombardi/code/bombardi_sdledition/Bombardi_SDLedition/bild/pA.png"
+       style="fill:#999999;fill-opacity:1"
+       inkscape:export-filename="C:\Users\Julio-Cesar\Documents\GitHub\bombardi_sdledition\Bombardi_SDLedition\bild\RA.png"
        inkscape:export-xdpi="88"
        inkscape:export-ydpi="88">
       <path
          inkscape:connector-curvature="0"
-         style="fill:#323232;fill-opacity:1;stroke:#000000;stroke-width:1.03810215000000006;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1.03810215000000010;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          d="m 9.59375,146.15625 -9.0625,9.1875 15.46875,-6.5 -6.40625,-2.6875 z"
          id="path5412"
          transform="translate(0,874.36076)" />
       <path
          inkscape:connector-curvature="0"
-         style="fill:#323232;fill-opacity:1;stroke:#000000;stroke-width:1.03810215000000006;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1.03810215000000010;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          d="m 9.59375,146.15625 15.46875,6.5 -2.65625,-6.5 -12.8125,0 z"
          id="path5414"
          transform="translate(0,874.36076)" />
       <path
          inkscape:connector-curvature="0"
-         style="fill:#323232;fill-opacity:1;stroke:#000000;stroke-width:1.03810215000000006;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1.03810215000000010;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          d="m 22.40625,146.15625 6.4375,15.65625 2.65625,-6.46875 -9.09375,-9.1875 z"
          id="path5416"
          transform="translate(0,874.36076)" />
       <path
          inkscape:connector-curvature="0"
-         style="fill:#323232;fill-opacity:1;stroke:#000000;stroke-width:1.03810215000000006;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1.03810215000000010;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          d="m 31.5,155.34375 -6.4375,15.625 6.4375,-2.6875 0,-12.9375 z"
          id="path5418"
          transform="translate(0,874.36076)" />
       <path
          inkscape:connector-curvature="0"
-         style="fill:#323232;fill-opacity:1;stroke:#000000;stroke-width:1.03810215000000006;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1.03810215000000010;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          d="m 31.5,168.28125 -15.5,6.5 6.40625,2.6875 9.09375,-9.1875 z"
          id="path5420"
          transform="translate(0,874.36076)" />
       <path
          inkscape:connector-curvature="0"
-         style="fill:#323232;fill-opacity:1;stroke:#000000;stroke-width:1.03810215000000006;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1.03810215000000010;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          d="m 6.9375,152.65625 -6.40625,2.6875 0,12.9375 6.40625,-15.625 z"
          id="path5422"
          transform="translate(0,874.36076)" />
       <path
          inkscape:connector-curvature="0"
-         style="fill:#323232;fill-opacity:1;stroke:#000000;stroke-width:1.03810215000000006;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1.03810215000000010;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          d="m 3.1875,161.8125 -2.65625,6.46875 9.0625,9.1875 L 3.1875,161.8125 z"
          id="path5424"
          transform="translate(0,874.36076)" />
       <path
          inkscape:connector-curvature="0"
-         style="fill:#323232;fill-opacity:1;stroke:#000000;stroke-width:1.03810215000000006;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1.03810215000000010;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          d="m 6.9375,170.96875 2.65625,6.5 12.8125,0 -15.46875,-6.5 z"
          id="path5426"
          transform="translate(0,874.36076)" />
@@ -3396,7 +3411,7 @@
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.27163863;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <path
        transform="matrix(1.1424338,0,0,1.2722559,-68.783445,891.37631)"
-       d="m 34.643448,-63.306091 a 2.4460073,2.1964145 0 1 1 -4.892014,0 2.4460073,2.1964145 0 1 1 4.892014,0 z"
+       d="m 34.643448,-63.306091 c 0,1.213046 -1.095114,2.196414 -2.446007,2.196414 -1.350892,0 -2.446007,-0.983368 -2.446007,-2.196414 0,-1.213047 1.095115,-2.196415 2.446007,-2.196415 1.350893,0 2.446007,0.983368 2.446007,2.196415 z"
        sodipodi:ry="2.1964145"
        sodipodi:rx="2.4460073"
        sodipodi:cy="-63.306091"
@@ -4079,7 +4094,7 @@
     <g
        id="g5892"
        transform="matrix(0.9997595,0,0,0.99975831,288.00389,0.19981281)"
-       inkscape:export-filename="/home/laptop_casa/Documentos/PreviouslyBombardi/code/bombardi_sdledition/Bombardi_SDLedition/bild/HA.png"
+       inkscape:export-filename="C:\Users\Julio-Cesar\Documents\GitHub\bombardi_sdledition\Bombardi_SDLedition\bild\HA.png"
        inkscape:export-xdpi="88"
        inkscape:export-ydpi="88">
       <path
@@ -4095,42 +4110,42 @@
          inkscape:connector-curvature="0"
          id="path5896"
          d="m 0.51210524,828.49726 0,5.12515 3.44729526,3.62511 4.5214526,-4.75014 -1.5737653,-1.55005 0,-2.45007 -6.39498256,0 z"
-         style="fill:#323232;fill-opacity:1;stroke:#000000;stroke-width:1.03199995000000011;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+         style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1.03199995000000010;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
       <path
          inkscape:connector-curvature="0"
          id="path5898"
          d="m 25.09282,828.49726 0,2.45007 -1.573765,1.55005 4.521452,4.75014 3.447296,-3.62511 0,-5.12515 -6.394983,0 z"
-         style="fill:#323232;fill-opacity:1;stroke:#000000;stroke-width:1.03199995000000011;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+         style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1.03199995000000010;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
       <path
          inkscape:connector-curvature="0"
          id="path5900"
          d="m 3.9594005,816.39694 -3.44729526,3.65009 0,5.12514 6.39498256,0 0,-2.30006 1.6487065,-1.65005 -4.5963938,-4.82512 z"
-         style="fill:#323232;fill-opacity:1;stroke:#000000;stroke-width:1.03199995000000011;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+         style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1.03199995000000010;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
       <path
          inkscape:connector-curvature="0"
          id="path5902"
          d="m 28.040507,816.39694 -4.596394,4.82512 1.648707,1.65005 0,2.30006 6.394983,0 0,-5.12514 -3.447296,-3.65009 z"
-         style="fill:#323232;fill-opacity:1;stroke:#000000;stroke-width:1.03199995000000011;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+         style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1.03199995000000010;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
       <path
          inkscape:connector-curvature="0"
          id="path5904"
          d="m 21.670505,834.37243 -1.648707,1.62505 -2.373137,0 0,6.32517 5.145962,0 3.622157,-3.4501 -4.746275,-4.50012 z"
-         style="fill:#323232;fill-opacity:1;stroke:#000000;stroke-width:1.03199995000000011;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+         style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1.03199995000000010;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
       <path
          inkscape:connector-curvature="0"
          id="path5906"
          d="m 17.648661,811.34679 0,6.47518 2.373137,0 1.573765,1.55005 4.821217,-4.57513 -3.622157,-3.4501 -5.145962,0 z"
-         style="fill:#323232;fill-opacity:1;stroke:#000000;stroke-width:1.03199995000000011;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+         style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1.03199995000000010;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
       <path
          inkscape:connector-curvature="0"
          id="path5908"
          d="m 10.329403,834.37243 -4.7462764,4.50012 3.6221581,3.4501 5.1459623,0 0,-6.32517 -2.373138,0 -1.648706,-1.62505 z"
-         style="fill:#323232;fill-opacity:1;stroke:#000000;stroke-width:1.03199995000000011;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+         style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1.03199995000000010;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
       <path
          inkscape:connector-curvature="0"
          id="path5910"
          d="m 9.2052847,811.34679 -3.6221581,3.4501 4.8212174,4.57513 1.573765,-1.55005 2.373138,0 0,-6.47518 -5.1459623,0 z"
-         style="fill:#323232;fill-opacity:1;stroke:#000000;stroke-width:1.03199995000000011;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+         style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1.03199995000000010;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
       <path
          inkscape:export-ydpi="88.986732"
          inkscape:export-xdpi="88.986732"
@@ -4139,7 +4154,7 @@
          inkscape:connector-curvature="0"
          id="path5912"
          d="m 13.566773,821.00992 4.866361,0 3.453546,3.45634 0,4.87031 -3.453546,3.45637 -4.866361,0 -3.453545,-3.45637 0,-4.87031 z"
-         style="fill:#323232;fill-opacity:1;stroke:#000000;stroke-width:1.03199995000000011;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+         style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1.03199995000000010;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
       <path
          transform="matrix(0.91323053,0,0,1.0178329,-13.403733,891.33645)"
          d="m 34.643448,-63.306091 c 0,1.213046 -1.095114,2.196414 -2.446007,2.196414 -1.350892,0 -2.446007,-0.983368 -2.446007,-2.196414 0,-1.213047 1.095115,-2.196415 2.446007,-2.196415 1.350893,0 2.446007,0.983368 2.446007,2.196415 z"
@@ -4154,7 +4169,7 @@
     <g
        transform="matrix(0.9997595,0,0,0.99975831,320.00389,0.19981281)"
        id="g5916"
-       inkscape:export-filename="/home/laptop_casa/Documentos/PreviouslyBombardi/code/bombardi_sdledition/Bombardi_SDLedition/bild/H9.png"
+       inkscape:export-filename="C:\Users\Julio-Cesar\Documents\HA.png"
        inkscape:export-xdpi="88"
        inkscape:export-ydpi="88">
       <path
@@ -4226,5 +4241,339 @@
          d="m 34.643448,-63.306091 c 0,1.213046 -1.095114,2.196414 -2.446007,2.196414 -1.350892,0 -2.446007,-0.983368 -2.446007,-2.196414 0,-1.213047 1.095115,-2.196415 2.446007,-2.196415 1.350893,0 2.446007,0.983368 2.446007,2.196415 z"
          transform="matrix(0.91323053,0,0,1.0178329,-13.403733,891.33645)" />
     </g>
+    <g
+       id="g3164"
+       inkscape:export-filename="/home/daisy/Escritorio/Bombardi. C++ edition/bild/credits.png"
+       inkscape:export-xdpi="90.000008"
+       inkscape:export-ydpi="90.000008"
+       transform="translate(-297.41738,99.262015)">
+      <path
+         d="m -12.234258,1151.3076 c -0.164778,0 -0.345246,0 -0.541404,-0.012 -0.188317,-0.01 -0.380553,-0.021 -0.576712,-0.037 -0.188316,-0.016 -0.376631,-0.037 -0.564943,-0.062 -0.188315,-0.025 -0.360937,-0.058 -0.517864,-0.099 l 0,-8.3048 c 0.156927,-0.041 0.329549,-0.074 0.517864,-0.099 0.188312,-0.025 0.376627,-0.045 0.564943,-0.062 0.196159,-0.016 0.388395,-0.029 0.576712,-0.037 0.188312,-0.01 0.364856,-0.012 0.529634,-0.012 0.470782,0 0.910182,0.037 1.3182,0.1112 0.415856,0.074 0.772868,0.2019 1.0710374,0.3831 0.3060048,0.1731 0.5453208,0.4038 0.7179481,0.6921 0.1726145,0.2884 0.2589252,0.6427 0.2589321,1.0628 -6.9e-6,0.4697 -0.1059336,0.8569 -0.3177803,1.1617 -0.2118594,0.2966 -0.4943308,0.5191 -0.8474143,0.6674 0.4786263,0.1483 0.859178,0.3831 1.1416553,0.7044 0.2824646,0.3213 0.4237003,0.7745 0.4237071,1.3594 -6.8e-6,0.8569 -0.3020943,1.5036 -0.9062624,1.9403 -0.5963344,0.4284 -1.545751,0.6426 -2.848253,0.6426 m -1.071038,-4.0659 0,3.0155 c 0.08631,0.01 0.188313,0.016 0.306011,0.025 0.102001,0.01 0.219697,0.016 0.353089,0.025 0.141233,0 0.302085,0 0.482556,0 0.337392,0 0.655172,-0.021 0.953341,-0.062 0.306005,-0.049 0.572784,-0.1318 0.800335,-0.2472 0.227542,-0.1153 0.408009,-0.276 0.5414037,-0.4819 0.1412298,-0.206 0.2118477,-0.4655 0.2118536,-0.7786 -5.9e-6,-0.2801 -0.051012,-0.5149 -0.1530054,-0.7044 -0.1020094,-0.1978 -0.2510909,-0.3543 -0.4472459,-0.4697 -0.18832,-0.1153 -0.415866,-0.1977 -0.68264,-0.2471 -0.266782,-0.05 -0.564946,-0.074 -0.894492,-0.074 l -1.471206,0 m 0,-0.9639 1.200504,0 c 0.282467,0 0.549246,-0.021 0.800335,-0.062 0.251082,-0.041 0.466858,-0.1154 0.647331,-0.2225 0.188309,-0.1071 0.333468,-0.2471 0.435476,-0.4202 0.109846,-0.173 0.164771,-0.3913 0.164775,-0.655 -4e-6,-0.2471 -0.05493,-0.4531 -0.164775,-0.6179 -0.109854,-0.173 -0.26286,-0.3089 -0.459016,-0.4078 -0.188319,-0.1071 -0.411941,-0.1854 -0.670869,-0.2348 -0.258936,-0.049 -0.533561,-0.074 -0.823875,-0.074 -0.290321,0 -0.517867,0 -0.682639,0.012 -0.164777,0.01 -0.313859,0.021 -0.447247,0.037 l 0,2.6447"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+         id="path3069"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="C:\Documents and Settings\Julio Enciso\Escritorio\bombardi_sdledition_win\bild\credits.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         d="m -7.6608325,1152.4322 c 0.086311,0.041 0.1961597,0.078 0.3295499,0.1113 0.1412348,0.041 0.2785472,0.062 0.4119375,0.062 0.4315516,0 0.7689479,-0.103 1.0121882,-0.309 0.2432373,-0.1977 0.4629372,-0.5232 0.6591009,-0.9763 -0.4943279,-0.9887 -0.9572662,-2.035 -1.3888187,-3.139 -0.4237071,-1.1123 -0.7767963,-2.2369 -1.0592667,-3.3739 l 1.1769641,0 c 0.086311,0.3708 0.1883123,0.7704 0.3060107,1.1988 0.1255409,0.4284 0.2628533,0.8692 0.4119374,1.3223 0.1490792,0.4532 0.309931,0.9063 0.4825553,1.3595 0.1726185,0.4531 0.3530863,0.8898 0.5414035,1.3099 0.2981604,-0.865 0.5570925,-1.7219 0.7767964,-2.5705 0.219695,-0.8486 0.4276254,-1.7219 0.623791,-2.62 l 1.1298846,0 c -0.2824763,1.2111 -0.5963334,2.377 -0.9415714,3.4974 -0.3452467,1.1123 -0.717952,2.1545 -1.1181149,3.1267 -0.1569325,0.3708 -0.3217075,0.688 -0.4943259,0.9516 -0.164777,0.2719 -0.349168,0.4943 -0.5531732,0.6674 -0.2040091,0.173 -0.4354787,0.3007 -0.6944078,0.3831 -0.2510877,0.082 -0.5374823,0.1236 -0.8591839,0.1236 -0.086311,0 -0.1765456,-0.01 -0.2707017,-0.025 -0.094157,-0.01 -0.1883153,-0.025 -0.2824714,-0.049 -0.086311,-0.016 -0.1686992,-0.037 -0.2471625,-0.062 -0.070618,-0.025 -0.1216206,-0.045 -0.1530053,-0.062 l 0.2000839,-0.9269"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+         id="path3071"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="C:\Documents and Settings\Julio Enciso\Escritorio\bombardi_sdledition_win\bild\credits.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         d="m 5.5984031,1148.4776 c -4.9e-6,0.4119 -0.043155,0.795 -0.129465,1.1493 -0.078464,0.3543 -0.2236281,0.6673 -0.4354777,0.9392 -0.2040111,0.2637 -0.4825583,0.4738 -0.8356436,0.6303 -0.3452467,0.1483 -0.7807225,0.2225 -1.3064302,0.2225 -0.2667805,0 -0.513943,-0.025 -0.7414874,-0.074 -0.2197019,-0.041 -0.4197858,-0.095 -0.6002527,-0.1607 -0.1804678,-0.074 -0.3373964,-0.1483 -0.4707847,-0.2224 -0.13339022,-0.082 -0.23931699,-0.1607 -0.31778127,-0.2348 l 0.44724737,-0.9516 c 0.164774,0.1236 0.3766275,0.2554 0.6355606,0.3955 0.2667766,0.1318 0.5963266,0.1977 0.9886489,0.1977 0.5649408,0 0.9768773,-0.1483 1.2358124,-0.4449 0.2589291,-0.3048 0.3883952,-0.8239 0.3883981,-1.5572 l 0,-5.6972 1.1416552,0 0,5.8085"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+         id="path3073"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="C:\Documents and Settings\Julio Enciso\Escritorio\bombardi_sdledition_win\bild\credits.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         d="m 12.365947,1151.0481 c -0.251091,0.066 -0.584564,0.1359 -1.000419,0.2101 -0.408019,0.074 -0.882728,0.1112 -1.4241262,0.1112 -0.4707886,0 -0.8670332,-0.07 -1.1887338,-0.2101 -0.3217055,-0.1483 -0.5806376,-0.3542 -0.7767973,-0.6179 -0.1961617,-0.2636 -0.3373974,-0.5726 -0.4237061,-0.9269 -0.086311,-0.3625 -0.129467,-0.7621 -0.129467,-1.1987 l 0,-3.6087 1.0945766,0 0,3.3615 c -1.9e-6,0.7827 0.1176945,1.3429 0.3530893,1.6807 0.2353908,0.3378 0.6316344,0.5067 1.1887345,0.5067 0.117693,0 0.239312,0 0.364859,-0.012 0.125538,-0.01 0.243234,-0.016 0.353089,-0.025 0.109845,-0.016 0.207926,-0.029 0.29424,-0.037 0.09416,-0.016 0.160848,-0.033 0.200084,-0.049 l 0,-5.4254 1.094577,0 0,6.241"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+         id="path3075"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="C:\Documents and Settings\Julio Enciso\Escritorio\bombardi_sdledition_win\bild\credits.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         d="m 16.087729,1151.3571 c -0.674795,-0.016 -1.153427,-0.1689 -1.435896,-0.4573 -0.282473,-0.2884 -0.423708,-0.7374 -0.423707,-1.3471 l 0,-7.7116 1.094577,-0.1977 0,7.724 c -3e-6,0.1895 0.01569,0.346 0.04708,0.4696 0.03139,0.1236 0.08239,0.2224 0.153005,0.2966 0.07062,0.074 0.164772,0.1318 0.282472,0.173 0.117693,0.033 0.262852,0.062 0.435477,0.087 l -0.153006,0.964"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+         id="path3077"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="C:\Documents and Settings\Julio Enciso\Escritorio\bombardi_sdledition_win\bild\credits.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         d="m 18.564503,1151.2335 -1.094577,0 0,-6.4264 1.094577,0 0,6.4264 m -0.553173,-7.5881 c -0.196163,0 -0.364861,-0.066 -0.506096,-0.1977 -0.133389,-0.1401 -0.200083,-0.3254 -0.200082,-0.5561 -1e-6,-0.2307 0.06669,-0.412 0.200082,-0.5438 0.141235,-0.1401 0.309933,-0.2101 0.506096,-0.2101 0.196159,0 0.360934,0.07 0.494325,0.2101 0.141233,0.1318 0.211851,0.3131 0.211853,0.5438 -2e-6,0.2307 -0.07062,0.416 -0.211853,0.5561 -0.133391,0.1318 -0.298166,0.1977 -0.494325,0.1977"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+         id="path3079"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="C:\Documents and Settings\Julio Enciso\Escritorio\bombardi_sdledition_win\bild\credits.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         d="m 25.860577,1148.0203 c -6e-6,0.5108 -0.07063,0.9722 -0.211853,1.3841 -0.141243,0.412 -0.341326,0.7663 -0.600252,1.0629 -0.251091,0.2966 -0.553179,0.5273 -0.906262,0.692 -0.353094,0.1566 -0.737568,0.2348 -1.153425,0.2348 -0.415865,0 -0.800339,-0.078 -1.153425,-0.2348 -0.353092,-0.1647 -0.659102,-0.3954 -0.918032,-0.692 -0.251088,-0.2966 -0.447247,-0.6509 -0.588482,-1.0629 -0.141237,-0.4119 -0.211855,-0.8733 -0.211855,-1.3841 0,-0.5026 0.07062,-0.9598 0.211855,-1.3718 0.141235,-0.4202 0.337394,-0.7786 0.588482,-1.0752 0.25893,-0.2966 0.56494,-0.5231 0.918032,-0.6797 0.353086,-0.1647 0.73756,-0.2471 1.153425,-0.2471 0.415857,0 0.800331,0.082 1.153425,0.2471 0.353083,0.1566 0.655171,0.3831 0.906262,0.6797 0.258926,0.2966 0.459009,0.655 0.600252,1.0752 0.141229,0.412 0.211847,0.8692 0.211853,1.3718 m -1.141656,0 c -5e-6,-0.725 -0.156933,-1.2976 -0.470784,-1.7178 -0.306016,-0.4284 -0.7258,-0.6426 -1.259352,-0.6427 -0.53356,1e-4 -0.957267,0.2143 -1.271121,0.6427 -0.306013,0.4202 -0.459018,0.9928 -0.459016,1.7178 -2e-6,0.725 0.153003,1.3018 0.459016,1.7302 0.313854,0.4202 0.737561,0.6303 1.271121,0.6303 0.533552,0 0.953336,-0.2101 1.259352,-0.6303 0.313851,-0.4284 0.470779,-1.0052 0.470784,-1.7302"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+         id="path3081"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="C:\Documents and Settings\Julio Enciso\Escritorio\bombardi_sdledition_win\bild\credits.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         d="m 30.183714,1151.2335 0,-8.5644 4.978558,0 0,1.0258 -3.836904,0 0,2.5458 3.413196,0 0,1.001 -3.413196,0 0,2.966 4.131145,0 0,1.0258 -5.272799,0"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+         id="path3083"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="C:\Documents and Settings\Julio Enciso\Escritorio\bombardi_sdledition_win\bild\credits.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         d="m 36.82547,1144.9925 c 0.251083,-0.066 0.584556,-0.1359 1.000419,-0.2101 0.415858,-0.074 0.89449,-0.1112 1.435896,-0.1112 0.486475,0 0.890565,0.074 1.212273,0.2224 0.321699,0.1401 0.576707,0.3419 0.765027,0.6056 0.196155,0.2554 0.333467,0.5644 0.411937,0.9269 0.07846,0.3625 0.117691,0.7621 0.117696,1.1987 l 0,3.6087 -1.094576,0 0,-3.3615 c -5e-6,-0.3955 -0.02747,-0.7333 -0.08239,-1.0134 -0.04708,-0.2801 -0.12947,-0.5067 -0.247162,-0.6797 -0.117701,-0.173 -0.274629,-0.2966 -0.470786,-0.3708 -0.196164,-0.082 -0.439403,-0.1235 -0.729718,-0.1235 -0.117699,0 -0.239319,0 -0.364858,0.012 -0.125546,0.01 -0.247166,0.021 -0.364859,0.037 -0.109853,0.01 -0.211856,0.021 -0.306011,0.037 -0.08631,0.017 -0.149084,0.029 -0.188314,0.037 l 0,5.4254 -1.094576,0 0,-6.241"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+         id="path3085"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="C:\Documents and Settings\Julio Enciso\Escritorio\bombardi_sdledition_win\bild\credits.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         d="m 46.243757,1151.3818 c -0.494328,0 -0.929805,-0.082 -1.30643,-0.2472 -0.368784,-0.1648 -0.682641,-0.3955 -0.941572,-0.6921 -0.251086,-0.2966 -0.439401,-0.6467 -0.564942,-1.0504 -0.125544,-0.412 -0.188315,-0.8651 -0.188315,-1.3594 0,-0.4944 0.06669,-0.9475 0.200084,-1.3595 0.141235,-0.4119 0.337395,-0.7662 0.588482,-1.0628 0.251084,-0.3048 0.557095,-0.5396 0.918032,-0.7044 0.36878,-0.173 0.776794,-0.2595 1.224043,-0.2595 0.274621,0 0.549246,0.025 0.823875,0.074 0.27462,0.049 0.537475,0.1277 0.788566,0.2348 l -0.247163,0.9763 c -0.164779,-0.082 -0.357017,-0.1483 -0.576712,-0.1977 -0.211858,-0.049 -0.439404,-0.074 -0.682639,-0.074 -0.612025,10e-5 -1.08281,0.2019 -1.412357,0.6056 -0.321706,0.4037 -0.482557,0.9928 -0.482556,1.7673 -10e-7,0.346 0.03531,0.6632 0.105927,0.9516 0.07846,0.2883 0.196159,0.5355 0.353089,0.7415 0.164773,0.2059 0.372703,0.3666 0.623791,0.4819 0.251083,0.1071 0.557093,0.1607 0.918033,0.1607 0.290313,0 0.553168,-0.029 0.788565,-0.087 0.235389,-0.058 0.419779,-0.1195 0.553174,-0.1854 l 0.153005,0.964 c -0.06278,0.041 -0.15301,0.082 -0.270702,0.1235 -0.117701,0.033 -0.25109,0.062 -0.400168,0.087 -0.149086,0.033 -0.309938,0.058 -0.482555,0.074 -0.164779,0.025 -0.32563,0.037 -0.482555,0.037"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+         id="path3087"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="C:\Documents and Settings\Julio Enciso\Escritorio\bombardi_sdledition_win\bild\credits.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         d="m 50.149439,1151.2335 -1.094577,0 0,-6.4264 1.094577,0 0,6.4264 m -0.553173,-7.5881 c -0.196162,0 -0.36486,-0.066 -0.506095,-0.1977 -0.13339,-0.1401 -0.200085,-0.3254 -0.200084,-0.5561 -1e-6,-0.2307 0.06669,-0.412 0.200084,-0.5438 0.141235,-0.1401 0.309933,-0.2101 0.506095,-0.2101 0.196159,0 0.360933,0.07 0.494325,0.2101 0.141233,0.1318 0.211851,0.3131 0.211853,0.5438 -2e-6,0.2307 -0.07062,0.416 -0.211853,0.5561 -0.133392,0.1318 -0.298166,0.1977 -0.494325,0.1977"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+         id="path3089"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="C:\Documents and Settings\Julio Enciso\Escritorio\bombardi_sdledition_win\bild\credits.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         d="m 53.467374,1150.4055 c 0.447244,0 0.776793,-0.062 0.98865,-0.1854 0.219697,-0.1236 0.329546,-0.3213 0.32955,-0.5932 -4e-6,-0.2801 -0.10593,-0.5026 -0.31778,-0.6674 -0.211857,-0.1647 -0.561023,-0.3501 -1.047498,-0.5561 -0.235395,-0.099 -0.462941,-0.1977 -0.68264,-0.2966 -0.211855,-0.1071 -0.396245,-0.2307 -0.553173,-0.3707 -0.156929,-0.1401 -0.282472,-0.309 -0.376628,-0.5067 -0.09416,-0.1978 -0.141237,-0.4408 -0.141236,-0.7292 -10e-7,-0.5685 0.200083,-1.0175 0.600252,-1.347 0.400166,-0.3378 0.945492,-0.5067 1.63598,-0.5067 0.172618,0 0.34524,0.012 0.517864,0.037 0.172618,0.016 0.33347,0.041 0.482555,0.074 0.149079,0.025 0.278545,0.053 0.388399,0.086 0.117692,0.033 0.207926,0.062 0.270701,0.086 l -0.200084,0.9887 c -0.1177,-0.066 -0.302091,-0.1318 -0.553173,-0.1978 -0.251089,-0.074 -0.553176,-0.1112 -0.906262,-0.1112 -0.306013,0 -0.572792,0.066 -0.800336,0.1977 -0.227548,0.1236 -0.341321,0.3214 -0.341319,0.5932 -2e-6,0.1401 0.02354,0.2637 0.07062,0.3708 0.05492,0.1071 0.133387,0.206 0.235392,0.2966 0.109848,0.082 0.243237,0.1607 0.400168,0.2348 0.156926,0.074 0.34524,0.1524 0.564943,0.2348 0.290315,0.1154 0.549247,0.2307 0.776796,0.3461 0.227543,0.1071 0.41978,0.2348 0.576713,0.3831 0.16477,0.1483 0.290313,0.3295 0.376628,0.5437 0.08631,0.206 0.129462,0.4614 0.129466,0.7663 -4e-6,0.5932 -0.211858,1.0422 -0.63556,1.347 -0.415865,0.3049 -1.012193,0.4573 -1.788986,0.4573 -0.541405,0 -0.965112,-0.05 -1.271121,-0.1483 -0.306012,-0.091 -0.513942,-0.1607 -0.623791,-0.2101 l 0.200084,-0.9887 c 0.125542,0.05 0.325626,0.1236 0.600252,0.2225 0.274623,0.099 0.639482,0.1483 1.094576,0.1483"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+         id="path3091"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="C:\Documents and Settings\Julio Enciso\Escritorio\bombardi_sdledition_win\bild\credits.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         d="m 62.686681,1148.0203 c -6e-6,0.5108 -0.07063,0.9722 -0.211853,1.3841 -0.141242,0.412 -0.341325,0.7663 -0.600251,1.0629 -0.251092,0.2966 -0.553179,0.5273 -0.906263,0.692 -0.353094,0.1566 -0.737568,0.2348 -1.153426,0.2348 -0.415863,0 -0.800337,-0.078 -1.153423,-0.2348 -0.353093,-0.1647 -0.659102,-0.3954 -0.918032,-0.692 -0.251088,-0.2966 -0.447248,-0.6509 -0.588484,-1.0629 -0.141235,-0.4119 -0.211853,-0.8733 -0.211852,-1.3841 -1e-6,-0.5026 0.07062,-0.9598 0.211852,-1.3718 0.141236,-0.4202 0.337396,-0.7786 0.588484,-1.0752 0.25893,-0.2966 0.564939,-0.5231 0.918032,-0.6797 0.353086,-0.1647 0.73756,-0.2471 1.153423,-0.2471 0.415858,0 0.800332,0.082 1.153426,0.2471 0.353084,0.1566 0.655171,0.3831 0.906263,0.6797 0.258926,0.2966 0.459009,0.655 0.600251,1.0752 0.141229,0.412 0.211847,0.8692 0.211853,1.3718 m -1.141654,0 c -6e-6,-0.725 -0.156935,-1.2976 -0.470786,-1.7178 -0.306016,-0.4284 -0.725799,-0.6426 -1.259353,-0.6427 -0.533559,1e-4 -0.957266,0.2143 -1.27112,0.6427 -0.306012,0.4202 -0.459018,0.9928 -0.459016,1.7178 -2e-6,0.725 0.153004,1.3018 0.459016,1.7302 0.313854,0.4202 0.737561,0.6303 1.27112,0.6303 0.533554,0 0.953337,-0.2101 1.259353,-0.6303 0.313851,-0.4284 0.47078,-1.0052 0.470786,-1.7302"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+         id="path3093"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="C:\Documents and Settings\Julio Enciso\Escritorio\bombardi_sdledition_win\bild\credits.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         d="m 68.010237,1147.5383 c -2e-6,1.0546 0.145157,2.0309 0.435477,2.929 0.290315,0.898 0.717945,1.7301 1.282891,2.4964 l -0.776797,0.5561 c -0.612023,-0.7827 -1.106347,-1.6808 -1.482975,-2.6941 -0.368783,-1.0217 -0.553173,-2.1174 -0.553173,-3.2874 0,-1.1699 0.18439,-2.2616 0.553173,-3.275 0.376628,-1.0216 0.870952,-1.9237 1.482975,-2.7064 l 0.776797,0.5561 c -0.564946,0.7662 -0.992576,1.5983 -1.282891,2.4964 -0.29032,0.898 -0.435479,1.8743 -0.435477,2.9289"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+         id="path3095"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="C:\Documents and Settings\Julio Enciso\Escritorio\bombardi_sdledition_win\bild\credits.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         d="m 76.098555,1142.6691 0,8.5644 -4.978599,0 0,-1.0258 3.8369,0 0,-2.5458 -3.4132,0 0,-1.001 3.4132,0 0,-2.966 -4.1311,0 0,-1.0258 5.272799,0"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+         id="path3097"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="C:\Documents and Settings\Julio Enciso\Escritorio\bombardi_sdledition_win\bild\credits.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path3099"
+         d="m 78.074565,1142.6691 c 0.264409,0.7233 0.493818,1.4585 0.7415,2.1875 1.2319,0 2.4638,0 3.6957,0 0.247133,-0.7292 0.494267,-1.4583 0.7414,-2.1875 0.396267,0 0.792533,0 1.1888,0 -1.004694,2.8877 -2.011794,5.7808 -3.2838,8.5644 -0.349133,0 -0.698267,0 -1.0474,0 -1.26629,-2.7856 -2.276725,-5.6777 -3.2838,-8.5644 0.415867,0 0.831733,0 1.2476,0 z m 1.071,3.1761 c 0.482779,1.3473 0.954192,2.7005 1.5183,4.0165 0.586708,-1.307 1.05592,-2.6619 1.5183,-4.0165 -1.0122,0 -2.0244,0 -3.0366,0 z"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+         inkscape:export-filename="C:\Documents and Settings\Julio Enciso\Escritorio\bombardi_sdledition_win\bild\credits.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         d="m 86.326374,1147.5383 c -10e-7,-1.0546 -0.14516,-2.0309 -0.435476,-2.9289 -0.29032,-0.8981 -0.717949,-1.7302 -1.282891,-2.4964 l 0.776795,-0.5561 c 0.612021,0.7827 1.102421,1.6848 1.471205,2.7064 0.376627,1.0134 0.564941,2.1051 0.564943,3.275 -2e-6,1.17 -0.188316,2.2657 -0.564943,3.2874 -0.368784,1.0133 -0.859184,1.9114 -1.471205,2.6941 l -0.776795,-0.5561 c 0.564942,-0.7663 0.992571,-1.5984 1.282891,-2.4964 0.290316,-0.8981 0.435475,-1.8744 0.435476,-2.929"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+         id="path3101"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="C:\Documents and Settings\Julio Enciso\Escritorio\bombardi_sdledition_win\bild\credits.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+    </g>
+    <rect
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="C:\Users\Julio-Cesar\Documents\GitHub\bombardi_sdledition\Bombardi_SDLedition\bild\raum0.png"
+       y="1053.2496"
+       x="0.8888889"
+       height="62.222221"
+       width="62.222221"
+       id="rect3868"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.77777779000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <g
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="C:\Documents and Settings\Julio Enciso\Escritorio\Bombardi. SDL edition\bild\CON_N.png"
+       id="g3872"
+       transform="matrix(0.13546668,0,0,0.13546667,-427.84394,1133.4461)">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3874"
+         d="m 35.433071,880.51046 283.464569,0 0,-10.62992 -283.464569,0 0,10.62992 z"
+         style="fill:#131415;stroke:none" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path3876"
+         d="m 53.149641,892.91204 -26.574803,0 L 3.435318e-5,875.12556 26.574838,857.47897 l 26.574803,0 0,17.64659 0,17.78648 z"
+         style="fill:#131415;stroke:none" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path3878"
+         d="m 150.06243,902.3543 -11.04602,-27.39052 11.06923,-26.90388 27.08479,-11.21781 27.09785,11.19466 10.88829,26.89454 -10.91143,27.39988 -26.79137,10.87932 -27.3914,-10.85624 z"
+         style="fill:#131415;stroke:none" />
+      <path
+         inkscape:connector-curvature="0"
+         id="use3880"
+         d="m 301.18111,892.91204 26.5748,0 26.57481,-17.78648 -26.57481,-17.64659 -26.5748,0 0,17.64659 0,17.78648 z"
+         style="fill:#131415;stroke:none" />
+      <path
+         inkscape:connector-curvature="0"
+         id="use3882"
+         d="m 159.44886,751.17976 0,-26.5748 17.78648,-26.57481 17.64659,26.57481 0,26.5748 -17.64659,0 -17.78648,0 z"
+         style="fill:#131415;stroke:none" />
+      <path
+         style="fill:#131415;stroke:none"
+         d="m 159.44886,999.21124 0,26.57476 17.78648,26.5749 17.64659,-26.5749 0,-26.57476 -17.64659,0 -17.78648,0 z"
+         id="use3884"
+         inkscape:connector-curvature="0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="use3886"
+         d="m 171.85044,733.46321 0,283.46459 10.62992,0 0,-283.46459 -10.62992,0 z"
+         style="fill:#131415;stroke:none" />
+      <path
+         inkscape:connector-curvature="0"
+         id="use3888"
+         d="M 80.703741,979.17362 281.14346,778.7339 l -7.51649,-7.51649 -200.439718,200.43972 7.516489,7.51649 z"
+         style="fill:#131415;stroke:none" />
+      <path
+         inkscape:connector-curvature="0"
+         id="use3890"
+         d="m 102.00049,975.41536 -18.791224,18.79122 -31.368165,6.21432 6.313201,-31.26928 18.791223,-18.79123 12.478023,12.47803 12.576942,12.57694 z"
+         style="fill:#131415;stroke:none" />
+      <path
+         style="fill:#131415;stroke:none"
+         d="m 277.38522,800.03062 18.79122,-18.79122 6.21429,-31.36817 -31.26925,6.31321 -18.79122,18.79122 12.47802,12.47802 12.57694,12.57694 z"
+         id="use3892"
+         inkscape:connector-curvature="0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="use3894"
+         d="m 80.802661,771.21735 200.439719,200.43972 -7.51649,7.51649 -200.439718,-200.43972 7.516489,-7.51649 z"
+         style="fill:#131415;stroke:none" />
+      <path
+         inkscape:connector-curvature="0"
+         id="use3896"
+         d="m 102.09941,774.97561 -18.791224,-18.79122 -31.368165,-6.21428 6.313201,31.26924 18.791223,18.79123 12.478023,-12.47803 12.576942,-12.57694 z"
+         style="fill:#131415;stroke:none" />
+      <path
+         style="fill:#131415;stroke:none"
+         d="m 277.48414,950.36035 18.79122,18.79122 6.21429,31.36813 -31.26925,-6.31317 -18.79122,-18.79122 12.47802,-12.47802 12.57694,-12.57694 z"
+         id="use3898"
+         inkscape:connector-curvature="0" />
+    </g>
+    <path
+       style="fill:#c8c8c8;fill-opacity:1;stroke:none;display:inline"
+       d="m -407.1506,1244.0059 6.61334,0 4.69333,4.6934 0,6.6132 -4.69333,4.6934 -6.61334,0 -4.69333,-4.6934 0,-6.6132 z"
+       id="path3900"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccc"
+       inkscape:export-filename="C:\Documents and Settings\Julio Enciso\Escritorio\Bombardi. SDL edition\bild\CON_N.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="fill:#a32d3d;fill-opacity:1;stroke:#000000;stroke-width:1.77777779;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect4860"
+       width="62.222221"
+       height="62.222221"
+       x="32.888889"
+       y="1117.2496"
+       inkscape:export-filename="C:\Users\Julio-Cesar\Documents\GitHub\bombardi_sdledition\Bombardi_SDLedition\bild\raum1.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="C:\Users\Julio-Cesar\Documents\GitHub\bombardi_sdledition\Bombardi_SDLedition\bild\raum2.png"
+       y="1053.2496"
+       x="64.888885"
+       height="62.222221"
+       width="62.222221"
+       id="rect4862"
+       style="fill:#283d74;fill-opacity:1;stroke:#000000;stroke-width:1.77777779000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <rect
+       style="fill:#537669;fill-opacity:1;stroke:#000000;stroke-width:1.77777779;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect4864"
+       width="62.222221"
+       height="62.222221"
+       x="96.888885"
+       y="1117.2496"
+       inkscape:export-filename="C:\Users\Julio-Cesar\Documents\GitHub\bombardi_sdledition\Bombardi_SDLedition\bild\raum3.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="C:\Users\Julio-Cesar\Documents\GitHub\bombardi_sdledition\Bombardi_SDLedition\bild\raum4.png"
+       y="1053.2496"
+       x="128.88889"
+       height="62.222221"
+       width="62.222221"
+       id="rect4866"
+       style="fill:#863d74;fill-opacity:1;stroke:#000000;stroke-width:1.77777779000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <rect
+       style="fill:#d4aa00;fill-opacity:1;stroke:#000000;stroke-width:1.77777779;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect4868"
+       width="62.222221"
+       height="62.222221"
+       x="160.88889"
+       y="1117.2496"
+       inkscape:export-filename="C:\Users\Julio-Cesar\Documents\GitHub\bombardi_sdledition\Bombardi_SDLedition\bild\raum5.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="C:\Users\Julio-Cesar\Documents\GitHub\bombardi_sdledition\Bombardi_SDLedition\bild\raum6.png"
+       y="1053.2496"
+       x="192.88889"
+       height="62.222221"
+       width="62.222221"
+       id="rect4870"
+       style="fill:#916f6f;fill-opacity:1;stroke:#000000;stroke-width:1.77777779000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <rect
+       style="fill:#bd547a;fill-opacity:1;stroke:#000000;stroke-width:1.77777779;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect4872"
+       width="62.222221"
+       height="62.222221"
+       x="224.88889"
+       y="1117.2496"
+       inkscape:export-filename="C:\Users\Julio-Cesar\Documents\GitHub\bombardi_sdledition\Bombardi_SDLedition\bild\raum7.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="C:\Users\Julio-Cesar\Documents\GitHub\bombardi_sdledition\Bombardi_SDLedition\bild\raum8.png"
+       y="1053.2496"
+       x="256.88889"
+       height="62.222221"
+       width="62.222221"
+       id="rect4874"
+       style="fill:#728eb1;fill-opacity:1;stroke:#000000;stroke-width:1.77777779000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <rect
+       style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1.77777779;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect4876"
+       width="62.222221"
+       height="62.222221"
+       x="288.88889"
+       y="1117.2496"
+       inkscape:export-filename="C:\Users\Julio-Cesar\Documents\GitHub\bombardi_sdledition\Bombardi_SDLedition\bild\raumA.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="C:\Users\Julio-Cesar\Documents\GitHub\bombardi_sdledition\Bombardi_SDLedition\bild\raum9.png"
+       y="1053.2496"
+       x="320.88889"
+       height="62.222221"
+       width="62.222221"
+       id="rect4878"
+       style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:1.77777779000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
   </g>
 </svg>

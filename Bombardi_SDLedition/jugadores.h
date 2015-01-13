@@ -25,7 +25,7 @@ public:
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 profesiones::profesiones(){
-    n_roles=6;
+    n_roles=7;
     rol=new papel[n_roles];
 
     nulo=(papel){'_',1,4,(char*)"MBPD",0,0};
@@ -39,8 +39,9 @@ profesiones::profesiones(){
         /// agujero negro
     rol[4]=(papel){'P',1,6,(char*)"MBPDRH",0,0};
         /// portal + agujero negro
-    rol[5]=(papel){'H',1,8,(char*)"MBPDSTRH",2,2};
+    rol[5]=(papel){'H',1,8,(char*)"MBPDSTRH",1,1};
         /// salvavidas & salvabombas + portal + agujero negro - cargar
+    rol[6]=(papel){'q',1,6,(char*)"MBPDHR",0,0};
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -114,9 +115,7 @@ jugador::jugador(profesiones elige,char R,
                  int y0,int x0,bool hay_salvavidas,
                  bool es_humano){
 papel rol=elige.da_el_rol(R);
-/// implementacion para 14.05.27
     humano=es_humano;
-/// fin de la actualizacion
     vivo=true; X=x0;Y=y0;
     n_turnos=rol.n_turnos;
     n_opciones=rol.n_jugadas;

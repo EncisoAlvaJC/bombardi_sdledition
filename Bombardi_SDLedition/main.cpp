@@ -44,7 +44,7 @@ int main ( int argc, char** argv ){
                 (char*)"./bild/",
                (char*)"logo",(char*)"credits",(char*)"pua",
                //
-               7,(char*)"MBPDSTKN",
+               9,(char*)"MBPDSTKRH",
                //
                7,(char*)"FBPSTRH",
                M.dime_n_jugadores(),M.dime_colores_elegidos(),
@@ -53,7 +53,7 @@ int main ( int argc, char** argv ){
                //
                M.dime_n_jugadores(),
                //
-               (char*)"pS___",//M.los_roles(),
+               (char*)"qqqqq",//M.los_roles(),
                x_vector,y_vector,
                humanos);
 

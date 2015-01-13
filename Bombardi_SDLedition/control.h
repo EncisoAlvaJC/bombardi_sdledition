@@ -30,11 +30,18 @@ return returner;
 int leer_casilla(int X,int Y,SDL_Rect R){
 SDL_Rect aux1,aux2; int returner=-1;
     aux1=R;
-    for(int i=0;i<7;i++,aux1.y+=64){
+    for(int i=0;i<8;i++,aux1.y+=64){
         aux2=aux1;
         for(int j=0;j<7;j++,aux2.x+=64){
             if(aux2.x<X && X<(aux2.x+64) && aux2.y<Y && Y<(aux2.y+64)){
-                returner=7*i+j;
+                if(i<7){
+                    returner=7*i+j;
+                }
+                else{
+                    if(0<j && j<6){
+                        returner=50+j-1;
+                    }
+                }
             }
         }
     }

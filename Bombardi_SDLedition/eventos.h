@@ -39,11 +39,14 @@ int X=0,Y=0,dir_x,dir_y,en_turno;
 SDL_Rect temp;
     en_turno=U->wo_ist_dran();
     if(U->player[en_turno].coordy()==-1){
+        X=U->player[en_turno].coordx();
+        Y=U->player[en_turno].coordy();
+        U->Bobjects.elimina(Y,X);
         /// una parte no trivial de salir de un portal es decidir de cual
         bool hallado=false;
         /// AA
         coordenada C=U->Bobjects.colindante_a(y,x,'A','A');
-        if(C.xx!=-1){
+        if(C.valido && U->Bobjects.comparar(C.yy,C.xx,'R')){
             hallado=true;
             X=C.xx; Y=C.yy;
         }
@@ -51,7 +54,7 @@ SDL_Rect temp;
         if(hallado==false){
             C=U->Bobjects.colindante_a(y,x,'A','<');
         }
-        if(hallado==false && C.xx!=-1){
+        if(hallado==false && C.valido && U->Bobjects.comparar(C.yy,C.xx,'R')){
             hallado=true;
             X=C.xx; Y=C.yy;
         }
@@ -59,7 +62,7 @@ SDL_Rect temp;
         if(hallado==false){
             C=U->Bobjects.colindante_a(y,x,'<','<');
         }
-        if(hallado==false && C.xx!=-1){
+        if(hallado==false && C.valido && U->Bobjects.comparar(C.yy,C.xx,'R')){
             hallado=true;
             X=C.xx; Y=C.yy;
         }
@@ -67,7 +70,7 @@ SDL_Rect temp;
         if(hallado==false){
             C=U->Bobjects.colindante_a(y,x,'V','<');
         }
-        if(hallado==false && C.xx!=-1){
+        if(hallado==false && C.valido && U->Bobjects.comparar(C.yy,C.xx,'R')){
             hallado=true;
             X=C.xx; Y=C.yy;
         }
@@ -75,7 +78,7 @@ SDL_Rect temp;
         if(hallado==false){
             C=U->Bobjects.colindante_a(y,x,'V','V');
         }
-        if(hallado==false && C.xx!=-1){
+        if(hallado==false && C.valido && U->Bobjects.comparar(C.yy,C.xx,'R')){
             hallado=true;
             X=C.xx; Y=C.yy;
         }
@@ -83,7 +86,7 @@ SDL_Rect temp;
         if(hallado==false){
             C=U->Bobjects.colindante_a(y,x,'V','>');
         }
-        if(hallado==false && C.xx!=-1){
+        if(hallado==false && C.valido && U->Bobjects.comparar(C.yy,C.xx,'R')){
             hallado=true;
             X=C.xx; Y=C.yy;
         }
@@ -91,7 +94,7 @@ SDL_Rect temp;
         if(hallado==false){
             C=U->Bobjects.colindante_a(y,x,'>','>');
         }
-        if(hallado==false && C.xx!=-1){
+        if(hallado==false && C.valido && U->Bobjects.comparar(C.yy,C.xx,'R')){
             hallado=true;
             X=C.xx; Y=C.yy;
         }
@@ -99,7 +102,7 @@ SDL_Rect temp;
         if(hallado==false){
             C=U->Bobjects.colindante_a(y,x,'A','>');
         }
-        if(hallado==false && C.xx!=-1){
+        if(hallado==false && C.valido && U->Bobjects.comparar(C.yy,C.xx,'R')){
             hallado=true;
             X=C.xx; Y=C.yy;
         }
@@ -107,16 +110,20 @@ SDL_Rect temp;
     else{
         X=U->player[en_turno].coordx();
         Y=U->player[en_turno].coordy();
+        U->Bobjects.elimina(Y,X);
     }
     dir_x=x-X; dir_y=y-Y;
     temp.x=32+64*X; temp.y=32+64*Y;
-    U->Bobjects.elimina(Y,X);
-    for(int i=0;i<64;i++){
-        U->imprimir();
-        U->incluir_ficha_extra('F',en_turno+1,temp);
-        U->voltear_pantalla();
-        temp.x+=dir_x; temp.y+=dir_y;
+
+    if(U->player[en_turno].coordy()!=-1 || y!=-1){
+        for(int i=0;i<64;i++){
+            U->imprimir();
+            U->incluir_ficha_extra('F',en_turno+1,temp);
+            U->voltear_pantalla();
+            temp.x+=dir_x; temp.y+=dir_y;
+        }
     }
+
     if(U->Bobjects.comparar(y,x,'R')){
         int color=U->Bobjects.el_color_de(y,x)-1;
         U->player[en_turno].mover_a(-1,color);
@@ -198,7 +205,7 @@ int color=U->Bobjects.el_color_de(y,x);
 void detona1_2(uniendo* U,int y,int x,tablero_booleano* pendientes,bool* inmune){
     /// si atacas un portal, redirige la explosion
     if(U->Bobjects.comparar(y,x,'R')){
-        int color=U->Bobjects.el_color_de(y,x);
+        int color=U->Bobjects.el_color_de(y,x)-1;
         detona1(U,-1,color,pendientes,inmune);
         U->Bbackground.haz1(y,x);
         U->Beffects.haz1(y,x);
@@ -291,7 +298,9 @@ bool inmune[5];
                         U->Bobjects.cambiar(i,j,'T',respaldo_tablero[i][j]);
                     }
                     else{
-                        U->Bobjects.elimina(i,j);
+                        if(U->Bobjects.comparar(i,j,'V')==false){
+                            U->Bobjects.elimina(i,j);
+                        }
                     }
                 }
             }
@@ -352,11 +361,11 @@ int wich_option=U->indice_de_la_opcion('D');
                 }
                 else{
                     U->player[color-1].muere();
-                    U->Bobjects.haz_ceniza(col[z].yy,col[z].xx);
+                    U->Bobjects.haz_ceniza(col2[z].yy,col2[z].xx);
                 }
             }
             else{
-                U->Bobjects.haz_ceniza(col[z].yy,col[z].xx);
+                U->Bobjects.haz_ceniza(col2[z].yy,col2[z].xx);
             }
         }
     }
@@ -368,7 +377,9 @@ int wich_option=U->indice_de_la_opcion('D');
         for(int j=0;j<7;j++){
             if(U->Bobjects.comparar(i,j,0)==false){
                 if(U->Bobjects.el_color_de(i,j)==0){
-                    U->Bobjects.elimina(i,j);
+                    if(U->Bobjects.comparar(i,j,'V')==false){
+                        U->Bobjects.elimina(i,j);
+                    }
                 }
             }
         }
@@ -431,9 +442,15 @@ coordenada cor;
             for(int b=0;b<4;b++){
                 cor=U->Bobjects.colindante_a(Y,X,direccion[a],direccion[b]);
                 if(cor.valido){
-                    if(U->Bobjects.comparar(cor.yy,cor.xx,0)
-                       || U->Bobjects.comparar(cor.yy,cor.xx,'R')){
+                    if(U->Bobjects.comparar(cor.yy,cor.xx,0)){
                         U->Bbuttons.haz1(cor.yy,cor.xx);
+                    }
+                    if(U->Bobjects.comparar(cor.yy,cor.xx,'R')){
+                        int color=U->Bobjects.el_color_de(cor.yy,cor.xx)-1;
+                        if(U->Bobjects.comparar(-1,color,0) &&
+                           U->player[color].vive()){
+                            U->Bbuttons.haz1(cor.yy,cor.xx);
+                        }
                     }
                 }
             }
@@ -442,8 +459,8 @@ coordenada cor;
     else{///si efectivamente estas en un portal
         int color=X;///en que portal estas?
         ///puedes moverte a los otros espacios inter-portal
-        for(int z=0;z<5;z++){
-            if(z!=color){
+        for(int z=0;z<U->cuantos_jugadores();z++){
+            if(z!=color && U->Bobjects.comparar(-1,z,0)){
                 U->Bbuttons.haz1(-1,z);
             }
         }
@@ -485,6 +502,8 @@ void casilla_colindante_vacia(uniendo* U){
     for(int z=0;z<5;z++){
         U->Bbuttons.haz0(-1,z);
     }
+/// para economizar usare la anterior; este truco se me acaba de
+/// ocurrir y quiza lo use mas a menudo
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -624,7 +643,7 @@ void sim_detona1_2(uniendo* U,int y,int x,tablero_booleano* pendientes,
                    bool* inmune,tablero_booleano* polvora){
     sim_detona1(U,y,x,pendientes,inmune,polvora);
     if(U->Bobjects.comparar(y,x,'R')){
-        int color=U->Bobjects.el_color_de(y,x);
+        int color=U->Bobjects.el_color_de(y,x)-1;
         sim_detona1(U,-1,color,pendientes,inmune,polvora);
     }
 }
@@ -700,7 +719,9 @@ bool inmune[5];
                         U->Bobjects.cambiar(i,j,'T',respaldo_tablero[i][j]);
                     }
                     else{
-                        U->Bobjects.elimina(i,j);
+                        if(U->Bobjects.comparar(i,j,'V')==false){
+                            U->Bobjects.elimina(i,j);
+                        }
                     }
                 }
             }
@@ -737,7 +758,9 @@ void sim_detona_agujero(uniendo* U,int y,int x,tablero_booleano* polvora){
                 }
             }
             else{
-                U->Bobjects.haz_ceniza(col[z].yy,col[z].xx);
+                if(U->Bobjects.comparar(col[z].yy,col[z].xx,'V')==false){
+                    U->Bobjects.elimina(col[z].yy,col[z].xx);
+                }
             }
         }
     }

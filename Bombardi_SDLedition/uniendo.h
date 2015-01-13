@@ -118,7 +118,7 @@ char archivo[50]; int aux;
                                num_fichas,nom_fichas,
                                num_colores,nom_colores);
     Button=fondo_boton(ruta_fondoboton,
-                       nom_fondo,nom_boton);
+                       nom_fondo,nom_boton,nom_colores,num_colores);
     num_players=num_jugadores;
         player=new jugador[num_players];
     for(int i=0;i<num_players;i++){
@@ -182,7 +182,7 @@ char archivo[50]; int aux;
                                num_fichas,nom_fichas,
                                num_colores,nom_colores);
     Button=fondo_boton(ruta_fondoboton,
-                       nom_fondo,nom_boton);
+                       nom_fondo,nom_boton,nom_colores,num_colores);
     num_players=num_jugadores;
         player=new jugador[num_players];
     for(int i=0;i<num_players;i++){
@@ -191,7 +191,7 @@ char archivo[50]; int aux;
                           es_humano[i]);
         Bobjects.cambiar(Y0[i],X0[i],'F',i+1);
     }
-    A.x=512;A.y=16; B.x=160;B.y=490;
+    A.x=512;A.y=16; B.x=160;B.y=8;
     C.x=512;C.y=380;
     D.x=0;D.y=0;E.x=0;E.y=0;
     F.x=32; F.y=32;

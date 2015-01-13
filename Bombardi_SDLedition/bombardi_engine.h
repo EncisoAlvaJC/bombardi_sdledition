@@ -39,6 +39,7 @@ public:
     matriz tendencia_markov();
     matriz derivado_markov();
     matriz reextraer_de(int,int);
+    matriz reextraer_raum_de(int,int);
 };
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -68,7 +69,7 @@ matriz::matriz(int ren,int col){
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 matriz::matriz(uniendo* U,int en_turno){
-    renglones=49; columnas=49;
+    renglones=54; columnas=54;
     entrada =new float*[renglones];
     for(int i=0;i<renglones;i++){
         entrada[i]=new float[columnas];
@@ -83,22 +84,36 @@ matriz::matriz(uniendo* U,int en_turno){
             contar[i][j]=0;
         }
     }
+    int contar_r[5];
+    for(int i=0;i<5;i++){
+        contar_r[i]=0;
+    }
+
+    char dir[4];
+    dir[0]='>'; dir[1]='A'; dir[2]='<'; dir[3]='V';
+    coordenada C;
+    int aux=0;
 
     for(int x=0;x<7;x++){
         for(int y=0;y<7;y++){
-            for(int i=0;i<7;i++){
-                if(abs(x-i)<2){
-                    for(int j=0;j<7;j++){
-                        if(abs(y-j)<2){
-                            if(abs(x-i)+abs(y-j)!=0){
-                                if(U->Bobjects.comparar(i,j,0)){
-                                    contar[x][y]+=1;
-                                }
-                                else{
-                                    if(U->Bobjects.comparar(i,j,'F') &&
-                                    U->Bobjects.el_color_de(i,j)==en_turno+1){
-                                        contar[x][y]+=1;
-                                    }
+            for(int a=0;a<4;a++){
+                for(int b=0;b<4;b++){
+                    C=U->Bobjects.colindante_a(y,x,dir[a],dir[b]);
+                    if(C.valido){
+                        if(U->Bobjects.comparar(C.yy,C.xx,0)){
+                            contar[y][x]+=1;
+                        }
+                        else{
+                            if(U->Bobjects.comparar(C.yy,C.xx,'F') &&
+                               U->Bobjects.el_color_de(C.yy,C.xx)==en_turno+1){
+                                contar[y][x]+=1;
+                            }
+                            if(U->Bobjects.comparar(C.yy,C.xx,'R')){
+                                aux=U->Bobjects.el_color_de(C.yy,C.xx)-1;
+                                if((U->Bobjects.comparar(-1,aux,0)) ||
+                                   (U->Bobjects.comparar(-1,aux,'F') &&
+                                    U->Bobjects.el_color_de(-1,aux)==en_turno+1)){
+                                        contar[y][x]+=1;
                                 }
                             }
                         }
@@ -107,28 +122,66 @@ matriz::matriz(uniendo* U,int en_turno){
             }
         }
     }
+    for(int color=0;color<5;color++){
+        for(int z=0;z<U->cuantos_jugadores();z++){
+            if(z!=color){
+                if((U->Bobjects.comparar(-1,aux,0)) ||
+                   (U->Bobjects.comparar(-1,aux,'F') &&
+                    U->Bobjects.el_color_de(-1,aux)==en_turno+1)){
+                        contar_r[color]+=1;
+                }
+            }
+        }
+        for(int i=0;i<7;i++){
+            for(int j=0;j<7;j++){
+                if(U->Bobjects.comparar(i,j,'R')
+                   && U->Bobjects.el_color_de(i,j)==color+1){
+                    for(int a=0;a<4;a++){
+                        for(int b=0;b<4;b++){
+                            C=U->Bobjects.colindante_a(i,j,dir[a],dir[b]);
+                            if(C.valido){
+                                if((U->Bobjects.comparar(C.yy,C.xx,0)) ||
+                                   (U->Bobjects.comparar(C.yy,C.xx,'F') &&
+                                    U->Bobjects.el_color_de(C.yy,C.xx)==en_turno+1)){
+                                        U->Bbuttons.haz1(C.yy,C.xx);
+                                }
+        ///no se puede salir de un portal y justo entrar en otro
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        contar_r[color]+=U->Bbuttons.cuenta();
+        U->Bbuttons.reinicia();
+    }
 /// paso 3: calcular las probabilidades
     float prob;
-    for(int i=0;i<49;i++){
+    for(int i=0;i<54;i++){
         entrada[i][i]=PROB_ESTANCIA;
     }
     for(int x=0;x<7;x++){
         for(int y=0;y<7;y++){
-            if(contar[x][y]>0){
-                prob=(1-PROB_ESTANCIA)/contar[x][y];
-                for(int i=0;i<7;i++){
-                    if(abs(x-i)<2){
-                        for(int j=0;j<7;j++){
-                            if(abs(y-j)<2){
-                                if(abs(x-i)+abs(y-j)!=0){
-                                    if(U->Bobjects.comparar(i,j,0)){
-                                        entrada[7*x+y][7*i+j]=prob;
-                                    }
-                                    else{
-                                        if(U->Bobjects.comparar(i,j,'F') &&
-                                        U->Bobjects.el_color_de(i,j)==en_turno+1){
-                                            entrada[7*x+y][7*i+j]=prob;
-                                        }
+            if(contar[y][x]>0){
+                prob=(1-PROB_ESTANCIA)/contar[y][x];
+                for(int a=0;a<4;a++){
+                    for(int b=0;b<4;b++){
+                        C=U->Bobjects.colindante_a(y,x,dir[a],dir[b]);
+                        if(C.valido){
+                            if(U->Bobjects.comparar(C.yy,C.xx,0)){
+                                entrada[7*y+x][7*C.yy+C.xx]=prob;
+                            }
+                            else{
+                                if(U->Bobjects.comparar(C.yy,C.xx,'F') &&
+                                   U->Bobjects.el_color_de(C.yy,C.xx)==en_turno+1){
+                                        entrada[7*y+x][7*C.yy+C.xx]=prob;
+                                }
+                                if(U->Bobjects.comparar(C.yy,C.xx,'R')){
+                                    aux=U->Bobjects.el_color_de(C.yy,C.xx)-1;
+                                    if((U->Bobjects.comparar(-1,aux,0)) ||
+                                       (U->Bobjects.comparar(-1,aux,'F') &&
+                                            U->Bobjects.el_color_de(-1,aux)==en_turno+1)){
+                                            entrada[7*y+x][49+aux]=prob;
                                     }
                                 }
                             }
@@ -138,8 +191,44 @@ matriz::matriz(uniendo* U,int en_turno){
             }
             else{
                 /// si no puede moverse, esta encerrado
-                entrada[7*x+y][7*x+y]=1;
+                entrada[7*y+x][7*y+x]=1;
             }
+        }
+    }
+    for(int color=0;color<5;color++){
+        if(contar_r[color]>0){
+            prob=(1-PROB_ESTANCIA)/contar_r[color];
+            for(int z=0;z<U->cuantos_jugadores();z++){
+                if(z!=color){
+                    if((U->Bobjects.comparar(-1,aux,0)) ||
+                       (U->Bobjects.comparar(-1,aux,'F') &&
+                        U->Bobjects.el_color_de(-1,aux)==en_turno+1)){
+                                entrada[49+color][49+z]=prob;
+                    }
+                }
+            }
+            for(int i=0;i<7;i++){
+                for(int j=0;j<7;j++){
+                    if(U->Bobjects.comparar(i,j,'R')
+                       && U->Bobjects.el_color_de(i,j)==color+1){
+                        for(int a=0;a<4;a++){
+                            for(int b=0;b<4;b++){
+                                C=U->Bobjects.colindante_a(i,j,dir[a],dir[b]);
+                                if(C.valido){
+                                    if((U->Bobjects.comparar(C.yy,C.xx,0)) ||
+                                       (U->Bobjects.comparar(C.yy,C.xx,'F') &&
+                                        U->Bobjects.el_color_de(C.yy,C.xx)==en_turno+1)){
+                                            entrada[49+color][7*C.yy+C.xx]=prob;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            entrada[49+color][49+color]=1;
         }
     }
 }
@@ -201,12 +290,12 @@ return R;
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 matriz matriz::derivado_markov(){
-    matriz R(98,98);
-    for(int i=0;i<49;i++){
-        R.entrada[i][49+i]=entrada[i][i];
-        R.entrada[49+i][49+i]=1;
+    matriz R(108,108);
+    for(int i=0;i<54;i++){
+        R.entrada[i][54+i]=entrada[i][i];
+        R.entrada[54+i][54+i]=1;
         /// ahorrando variable ya inicializadas
-        for(int j=0;j<49;j++){
+        for(int j=0;j<54;j++){
             if(i!=j)
                 R.entrada[i][j]=entrada[i][j];
         }
@@ -217,10 +306,32 @@ return R;
 //////////////////////////////////////////////////////////////////////
 matriz matriz::reextraer_de(int y,int x){
     matriz R(7,7);
-    int D=7*x+y;
+    int D=0;
+    if(y>-1){
+        D=7*y+x;
+    }
+    else{
+        D=49+x;
+    }
     for(int i=0;i<7;i++){
         for(int j=0;j<7;j++)
-            R.entrada[i][j]=entrada[D][49+7*i+j];
+            R.entrada[i][j]=entrada[D][54+7*i+j];
+    }
+return R;
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+matriz matriz::reextraer_raum_de(int y,int x){
+    matriz R(1,5);
+    int D=0;
+    if(y>-1){
+        D=7*y+x;
+    }
+    else{
+        D=49+x;
+    }
+    for(int i=0;i<5;i++){
+        R.entrada[0][i]=entrada[D][54+49+i];
     }
 return R;
 }
@@ -382,7 +493,7 @@ private:
     float norma;
 public:
     grad_markoviano(uniendo*,int,tablero_booleano,
-                    tablero_booleano,char*);
+                    tablero_booleano,char*,opcion);
     grad_markoviano(grad_markoviano&);
 
     grad_markoviano(uniendo*,int); /// con todo al maximo
@@ -404,7 +515,8 @@ public:
 grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
                                  tablero_booleano polvora_propia,
                                  tablero_booleano polvora_ajena,
-                                 char* leer){
+                                 char* leer,
+                                 opcion O){ ///parche
     for(int i=0;i<3;i++){
         etiqueta[i]=leer[i];
     }
@@ -431,10 +543,15 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
     matriz *transicion,*sin_hueso;
     int *x,*y;
 
+    matriz *fantasma,*fantasma_raum;
+
     x=new int[n_jugadores];
     y=new int[n_jugadores];
     transicion=new matriz[n_jugadores];
     sin_hueso=new matriz[n_jugadores];
+
+    fantasma=new matriz[n_jugadores];
+    fantasma_raum=new matriz[n_jugadores];
     for(int i=0;i<n_jugadores;i++){
         if(vive_el[i]){
             x[i]=U->player[i].coordx();
@@ -442,10 +559,14 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
             transicion[i]=matriz(U,i);
             sin_hueso[i]=transicion[i].derivado_markov();
             sin_hueso[i]=sin_hueso[i].tendencia_markov();
-            transicion[i]=sin_hueso[i].reextraer_de(x[i],y[i]);
+
+            fantasma[i]=sin_hueso[i].reextraer_de(y[i],x[i]);
+            fantasma_raum[i]=sin_hueso[i].reextraer_raum_de(y[i],x[i]);
         }
         else{
-            transicion[i]=matriz(7,7);
+            //transicion[i]=matriz(7,7);
+            fantasma[i]=matriz(7,7);
+            fantasma_raum[i]=matriz(1,5);
         }
     }
     /// ahora biene la parte buena: donde se calcula el "estado"
@@ -454,11 +575,16 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
         for(int i=0;i<7;i++){
             for(int j=0;j<7;j++){
                 if(polvora_ajena.valor(i,j)==false){
-                    p_vivir+=(transicion[sho].muestra(i,j));
+                    p_vivir+=(fantasma[sho].muestra(i,j));
                 }
             }
         }
-        if(polvora_ajena.valor(x[sho],y[sho]==true)){
+        for(int i=0;i<5;i++){
+            if(polvora_ajena.valor(-1,i)==false){
+                p_vivir+=(fantasma_raum[sho].muestra(0,i));
+            }
+        }
+        if(polvora_ajena.valor(y[sho],x[sho]==true)){
             p_vivir*=(1-PROB_ESTANCIA);
         }
     }
@@ -477,9 +603,14 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
                         }
                     }
                 }
-                //if(polvora_propia.valor(x[w],y[w]==true)){
-                //    p_morir[w]=(1-(1-p_morir[w])*PROB_ESTANCIA);
-                //}
+                for(int i=0;i<5;i++){
+                    if(polvora_propia.valor(-1,i)==true){
+                        p_morir[w]+=(fantasma_raum[w].muestra(0,i));
+                    }
+                }
+                if(polvora_propia.valor(y[w],x[w]==true)){
+                    p_morir[w]=(1-(1-p_morir[w])*PROB_ESTANCIA);
+                }
             }
             else{
                 p_morir[w]=1;
@@ -487,15 +618,22 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
         }
     }
     /// calculando para el jugador w
+    uniendo V;
     for(int z=0;z<n_jugadores;z++){
         if(z!=sho && vive_el[z]){ /// no calcular nada de jugadores eliminados
+            V=uniendo(*U);
+            V.set_dran(z);
+            O.ejecuta_botones('M',&V);
             for(int i=0;i<7;i++){
-                if(abs(i-x[z])<2){
-                    for(int j=0;j<7;j++){
-                        if(abs(j-y[z])<2){
-                            p_toque+=transicion[sho].muestra(i,j);
-                        }
+                for(int j=0;j<7;j++){
+                    if(V.Bbuttons.valor(i,j)){
+                        p_toque+=fantasma[sho].muestra(i,j);
                     }
+                }
+            }
+            for(int i=0;i<5;i++){
+                if(V.Bbuttons.valor(-1,i)){
+                    p_toque+=fantasma_raum[sho].muestra(0,i);
                 }
             }
         }
@@ -505,9 +643,11 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
     }
     int j=0;
     for(int i=0;i<n_jugadores;i++){
-        if(vive_el[i] && i!=sho){
-            j++;
-        }
+        //if(vive_el[i]){
+            if(i!=sho){
+                j++;
+            }
+        //}
     }
     if(j){
         p_toque/=j; /// normalizando
@@ -672,7 +812,7 @@ ordinal grad_markoviano::evalua(){
     float S=0;
     for(int i=0;i<n_jugadores;i++){
         if(i!=sho){
-            if(p_morir[i]<=(1-UMBRAL_SUICIDA)){
+            if(p_morir[i]>(1-UMBRAL_SUICIDA)){
                 S+=1;
             }
         }
@@ -822,23 +962,40 @@ int abrev1=player[wo_ist_dran()].cuantos_turnos();
                             if(e->button.x<C.x){
                                 CAS=leer_casilla(e->button.x,
                                                  e->button.y,F);
-                                    if(CAS==-1){CAS=-2;}
-                                    else{
-                                        if(Bbuttons.valor(CAS/7,CAS%7)==false){
-                                            CAS=-2;
-                                        }
-                                    else{
-                                        XX=CAS%7; YY=CAS/7;
-                                        Bbuttons.reinicia();
-                                        ejecuta_opciona(temp,this,YY,XX);
-                                        turnos_trascurridos++;
-                                        trofeo=dran;
-                                        cout<<"["<<(dran+1)<<"]"
-                                            <<temp
-                                            <<"("<<YY<<","
-                                            <<XX<<")"<<endl;
+                                    if(CAS==-1){
+                                        CAS=-2;
                                     }
-                                }
+                                    else{
+                                        if(CAS<50){
+                                            if(Bbuttons.valor(CAS/7,CAS%7)==false){
+                                                CAS=-2;
+                                            }
+                                        }
+                                        else{
+                                            if(Bbuttons.valor(-1,CAS-50)==false){
+                                                CAS=-2;
+                                            }
+                                        }
+                                        if(CAS==-2){
+                                            ///patch
+                                        }
+                                        else{
+                                            if(CAS<50){
+                                                XX=CAS%7; YY=CAS/7;
+                                            }
+                                            else{
+                                                XX=CAS-50; YY=-1;
+                                            }
+                                            Bbuttons.reinicia();
+                                            ejecuta_opciona(temp,this,YY,XX);
+                                            turnos_trascurridos++;
+                                            trofeo=dran;
+                                            cout<<"["<<(dran+1)<<"]"
+                                                <<temp
+                                                <<"("<<YY<<","
+                                                <<XX<<")"<<endl;
+                                        }
+                                    }
                             ///mi error al coordinar valores-error
                             }
                             else{
@@ -865,8 +1022,8 @@ int abrev1=player[wo_ist_dran()].cuantos_turnos();
             grad_markoviano ideal(regalo_final(),wo_ist_dran());
             grad_markoviano original(regalo_final(),wo_ist_dran(),
                                      polvora_propia,polvora_ajena,
-                                     (char*)"G_0");
-            //ideal-original;
+                                     (char*)"G_0",*this);
+
             /// fase 4 : ejecutar todas las jugadas posibles en tableros temporales
             ///
             /// como las polvoras no se van a utilizar mas, reciclare las variables
@@ -874,10 +1031,7 @@ int abrev1=player[wo_ist_dran()].cuantos_turnos();
             uniendo T1(*regalo_final()),T2(T1);
             grad_markoviano mejor_grad(regalo_final(),wo_ist_dran()),
                             grad_temporal(regalo_final(),wo_ist_dran());
-            /*
-            float mejor_distancia=100,distancia_temporal=0;
-            */
-            //ordinal mejor_ordinal(mejor_grad.evalua());
+
             ordinal mejor_ordinal(-100);
             ordinal ordinal_temporal(-100);
             char etiquetador[3];
@@ -904,11 +1058,12 @@ int abrev1=player[wo_ist_dran()].cuantos_turnos();
                             grad_temporal=grad_markoviano(&T2,dran,
                                                           polvora_propia,
                                                           polvora_ajena,
-                                                          etiquetador);
+                                                          etiquetador,*this);
                             //grad_temporal-original;
                             //distancia_temporal=grad_temporal.distancia_a(ideal);
                             ordinal_temporal=grad_temporal.evalua();
 
+                            /*
                             cout//<<"             "
                                 <<etiquetador[0]
                                 <<etiquetador[1]
@@ -918,6 +1073,7 @@ int abrev1=player[wo_ist_dran()].cuantos_turnos();
                                 //<<endl;
                             ordinal_temporal.imprime();
                             cout<<endl;
+                            */
 
 
                             //polvora_propia.parche_impresion();
