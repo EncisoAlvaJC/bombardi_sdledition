@@ -195,6 +195,7 @@ int X=x, Y=y;
                 }
                 X--; Y--; ///si es vacio, sera la siguiente
             }
+            return ans;
         }
         if(d1=='>' || d2=='>'){
         /// >A , A>
@@ -207,6 +208,7 @@ int X=x, Y=y;
                 }
                 X++; Y--; ///si es vacio, sera la siguiente
             }
+            return ans;
         }
         /// AA, el resto
         Y--;
@@ -218,6 +220,7 @@ int X=x, Y=y;
             }
             Y--;
         }
+        return ans;
     }
     if(d1=='V' || d2=='V'){
     /// VV , V> , >V , <V , V<
@@ -232,6 +235,7 @@ int X=x, Y=y;
                 }
                 X--; Y++; ///si es vacio, sera la siguiente
             }
+            return ans;
         }
         if(d1=='>' || d2=='>'){
         /// >V , V>
@@ -244,6 +248,7 @@ int X=x, Y=y;
                 }
                 X++; Y++; ///si es vacio, sera la siguiente
             }
+            return ans;
         }
         /// VV, el resto
         Y++;
@@ -255,6 +260,7 @@ int X=x, Y=y;
             }
             Y++;
         }
+        return ans;
     }
     if(d1=='<' && d2=='<'){
         /// <<
@@ -267,6 +273,7 @@ int X=x, Y=y;
             }
             X--;
         }
+        return ans;
     }
     if(d1=='>' && d2=='>'){
         /// >
@@ -279,6 +286,7 @@ int X=x, Y=y;
             }
             X++;
         }
+        return ans;
     }
 return ans;///ERROR
 }

@@ -25,7 +25,7 @@ public:
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 profesiones::profesiones(){
-    n_roles=7;
+    n_roles=8;
     rol=new papel[n_roles];
 
     nulo=(papel){'_',1,4,(char*)"MBPD",0,0};
@@ -42,6 +42,9 @@ profesiones::profesiones(){
     rol[5]=(papel){'H',1,8,(char*)"MBPDSTRH",1,1};
         /// salvavidas & salvabombas + portal + agujero negro - cargar
     rol[6]=(papel){'q',1,6,(char*)"MBPDHR",0,0};
+        /// agujero negro + portal
+    rol[7]=(papel){'Q',1,7,(char*)"MHRDSTK",3,0};
+        /// salvavidas + salvabomba ; bomba y pared reemplazados
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////

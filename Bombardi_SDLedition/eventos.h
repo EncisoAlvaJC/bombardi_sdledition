@@ -453,6 +453,9 @@ coordenada cor;
                         }
                     }
                 }
+                if(a==2){
+                    U->Bbuttons.parche_impresion();
+                }
             }
         }
     }

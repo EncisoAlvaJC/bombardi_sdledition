@@ -24,7 +24,7 @@ int main ( int argc, char** argv ){
     SDL_Event e;
 
     //
-    bool humanos[]={true,false,false,false,false};
+    bool humanos[]={false,false,false,false,false};
     //
 
     menu M(pantalla,e,
@@ -53,7 +53,7 @@ int main ( int argc, char** argv ){
                //
                M.dime_n_jugadores(),
                //
-               (char*)"qqqqq",//M.los_roles(),
+               (char*)"_QQQQ",//M.los_roles(),
                x_vector,y_vector,
                humanos);
 
