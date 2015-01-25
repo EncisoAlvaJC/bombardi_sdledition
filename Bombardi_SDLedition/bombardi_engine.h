@@ -6,7 +6,7 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 #define PROB_ESTANCIA 0.7
-#define PROB_TOQUE 1.1 ///esto es irreal
+#define PROB_TOQUE 1 ///esto es irreal
 #define UMBRAL 0.0001
 #define UMBRAL_SUICIDA 0.3
 //////////////////////////////////////////////////////////////////////
@@ -31,6 +31,8 @@ public:
     matriz operator+(matriz);
     matriz operator*(matriz);
     void operator=(matriz);
+
+    void operator*(float);
 
     /// el objetivo de estos dos es multilicar una matriz estocastica
     /// por si misma muchas veces y construir un tipo especial de
@@ -280,6 +282,15 @@ return R;
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
+void matriz::operator*(float A){
+    for(int i=0;i<renglones;i++){
+        for(int j=0;j<columnas;j++){
+            entrada[i][j]*=A;
+        }
+    }
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 matriz matriz::tendencia_markov(){
     matriz R(*this);
     for(int i=0;i<5;i++){
@@ -290,6 +301,7 @@ return R;
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 matriz matriz::derivado_markov(){
+    /*
     matriz R(108,108);
     for(int i=0;i<54;i++){
         R.entrada[i][54+i]=entrada[i][i];
@@ -298,6 +310,17 @@ matriz matriz::derivado_markov(){
         for(int j=0;j<54;j++){
             if(i!=j)
                 R.entrada[i][j]=entrada[i][j];
+        }
+    }
+    */
+    matriz R(108,108);
+    for(int i=0;i<54;i++){
+        R.entrada[i][54+i]=entrada[i][i];
+        R.entrada[54+i][54+i]=1;
+        /// ahorrando variable ya inicializadas
+        for(int j=0;j<54;j++){
+            if(i!=j)
+                R.entrada[i][j]=entrada[i][j]*(1-entrada[i][i]);
         }
     }
 return R;
@@ -466,7 +489,7 @@ bool ordinal::operator>(ordinal T){
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void ordinal::imprime(){
-    for(int i=0;i<=orden;i++){
+    for(int i=orden;i>=0;i--){
         cout<<"("<<valor[i]<<")";
     }
 }
@@ -619,6 +642,7 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
     }
     /// calculando para el jugador w
     uniendo V;
+    if(p_vivir>0){
     for(int z=0;z<n_jugadores;z++){
         if(z!=sho && vive_el[z]){ /// no calcular nada de jugadores eliminados
             V=uniendo(*U);
@@ -640,6 +664,7 @@ grad_markoviano::grad_markoviano(uniendo* U,int en_turno,
         if(z!=sho && !vive_el[z]){
             p_toque+=PROB_TOQUE;
         }
+    }
     }
     int j=0;
     for(int i=0;i<n_jugadores;i++){
@@ -809,37 +834,37 @@ ordinal grad_markoviano::evalua(){
     //R+=p_toque;
     R = sqrt(R);
 
-    float S=0;
+    int S=0;
     for(int i=0;i<n_jugadores;i++){
         if(i!=sho){
-            if(p_morir[i]>(1-UMBRAL_SUICIDA)){
+            if(p_morir[i]==1){
                 S+=1;
             }
         }
     }
     if(p_vivir==0){
-        S=0;
+        S=-1;
     }
 
-    int SALV=3*(n_jugadores-1)+cuantos_salvavid[sho];
+    int SALV=100;//3*(n_jugadores-1)+cuantos_salvavid[sho];
     for(int i=0;i<n_jugadores;i++){
         if(i!=sho){
             SALV-=cuantos_salvavid[i];
         }
     }
 
-    int DIN=cuantos_salvabom[sho];
+    int DIN=cuantos_salvabom[sho]+cuantos_salvavid[sho];
 
     float* conjunto=new float[6];
     conjunto[5]=S;
         /// # de no-supervivientes
-    conjunto[4]=SALV*UMBRAL;
+    conjunto[4]=SALV;
         /// # de salvavidas ajenos
-    conjunto[2]=((p_vivir>UMBRAL_SUICIDA && cuantos_salvabom[sho])?p_vivir:0);
+    conjunto[2]=((cuantos_salvavid[sho] || p_vivir>UMBRAL_SUICIDA)?p_vivir:0);
         /// alarma de que VA a morir sho
     conjunto[3]=R;
         /// amenazas a otros jugadores
-    conjunto[1]=p_toque;
+    conjunto[1]=p_toque*1000;
         /// cercania con el baricentro de los demas jugadores
     conjunto[0]=DIN*UMBRAL;
     ordinal ord(5,conjunto);
@@ -1063,7 +1088,6 @@ int abrev1=player[wo_ist_dran()].cuantos_turnos();
                             //distancia_temporal=grad_temporal.distancia_a(ideal);
                             ordinal_temporal=grad_temporal.evalua();
 
-                            /*
                             cout//<<"             "
                                 <<etiquetador[0]
                                 <<etiquetador[1]
@@ -1073,7 +1097,6 @@ int abrev1=player[wo_ist_dran()].cuantos_turnos();
                                 //<<endl;
                             ordinal_temporal.imprime();
                             cout<<endl;
-                            */
 
 
                             //polvora_propia.parche_impresion();

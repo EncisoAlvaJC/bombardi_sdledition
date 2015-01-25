@@ -453,20 +453,17 @@ coordenada cor;
                         }
                     }
                 }
-                if(a==2){
-                    U->Bbuttons.parche_impresion();
-                }
             }
         }
     }
     else{///si efectivamente estas en un portal
         int color=X;///en que portal estas?
         ///puedes moverte a los otros espacios inter-portal
-        for(int z=0;z<U->cuantos_jugadores();z++){
+        /*for(int z=0;z<U->cuantos_jugadores();z++){
             if(z!=color && U->Bobjects.comparar(-1,z,0)){
                 U->Bbuttons.haz1(-1,z);
             }
-        }
+        }*/
         ///tambien puedes poner cosas desde dentro de un portal
         color++;
         for(int i=0;i<7;i++){
